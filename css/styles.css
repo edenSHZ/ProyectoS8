@@ -171,18 +171,18 @@ header{
     flex-direction:column;
     align-items:center;
     text-align:center;
-    width:200px; /* Aumentado de 160px a 200px */
+    width:200px;
 }
 
 .quick-link-circle{
-    width:130px; /* Aumentado de 100px a 130px */
-    height:130px; /* Aumentado de 100px a 130px */
+    width:130px;
+    height:130px;
     background:var(--color-primary);
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    margin-bottom:20px; /* Aumentado de 15px a 20px */
+    margin-bottom:20px;
     box-shadow:var(--shadow);
     transition:transform 0.3s, background 0.3s;
 }
@@ -193,17 +193,17 @@ header{
 }
 
 .quick-link-circle svg{
-    width:70px; /* Aumentado de 55px a 70px */
-    height:70px; /* Aumentado de 55px a 70px */
+    width:70px;
+    height:70px;
     display:block;
 }
 
 .quick-link-item span{
-    font-size:18px; /* Aumentado de 15px a 18px */
+    font-size:18px;
     font-weight:500;
     color:var(--color-text);
     line-height:1.4;
-    max-width:180px; /* Aumentado de 140px a 180px */
+    max-width:180px;
 }
 
 /* AVALOS */
@@ -279,12 +279,12 @@ header{
     font-size:14px;
 }
 
-/* ===== SERVICIOS - CARRUSEL SIN SCROLLBAR ===== */
+/* ===== SERVICIOS ===== */
 .servicios {
     max-width: 1200px;
     margin: 60px auto;
     padding: 0 20px;
-    overflow: hidden; /* Importante: oculta el desbordamiento */
+    overflow: hidden;
 }
 
 .servicios h2 {
@@ -304,7 +304,7 @@ header{
 .carrusel-track {
     display: flex;
     gap: 30px;
-    overflow-x: hidden; /* Cambiado de 'auto' a 'hidden' para ocultar scrollbar */
+    overflow-x: hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     padding: 10px 5px 20px 5px;
@@ -348,7 +348,6 @@ header{
     margin-top: 14px;
 }
 
-/* Botón alineado a la derecha */
 .btn-servicio {
     margin-top: 12px;
     background: var(--color-secondary);
@@ -402,20 +401,20 @@ header{
         flex-wrap: wrap;
         justify-content: center;
     }
-    
+
     .carrusel-btn {
         order: 1;
         width: 40px;
         height: 40px;
         font-size: 20px;
     }
-    
+
     .carrusel-track {
         order: 2;
         width: 100%;
         gap: 20px;
     }
-    
+
     .servicio-card {
         min-width: 280px;
         width: 280px;
@@ -450,7 +449,7 @@ header{
 /* LÍNEAS DIVISORIAS ENTRE COLUMNAS */
 .footer-col {
     position: relative;
-    padding: 0 20px; /* Espacio interior para las columnas */
+    padding: 0 20px;
 }
 
 /* Línea vertical entre columna 1 y 2 */
@@ -525,18 +524,18 @@ header{
 .footer-col:nth-child(2) {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra todo horizontalmente */
+    align-items: center;
     text-align: center;
 }
 
 .validaciones-logos {
     display: flex;
-    flex-direction: row; /* HORIZONTAL */
-    justify-content: center; /* Centra los logos */
-    align-items: center; /* Alineación vertical */
-    gap: 15px; /* Espacio entre logos */
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
     width: 100%;
-    flex-wrap: wrap; /* Se envuelven en móvil */
+    flex-wrap: wrap;
 }
 
 .validaciones-logos img {
@@ -553,7 +552,7 @@ header{
     border-radius: 300px;
 }
 
-/* Columna 3: Contacto y Mapa en la MISMA FILA */
+/* Columna 3: Contacto y Mapa */
 .footer-col-3 {
     width: 100%;
 }
@@ -619,7 +618,7 @@ header{
         flex-direction: column; /* En móvil se apilan */
         gap: 20px;
     }
-    
+
     .mapa-right h4 {
         white-space: normal; /* Permite que el título se rompa en móvil */
     }
