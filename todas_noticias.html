@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudiantes - Instituto Francés de Ciencias</title>
+    <title>Todas las Noticias - Instituto Francés de Ciencias</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -27,55 +27,38 @@
             <div class="search-box">
                 <input type="text" placeholder="Buscar...">
                 <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
                 </button>
             </div>
         </div>
     </header>
 
     <main>
-        <section class="contacto">
+        <section class="todas-noticias">
             <div class="container">
                 <div class="section-header">
-                    <h1>Contáctanos</h1>
-                    <p>Gracias por visitar nuestro sitio, estamos a tus órdenes ante cualquier duda. Rellena el siguiente formulario y te atendemos con gusto.</p>
+                    <h1>Todas las Noticias</h1>
+                    <p>Mantente informado sobre nuestras actividades, convocatorias y eventos próximos.</p>
                 </div>
 
-                <form class="contacto-form">
-                    <div class="form-group">
-                        <label for="nombre">Nombre completo: <span class="required">*</span></label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Sharon García Arenas" required>
-                    </div>
+                <div class="volver-container">
+                    <a href="noticias_y_eventos.html" class="btn-volver">← Volver a Noticias</a>
+                </div>
 
-                    <div class="form-group">
-                        <label for="telefono">Número de teléfono: <span class="required">*</span></label>
-                        <input type="tel" id="telefono" name="telefono" placeholder="123 456 7890" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Correo electrónico: <span class="required">*</span></label>
-                        <input type="email" id="email" name="email" placeholder="tucorreo@gmail.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="asunto">Asunto: <span class="required">*</span></label>
-                        <input type="text" id="asunto" name="asunto" placeholder="Type here..." required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="mensaje">Pregunta / Comentarios: <span class="required">*</span></label>
-                        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Type here..." required></textarea>
-                    </div>
-
-                    <button type="submit" class="btn-enviar">Enviar</button>
-                </form>
+                <div class="noticias-grid-completa" id="todasNoticiasGrid">
+                    <!-- Las noticias se cargarán aquí dinámicamente -->
+                    <div class="loader">Cargando noticias...</div>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
         <div class="footer-wrapper">
-            <!-- Columna 1: Enlaces de Apoyo -->
             <div class="footer-col">
                 <h4>Enlaces de Apoyo</h4>
                 <ul>
@@ -87,7 +70,6 @@
                 </ul>
             </div>
 
-            <!-- Columna 2: Validaciones oficiales -->
             <div class="footer-col">
                 <h4>Validaciones oficiales</h4>
                 <div class="validaciones-logos">
@@ -97,10 +79,8 @@
                 </div>
             </div>
 
-            <!-- Columna 3: Contacto y Mapa en la misma fila -->
             <div class="footer-col footer-col-3">
                 <div class="contacto-mapa-row">
-                    <!-- Lado izquierdo: Contacto -->
                     <div class="contacto-left">
                         <h4>Contacto</h4>
                         <p><strong>Teléfono:</strong> 222 852 4533</p>
@@ -109,7 +89,6 @@
                         <p><strong>Horario:</strong> Lun-Vie 9am - 6pm</p>
                     </div>
 
-                    <!-- Lado derecho: Mapa -->
                     <div class="mapa-right">
                         <h4>Ubicación en el mapa:</h4>
                         <div class="map-placeholder">
@@ -121,7 +100,6 @@
                 </div>
             </div>
 
-            <!-- Columna 4: Redes Sociales + Instituto -->
             <div class="footer-col footer-redes">
                 <h4>Redes Sociales</h4>
                 <div class="social-icons">
@@ -129,15 +107,14 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"/><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"/></svg>
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></svg>
                 </div>
-
                 <p class="instituto-nombre">Instituto Francés de Ciencias</p>
             </div>
         </div>
-
-        <!-- COPYRIGHT -->
         <div class="copyright-bar">
             <p>© Instituto Francés de Ciencias 2026. Todos los derechos reservados</p>
         </div>
     </footer>
+
+    <script src="scripts/todas_noticias.js"></script>
 </body>
 </html>

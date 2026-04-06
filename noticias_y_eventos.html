@@ -44,7 +44,7 @@
                 <!-- Grid de noticias principales -->
                 <div class="noticias-grid">
                     <!-- Card 1 - Destacada -->
-                    <article class="noticia-card noticia-destacada">
+                    <article class="noticia-card noticia-destacada" data-id="noticia-1">
                         <div class="noticia-imagen">
                             <img src="img&log/Admisiones.jpg" alt="Evento destacado">
                             <span class="categoria">Evento</span>
@@ -55,12 +55,12 @@
                             </div>
                             <h2>Ceremonia de Inauguración del Ciclo Escolar 2026</h2>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.</p>
-                            <a href="#" class="leer-mas">Leer más →</a>
+                            <a href="noticia_detalle.html?id=noticia-1" class="leer-mas">Leer más →</a>
                         </div>
                     </article>
 
                     <!-- Grid de 2 columnas para las demás noticias -->
-                    <div class="noticias-secundarias">
+                    <div class="noticias-secundarias" data-id="noticia-2">
                         <article class="noticia-card">
                             <div class="noticia-imagen">
                                 <img src="img&log/curso verano.jpg" alt="Cursos de verano">
@@ -70,11 +70,11 @@
                                 <span class="fecha">10 de Abril, 2026</span>
                                 <h3>Inscripciones Abiertas: Cursos de Verano</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <a href="#" class="leer-mas">Leer más →</a>
+                                <a href="noticia_detalle.html?id=noticia-2" class="leer-mas">Leer más →</a>
                             </div>
                         </article>
 
-                        <article class="noticia-card">
+                        <article class="noticia-card" data-id="noticia-3">
                             <div class="noticia-imagen">
                                 <img src="img&log/constancias.jpg" alt="Convocatoria">
                                 <span class="categoria">Convocatoria</span>
@@ -83,11 +83,11 @@
                                 <span class="fecha">5 de Abril, 2026</span>
                                 <h3>Convocatoria de Becas 2026</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <a href="#" class="leer-mas">Leer más →</a>
+                                <a href="noticia_detalle.html?id=noticia-3" class="leer-mas">Leer más →</a>
                             </div>
                         </article>
 
-                        <article class="noticia-card">
+                        <article class="noticia-card" data-id="noticia-4">
                             <div class="noticia-imagen">
                                 <img src="img&log/fechas.jpg" alt="Feria educativa">
                                 <span class="categoria">Evento</span>
@@ -96,11 +96,11 @@
                                 <span class="fecha">28 de Marzo, 2026</span>
                                 <h3>Feria Educativa 2026</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <a href="#" class="leer-mas">Leer más →</a>
+                                <a href="noticia_detalle.html?id=noticia-4" class="leer-mas">Leer más →</a>
                             </div>
                         </article>
 
-                        <article class="noticia-card">
+                        <article class="noticia-card" data-id="noticia-5">
                             <div class="noticia-imagen">
                                 <img src="img&log/verano-est.jpg" alt="Taller">
                                 <span class="categoria">Taller</span>
@@ -109,7 +109,7 @@
                                 <span class="fecha">20 de Marzo, 2026</span>
                                 <h3>Taller de Orientación Vocacional</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <a href="#" class="leer-mas">Leer más →</a>
+                                <a href="noticia_detalle.html?id=noticia-5" class="leer-mas">Leer más →</a>
                             </div>
                         </article>
                     </div>
@@ -117,7 +117,7 @@
 
                 <!-- Botón ver más -->
                 <div class="ver-mas-container">
-                    <button class="btn-ver-mas">Ver todas las noticias</button>
+                    <button class="btn-ver-mas" id="verTodasNoticias">Ver todas las noticias</button>
                 </div>
             </div>
         </section>
@@ -129,10 +129,11 @@
             <div class="footer-col">
                 <h4>Enlaces de Apoyo</h4>
                 <ul>
-                    <li>Calendario Escolar</li>
-                    <li>Conoce Nuestra Comunidad</li>
-                    <li>Sobre Nosotros</li>
-                    <li>Preguntas Frecuentes</li>
+                    <li><a href="calendario.html">Calendario Escolar</a></li>
+                    <li><a href="comunidad.html">Conoce Nuestra Comunidad</a></li>
+                    <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                    <li><a href="preguntas.html">Preguntas Frecuentes</a></li>
+                    <li><a href="privacidad.html">Aviso de Privacidad</a></li>
                 </ul>
             </div>
 
@@ -180,14 +181,24 @@
                 </div>
 
                 <p class="instituto-nombre">Instituto Francés de Ciencias</p>
-                <p class="telefono-footer">222 852 4533</p>
             </div>
         </div>
 
-        <!-- COPYRIGHT FUERA DEL WRAPPER OCUPANDO TODO EL ANCHO -->
+        <!-- COPYRIGHT -->
         <div class="copyright-bar">
             <p>© Instituto Francés de Ciencias 2026. Todos los derechos reservados</p>
         </div>
     </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnVerTodas = document.getElementById('verTodasNoticias');
+
+        if (btnVerTodas) {
+            btnVerTodas.addEventListener('click', () => {
+                window.location.href = 'todas_noticias.html';
+            });
+        }
+    });
+</script>
 </body>
 </html>

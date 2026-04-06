@@ -68,10 +68,11 @@
             <div class="footer-col">
                 <h4>Enlaces de Apoyo</h4>
                 <ul>
-                    <li>Calendario Escolar</li>
-                    <li>Conoce Nuestra Comunidad</li>
-                    <li>Sobre Nosotros</li>
-                    <li>Preguntas Frecuentes</li>
+                    <li><a href="calendario.html">Calendario Escolar</a></li>
+                    <li><a href="comunidad.html">Conoce Nuestra Comunidad</a></li>
+                    <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                    <li><a href="preguntas.html">Preguntas Frecuentes</a></li>
+                    <li><a href="privacidad.html">Aviso de Privacidad</a></li>
                 </ul>
             </div>
 
@@ -119,7 +120,6 @@
                 </div>
 
                 <p class="instituto-nombre">Instituto Francés de Ciencias</p>
-                <p class="telefono-footer">222 852 4533</p>
             </div>
         </div>
 
@@ -128,5 +128,29 @@
             <p>© Instituto Francés de Ciencias 2026. Todos los derechos reservados</p>
         </div>
     </footer>
+
+    <!-- ========================================== -->
+    <!-- MODAL ESTUDIANTES (Cursos) -->
+    <!-- ========================================== -->
+    <div id="modal-estudiante" class="modal">
+        <div class="modal-contenido">
+            <span class="modal-cerrar">&times;</span>
+            <div class="modal-imagen">
+                <img id="modal-estudiante-img" src="" alt="Curso">
+            </div>
+            <div class="modal-body">
+                <h2 id="modal-estudiante-titulo"></h2>
+                <div class="modal-detalles">
+                    <p><strong>Duración:</strong> <span id="modal-estudiante-duracion"></span></p>
+                    <p><strong>Modalidad:</strong> <span id="modal-estudiante-modalidad"></span></p>
+                    <p><strong>Horario:</strong> <span id="modal-estudiante-horario"></span></p>
+                    <p><strong>Requisitos:</strong> <span id="modal-estudiante-requisitos"></span></p>
+                    <p><strong>Incluye:</strong> <span id="modal-estudiante-incluye"></span></p>
+                    <p><strong>Descripción:</strong> <span id="modal-estudiante-descripcion"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/modal.js"></script>
 </body>
 </html>
