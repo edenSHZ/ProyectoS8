@@ -42,7 +42,7 @@
                 </div>
 
                 <!-- Idiomas y Certificaciones -->
-                <div class="seccion-oferta">
+                <div class="seccion-oferta" id="idiomas">
                     <h2>Idiomas y Certificaciones</h2>
                     <div class="cards-grid">
                         <div class="oferta-card">
@@ -57,7 +57,7 @@
                 </div>
 
                 <!-- Prepa Abierta -->
-                <div class="seccion-oferta">
+                <div class="seccion-oferta" id="prepa-abierta">
                     <h2>Prepa Abierta</h2>
                     <div class="cards-grid">
                         <div class="oferta-card">
@@ -68,7 +68,7 @@
                 </div>
 
                 <!-- Cursos de Admisión y Verano -->
-                <div class="seccion-oferta">
+                <div class="seccion-oferta" id="admin-prepa-uni">
                     <h2>Cursos de Admisión y Verano</h2>
                     <div class="cards-grid">
                         <div class="oferta-card">
@@ -87,7 +87,7 @@
                 </div>
 
                 <!-- Clases Particulares y de Regularización -->
-                <div class="seccion-oferta">
+                <div class="seccion-oferta" id="cursos">
                     <h2>Clases Particulares y de Regularización</h2>
                     <div class="cards-grid">
                         <div class="oferta-card">
@@ -114,10 +114,11 @@
             <div class="footer-col">
                 <h4>Enlaces de Apoyo</h4>
                 <ul>
-                    <li>Calendario Escolar</li>
-                    <li>Conoce Nuestra Comunidad</li>
-                    <li>Sobre Nosotros</li>
-                    <li>Preguntas Frecuentes</li>
+                    <li><a href="calendario.html">Calendario Escolar</a></li>
+                    <li><a href="comunidad.html">Conoce Nuestra Comunidad</a></li>
+                    <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                    <li><a href="preguntas.html">Preguntas Frecuentes</a></li>
+                    <li><a href="privacidad.html">Aviso de Privacidad</a></li>
                 </ul>
             </div>
 
@@ -165,14 +166,34 @@
                 </div>
 
                 <p class="instituto-nombre">Instituto Francés de Ciencias</p>
-                <p class="telefono-footer">222 852 4533</p>
             </div>
         </div>
 
-        <!-- COPYRIGHT FUERA DEL WRAPPER OCUPANDO TODO EL ANCHO -->
+        <!-- COPYRIGHT -->
         <div class="copyright-bar">
             <p>© Instituto Francés de Ciencias 2026. Todos los derechos reservados</p>
         </div>
     </footer>
+
+    <!-- Modal para detalles del curso -->
+    <div id="modal-curso" class="modal">
+        <div class="modal-contenido">
+            <span class="modal-cerrar">&times;</span>
+            <div class="modal-imagen">
+                <img id="modal-img" src="" alt="Curso">
+            </div>
+            <div class="modal-body">
+                <h2 id="modal-titulo"></h2>
+                <div class="modal-detalles">
+                    <p><strong>Duración:</strong> <span id="modal-duracion"></span></p>
+                    <p><strong>Modalidad:</strong> <span id="modal-modalidad"></span></p>
+                    <p><strong>Horario:</strong> <span id="modal-horario"></span></p>
+                    <p><strong>Requisitos:</strong> <span id="modal-requisitos"></span></p>
+                    <p><strong>Descripción:</strong> <span id="modal-descripcion"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/modal.js"></script>
 </body>
 </html>
