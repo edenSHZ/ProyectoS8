@@ -294,7 +294,7 @@ header{
 }
 
 .servicios h2 {
-    font-size: 32px;
+    font-size: 36px;
     margin-bottom: 30px;
     color: var(--color-text);
     font-weight: 700;
@@ -1915,5 +1915,1573 @@ RESPONSIVE
     .btn-ver-mas {
         padding: 10px 30px;
         font-size: 14px;
+    }
+}
+
+/* =========================
+MODAL - VENTANA FLOTANTE
+========================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contenido {
+    background: var(--color-light);
+    max-width: 550px;
+    width: 90%;
+    max-height: 85vh; /* Altura máxima del 85% de la pantalla */
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    animation: modalEntrada 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes modalEntrada {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-cerrar,
+.modal-cerrar-servicio {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: color 0.2s;
+    z-index: 10;
+    background: rgba(0,0,0,0.3);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-cerrar:hover,
+.modal-cerrar-servicio:hover {
+    color: var(--color-secondary);
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-imagen {
+    width: 100%;
+    height: 220px;
+    flex-shrink: 0; /* Evita que la imagen se encoja */
+    overflow: hidden;
+}
+
+.modal-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-body {
+    padding: 25px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Personalizar scrollbar */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--color-primary-dark);
+    border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--color-secondary);
+}
+
+.modal-body h2 {
+    font-size: 24px;
+    color: var(--color-primary-dark);
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--color-secondary);
+    display: inline-block;
+}
+
+.modal-detalles {
+    margin-bottom: 25px;
+}
+
+.modal-detalles p {
+    margin: 12px 0;
+    font-size: 15px;
+    line-height: 1.6; /* Mayor altura de línea para mejor legibilidad */
+    color: var(--color-gray);
+}
+
+.modal-detalles strong {
+    color: var(--color-primary-dark);
+    min-width: 100px;
+    display: inline-block;
+}
+
+/* Estilo especial para la descripción (puede ser larga) */
+.modal-detalles p:last-child {
+    margin-bottom: 0;
+}
+
+.modal-detalles p strong:last-child {
+    display: block;
+    margin-top: 5px;
+    margin-left: 0;
+}
+
+/* Para descripciones muy largas, mejoramos el espaciado */
+.modal-detalles span {
+    word-wrap: break-word;
+    white-space: normal;
+    line-height: 1.5;
+}
+
+/* =========================
+RESPONSIVE MODAL
+========================= */
+
+@media (max-width: 600px) {
+    .modal-contenido {
+        max-height: 90vh;
+        width: 95%;
+    }
+    
+    .modal-imagen {
+        height: 180px;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-body h2 {
+        font-size: 20px;
+    }
+    
+    .modal-detalles p {
+        font-size: 13px;
+        margin: 10px 0;
+    }
+    
+    .modal-detalles strong {
+        min-width: 85px;
+    }
+    
+    .btn-modal-inscribirse {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
+    .modal-cerrar {
+        width: 32px;
+        height: 32px;
+        font-size: 28px;
+        top: 10px;
+        right: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .modal-detalles strong {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .modal-detalles p {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/* =========================
+PÁGINA DE NOTICIA DETALLE
+========================= */
+
+.noticia-detalle {
+    padding: 60px 0;
+    background: var(--color-bg);
+}
+
+.volver-container {
+    margin-bottom: 30px;
+}
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: gap 0.3s;
+}
+
+.btn-volver:hover {
+    gap: 12px;
+    color: var(--color-secondary);
+}
+
+.noticia-detalle-imagen {
+    width: 100%;
+    height: 450px;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.noticia-detalle-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Etiqueta de categoría - dentro de la imagen */
+.noticia-detalle-imagen .categoria-img {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: var(--color-secondary);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    z-index: 2;
+}
+
+.noticia-detalle-contenido {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.noticia-meta {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.noticia-meta .fecha {
+    color: var(--color-gray);
+    font-size: 14px;
+}
+
+.noticia-meta .categoria {
+    background: var(--color-secondary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.noticia-detalle-contenido h1 {
+    font-size: 36px;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 30px;
+    line-height: 1.3;
+}
+
+.noticia-body {
+    font-size: 16px;
+    color: var(--color-gray);
+    line-height: 1.8;
+}
+
+.noticia-body h2 {
+    font-size: 24px;
+    color: var(--color-primary);
+    margin: 30px 0 15px;
+}
+
+.noticia-body h3 {
+    font-size: 20px;
+    color: var(--color-primary);
+    margin: 25px 0 10px;
+}
+
+.noticia-body p {
+    margin-bottom: 20px;
+}
+
+.noticia-body ul {
+    margin: 15px 0 20px 25px;
+}
+
+.noticia-body li {
+    margin-bottom: 8px;
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+    .noticia-detalle {
+        padding: 40px 0;
+    }
+    
+    .noticia-detalle-imagen {
+        height: 250px;
+    }
+    
+    .noticia-detalle-contenido h1 {
+        font-size: 28px;
+    }
+    
+    .noticia-body {
+        font-size: 14px;
+    }
+    
+    .noticia-body h2 {
+        font-size: 22px;
+    }
+    
+    .noticia-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+/* =========================
+TODAS LAS NOTICIAS
+========================= */
+
+.todas-noticias {
+    padding: 60px 0;
+    background: var(--color-bg);
+    min-height: 60vh;
+}
+
+.noticias-grid-completa {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.loader {
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+    color: var(--color-gray);
+    grid-column: 1 / -1;
+}
+
+/* Botón volver */
+.volver-container {
+    margin-bottom: 30px;
+}
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--color-primary-dark);
+    text-decoration: none;
+    font-weight: 600;
+    transition: gap 0.3s;
+}
+
+.btn-volver:hover {
+    gap: 12px;
+    color: var(--color-secondary);
+}
+
+/* =========================
+RESPONSIVE PARA TODAS NOTICIAS
+========================= */
+
+@media (max-width: 900px) {
+    .noticias-grid-completa {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    .todas-noticias {
+        padding: 40px 0;
+    }
+    
+    .noticias-grid-completa {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .section-header h1 {
+        font-size: 32px;
+    }
+}
+
+/* =========================
+CALENDARIO ESCOLAR
+========================= */
+
+.calendario-escolar {
+    padding: 60px 0;
+    background: var(--color-bg);
+}
+
+.calendario-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Visor de PDF */
+.pdf-visualizador {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.pdf-visualizador iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+    display: block;
+}
+
+/* Botón de descarga */
+.descarga-container {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.btn-descargar {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-secondary);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.btn-descargar:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-descargar svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Fechas destacadas */
+.fechas-destacadas {
+    margin-top: 40px;
+}
+
+.fechas-destacadas h2 {
+    font-size: 28px;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: 25px;
+    padding-left: 5px;
+    border-left: 4px solid var(--color-secondary);
+}
+
+.fechas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.fecha-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s;
+}
+
+.fecha-card:hover {
+    transform: translateY(-5px);
+}
+
+.fecha-dia {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    display: block;
+}
+
+.fecha-mes {
+    font-size: 14px;
+    color: var(--color-gray);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.fecha-evento {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-secondary);
+    display: block;
+}
+
+/* =========================
+RESPONSIVE CALENDARIO
+========================= */
+
+@media (max-width: 900px) {
+    .pdf-visualizador iframe {
+        height: 500px;
+    }
+    
+    .fechas-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .calendario-escolar {
+        padding: 40px 0;
+    }
+    
+    .pdf-visualizador iframe {
+        height: 400px;
+    }
+    
+    .btn-descargar {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+    
+    .fechas-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .fecha-dia {
+        font-size: 24px;
+    }
+    
+    .fechas-destacadas h2 {
+        font-size: 24px;
+    }
+}
+
+/* =========================
+CONOCE NUESTRA COMUNIDAD - GALERÍA
+========================= */
+
+.comunidad {
+    padding: 60px 0;
+    background: var(--color-bg);
+}
+
+/* Galería grid */
+.galeria-comunidad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+/* Item de galería */
+.galeria-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 1 / 0.9;
+}
+
+.galeria-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.galeria-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay al hacer hover */
+.galeria-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+}
+
+.galeria-item:hover .galeria-overlay {
+    transform: translateY(0);
+}
+
+.galeria-overlay h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.galeria-overlay p {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+/* =========================
+MODAL PARA IMÁGENES AMPLIADAS
+========================= */
+
+.modal-imagen-galeria {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal-imagen-contenido {
+    max-width: 90%;
+    max-height: 80%;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.modal-imagen-caption {
+    margin-top: 20px;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+}
+
+.modal-imagen-cerrar {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-imagen-cerrar:hover {
+    color: var(--color-secondary);
+}
+
+/* =========================
+RESPONSIVE COMUNIDAD
+========================= */
+
+@media (max-width: 900px) {
+    .galeria-comunidad {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .comunidad {
+        padding: 40px 0;
+    }
+    
+    .galeria-comunidad {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .galeria-item {
+        aspect-ratio: 1 / 0.7;
+    }
+    
+    .modal-imagen-contenido {
+        max-width: 95%;
+        max-height: 70%;
+    }
+}
+
+/* =========================
+SOBRE NOSOTROS
+========================= */
+
+/* Hero Sobre Nosotros */
+.hero-sobre {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero-sobre h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.hero-sobre p {
+    font-size: 18px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Historia */
+.historia {
+    padding: 60px 0;
+    background: var(--color-bg);
+}
+
+.historia-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.historia-texto h2 {
+    font-size: 32px;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-left: 5px;
+}
+
+.historia-texto p {
+    font-size: 16px;
+    color: var(--color-gray);
+    line-height: 1.6;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.historia-imagen img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+/* Misión y Visión */
+.mision-vision {
+    padding: 60px 0;
+    background: white;
+}
+
+.mision-vision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.card-mision, .card-vision {
+    background: var(--color-bg);
+    padding: 35px;
+    border-radius: 24px;
+    text-align: center;
+    transition: transform 0.3s;
+    box-shadow: var(--shadow);
+}
+
+.card-mision:hover, .card-vision:hover {
+    transform: translateY(-5px);
+}
+
+.icono-card svg {
+    color: var(--color-secondary);
+    margin-bottom: 20px;
+}
+
+.card-mision h3, .card-vision h3 {
+    font-size: 24px;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card-mision p, .card-vision p {
+    font-size: 15px;
+    color: var(--color-gray);
+    line-height: 1.6;
+}
+
+/* Valores */
+.valores {
+    padding: 60px 0;
+    background: var(--color-bg);
+}
+
+.valores h2 {
+    font-size: 32px;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.valores-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.valor-card {
+    background: white;
+    padding: 30px 25px;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.3s;
+    box-shadow: var(--shadow);
+}
+
+.valor-card:hover {
+    transform: translateY(-5px);
+}
+
+.valor-icono svg {
+    color: var(--color-secondary);
+    margin-bottom: 15px;
+}
+
+.valor-card h3 {
+    font-size: 20px;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.valor-card p {
+    font-size: 14px;
+    color: var(--color-gray);
+    line-height: 1.5;
+}
+
+/* Logros y certificaciones */
+.logros {
+    padding: 60px 0;
+    background: white;
+    text-align: center;
+}
+
+.logros h2 {
+    font-size: 32px;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.logros-grid {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.logro-item {
+    text-align: center;
+}
+
+.logro-item img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.logro-item span {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-gray);
+}
+/* Valores */
+.valores {
+    padding: 60px 0;
+    background: var(--color-bg);
+}
+
+.valores h2 {
+    font-size: 32px;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.valores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas para 8 valores (2 filas) */
+    gap: 25px;
+}
+
+.valor-card {
+    background: white;
+    padding: 25px 20px;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.3s;
+    box-shadow: var(--shadow);
+}
+
+.valor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.valor-icono svg {
+    color: var(--color-secondary);
+    margin-bottom: 15px;
+    width: 45px;
+    height: 45px;
+}
+
+.valor-card h3 {
+    font-size: 20px;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.valor-card p {
+    font-size: 13px;
+    color: var(--color-gray);
+    line-height: 1.5;
+}
+
+/* =========================
+RESPONSIVE VALORES
+========================= */
+
+@media (max-width: 1000px) {
+    .valores-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 700px) {
+    .valores-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .valor-card {
+        padding: 20px 15px;
+    }
+    
+    .valor-card h3 {
+        font-size: 18px;
+    }
+    
+    .valor-card p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .valores-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+/* =========================
+RESPONSIVE SOBRE NOSOTROS
+========================= */
+
+@media (max-width: 900px) {
+    .hero-sobre h1 {
+        font-size: 36px;
+    }
+    
+    .historia-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .mision-vision-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-sobre {
+        padding: 50px 20px;
+    }
+    
+    .hero-sobre h1 {
+        font-size: 28px;
+    }
+    
+    .hero-sobre p {
+        font-size: 16px;
+    }
+    
+    .historia {
+        padding: 40px 0;
+    }
+    
+    .historia-texto h2 {
+        font-size: 24px;
+    }
+}
+
+/* =========================
+PREGUNTAS FRECUENTES (FAQ)
+========================= */
+
+.faq {
+    padding: 60px 0;
+    background: var(--color-bg);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h1 {
+    font-size: 42px;
+    color: var(--color-text);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.section-header p {
+    font-size: 18px;
+    color: var(--color-gray);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Grid de categorías */
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+/* Categoría */
+.faq-categoria h2 {
+    font-size: 24px;
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-left: 5px;
+    border-left: 4px solid var(--color-secondary);
+}
+
+/* Item de pregunta */
+.faq-item {
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+}
+
+.faq-pregunta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    transition: background 0.3s;
+}
+
+.faq-pregunta:hover {
+    background: rgba(30, 77, 143, 0.05);
+}
+
+.faq-pregunta span {
+    font-size: 16px;
+}
+
+.faq-icon {
+    transition: transform 0.3s;
+    color: var(--color-secondary);
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-respuesta {
+    max-height: 0;
+    padding: 0 20px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+}
+
+.faq-item.active .faq-respuesta {
+    max-height: 300px;
+    padding: 18px 20px;
+}
+
+.faq-respuesta p {
+    font-size: 14px;
+    color: var(--color-gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Contacto adicional */
+.faq-contacto {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+}
+
+.faq-contacto h3 {
+    font-size: 24px;
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.faq-contacto p {
+    font-size: 16px;
+    color: var(--color-gray);
+    margin-bottom: 20px;
+}
+
+.btn-contacto-faq {
+    display: inline-block;
+    background: var(--color-secondary);
+    color: white;
+    padding: 12px 32px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-contacto-faq:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+/* =========================
+RESPONSIVE FAQ
+========================= */
+
+@media (max-width: 900px) {
+    .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .section-header h1 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 600px) {
+    .faq {
+        padding: 40px 0;
+    }
+    
+    .section-header h1 {
+        font-size: 28px;
+    }
+    
+    .section-header p {
+        font-size: 16px;
+    }
+    
+    .faq-categoria h2 {
+        font-size: 20px;
+    }
+    
+    .faq-pregunta span {
+        font-size: 14px;
+    }
+    
+    .faq-respuesta p {
+        font-size: 13px;
+    }
+    
+    .faq-contacto {
+        padding: 25px;
+    }
+    
+    .faq-contacto h3 {
+        font-size: 20px;
+    }
+}
+
+/* =========================
+AVISO DE PRIVACIDAD
+========================= */
+
+.aviso-privacidad {
+    padding: 60px 0;
+    background: var(--color-bg);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-header h1 {
+    font-size: 42px;
+    color: var(--color-text);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.section-header p {
+    font-size: 18px;
+    color: var(--color-gray);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Contenido del aviso */
+.aviso-content {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+}
+
+.aviso-fecha {
+    background: #f0f7ff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.aviso-fecha p {
+    color: var(--color-primary-dark);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Secciones */
+.aviso-seccion {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 25px;
+}
+
+.aviso-seccion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.aviso-seccion h2 {
+    font-size: 22px;
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-left: 5px;
+}
+
+.aviso-seccion p {
+    font-size: 15px;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.aviso-seccion ul {
+    margin: 10px 0 10px 25px;
+}
+
+.aviso-seccion li {
+    font-size: 14px;
+    color: var(--color-gray);
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+.aviso-seccion ul ul {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.aviso-seccion strong {
+    color: var(--color-primary-dark);
+}
+
+/* Botón de contacto */
+.aviso-contacto {
+    margin-top: 35px;
+    padding-top: 25px;
+    text-align: center;
+    border-top: 2px solid #eee;
+}
+
+.aviso-contacto p {
+    font-size: 16px;
+    color: var(--color-gray);
+    margin-bottom: 15px;
+}
+
+.btn-aviso {
+    display: inline-block;
+    background: var(--color-secondary);
+    color: white;
+    padding: 12px 32px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-aviso:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+/* =========================
+RESPONSIVE AVISO PRIVACIDAD
+========================= */
+
+@media (max-width: 768px) {
+    .aviso-privacidad {
+        padding: 40px 0;
+    }
+    
+    .section-header h1 {
+        font-size: 32px;
+    }
+    
+    .section-header p {
+        font-size: 16px;
+    }
+    
+    .aviso-content {
+        padding: 25px;
+    }
+    
+    .aviso-seccion h2 {
+        font-size: 20px;
+    }
+    
+    .aviso-seccion p,
+    .aviso-seccion li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .aviso-content {
+        padding: 20px;
+    }
+    
+    .aviso-seccion h2 {
+        font-size: 18px;
+    }
+    
+    .btn-aviso {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+}
+
+/* =========================
+RESULTADOS DE BÚSQUEDA
+========================= */
+
+.search-box {
+    position: relative;
+}
+
+.resultados-busqueda {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 350px;
+    max-height: 400px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    margin-top: 8px;
+}
+
+.resultados-busqueda.activo {
+    display: block;
+}
+
+/* Personalizar scrollbar */
+.resultados-busqueda::-webkit-scrollbar {
+    width: 6px;
+}
+
+.resultados-busqueda::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.resultados-busqueda::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 10px;
+}
+
+/* Item de resultado */
+.resultado-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.resultado-item:hover {
+    background: #f5f5f5;
+}
+
+.resultado-icono {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f7ff;
+    border-radius: 12px;
+}
+
+.resultado-info {
+    flex: 1;
+}
+
+.resultado-info h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 4px 0;
+}
+
+.resultado-info p {
+    font-size: 12px;
+    color: var(--color-gray);
+    margin: 0;
+}
+
+/* Resultado vacío */
+.resultado-vacio {
+    padding: 20px;
+    text-align: center;
+}
+
+.resultado-vacio p {
+    font-size: 14px;
+    color: var(--color-gray);
+    margin-bottom: 10px;
+}
+
+.resultado-vacio ul {
+    text-align: left;
+    margin: 10px 0 0 20px;
+}
+
+.resultado-vacio li {
+    font-size: 13px;
+    color: var(--color-gray);
+    margin-bottom: 5px;
+}
+
+/* =========================
+RESPONSIVE BÚSQUEDA
+========================= */
+
+@media (max-width: 768px) {
+    .resultados-busqueda {
+        width: 280px;
+        right: -10px;
+    }
+    
+    .resultado-info h4 {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .resultados-busqueda {
+        width: 260px;
+        max-height: 350px;
+    }
+    
+    .resultado-icono {
+        font-size: 20px;
+        width: 35px;
+        height: 35px;
     }
 }

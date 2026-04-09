@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admisiones - Instituto Francés de Ciencias</title>
+    <title>Instituto Francés de Ciencias</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -34,75 +34,39 @@
     </header>
 
     <main>
-        <section class="admisiones">
-        <div class="container">
-            <!-- Título principal -->
-            <div class="admisiones-header">
-                <h1>Admisiones</h1>
-            </div>
-
-            <!-- Proceso de ingreso -->
-            <div class="proceso-ingreso">
-                <h2>Proceso de ingreso</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
-            </div>
-
-            <!-- Requisitos + Imagen -->
-            <div class="requisitos-container">
-                <div class="requisitos-imagen">
-                    <img src="img&log/Admisiones.jpg" alt="Proceso de admisión">
+        <section class="calendario-escolar">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Calendario Escolar</h1>
+                    <p>Consulta las fechas importantes del ciclo escolar 2025-2026</p>
                 </div>
-                <div class="requisitos">
-                    <h2>Requisitos</h2>
-                    <ul>
-                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididut ut labore et dolore magna aliqua.</li>
-                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-                        <li>Sodaliter dentes</li>
-                    </ul>
-                    <button class="btn-requisitos">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff" class="icon icon-tabler icons-tabler-filled icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.497 4.409a10 10 0 0 1 -10.36 16.828l-.223 -.098l-4.759 .849l-.11 .011a1 1 0 0 1 -.11 0l-.102 -.013l-.108 -.024l-.105 -.037l-.099 -.047l-.093 -.058l-.014 -.011l-.012 -.007l-.086 -.073l-.077 -.08l-.067 -.088l-.056 -.094l-.034 -.07l-.04 -.108l-.028 -.128l-.012 -.102a1 1 0 0 1 0 -.125l.012 -.1l.024 -.11l.045 -.122l1.433 -3.304l-.009 -.014a10 10 0 0 1 1.549 -12.454l.215 -.203a10 10 0 0 1 13.226 -.217m-8.997 3.09a1.5 1.5 0 0 0 -1.5 1.5v1a6 6 0 0 0 6 6h1a1.5 1.5 0 0 0 0 -3h-1l-.144 .007a1.5 1.5 0 0 0 -1.128 .697l-.042 .074l-.022 -.007a4.01 4.01 0 0 1 -2.435 -2.435l-.008 -.023l.075 -.041a1.5 1.5 0 0 0 .704 -1.272v-1a1.5 1.5 0 0 0 -1.5 -1.5" /></svg>
-                        Solicitar detalles</button>
-                </div>
-            </div>
 
-            <!-- Próximas fechas -->
-            <div class="carrusel-admisiones">
-                <h2>Próximas fechas</h2>
-                <div class="carrusel-wrapper">
-                    <button class="carrusel-btn prev">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
-                    </button>
-                    <div class="carrusel-container">
-                        <div class="carrusel-track" style="display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none;">
-                            <div class="slide">
-                                <img src="img&log/constancias.jpg" alt="Fecha 1">
-                            </div>
-                            <div class="slide">
-                                <img src="img&log/curso verano.jpg" alt="Fecha 2">
-                            </div>
-                            <div class="slide">
-                                <img src="img&log/fechas.jpg" alt="Fecha 3">
-                            </div>
-                            <div class="slide">
-                                <img src="img&log/constancias.jpg" alt="Fecha 4">
-                            </div>
-                            <div class="slide">
-                                <img src="img&log/curso verano.jpg" alt="Fecha 5">
-                            </div>
-                            <div class="slide">
-                                <img src="img&log/fechas.jpg" alt="Fecha 6">
-                            </div>
-                        </div>
+                <div class="calendario-container">
+                    <!-- Visor de PDF -->
+                    <div class="pdf-visualizador">
+                        <iframe
+                            src="pdf/calendario_25-26.pdf"
+                            frameborder="0"
+                            title="Calendario Escolar">
+                        </iframe>
                     </div>
-                    <button class="carrusel-btn next">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
-                    </button>
+
+                    <!-- Botón de descarga -->
+                    <div class="descarga-container">
+                        <a href="pdf/calendario_25-26.pdf"
+                           download="Calendario_Escolar_2025-2026.pdf"
+                           class="btn-descargar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Descargar Calendario (PDF)
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
     </main>
 
     <footer class="site-footer">
@@ -166,11 +130,10 @@
             </div>
         </div>
 
-        <!-- COPYRIGHT FUERA DEL WRAPPER OCUPANDO TODO EL ANCHO -->
+        <!-- COPYRIGHT -->
         <div class="copyright-bar">
             <p>© Instituto Francés de Ciencias 2026. Todos los derechos reservados</p>
         </div>
     </footer>
-    <script src="scripts/carrusel.js"></script>
 </body>
 </html>
