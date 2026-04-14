@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admisiones - Instituto Francés de Ciencias</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admisiones">
+    <!-- SIDEBAR CON LOGO CIRCULAR -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="img/logo.jpeg" alt="Logo Instituto Francés" class="logo-circle" id="logoImage">
+            </div>
+            <div class="sidebar-title">
+                <h2>Instituto Francés<br>de Ciencias</h2>
+                <p>Excelencia académica</p>
+            </div>
+            <input type="file" id="logoInput" accept="image/*" class="hidden-input">
+        </div>
+
+        <ul class="menu">
+            <li id="menuDashboard">Dashboard</li>
+            <li id="menuNoticias">Noticias y Eventos</li>
+            <li id="menuOferta">Oferta Académica</li>
+            <li class="active" id="menuAdmisiones">Admisiones</li>
+            <li id="menuContacto">Contacto</li>
+        </ul>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main">
+        <div class="header">
+            <h1 class="title">Admisiones</h1>
+        </div>
+
+        <!-- ========== SELECTOR DE MODO ========== -->
+        <div class="modo-selector">
+            <button class="modo-btn active" data-modo="carrusel" onclick="cambiarModo('carrusel')">
+                Carrusel de imágenes
+            </button>
+            <button class="modo-btn" data-modo="promocion" onclick="cambiarModo('promocion')">
+                Promoción para estudiantes
+            </button>
+        </div>
+
+        <!-- SECCIÓN CARRUSEL -->
+        <div id="carruselSection" class="carousel-section">
+            <h3 style="margin-bottom: 15px; color: #1f4f8b;">Galería del campus</h3>
+            <div class="carousel">
+                <div class="card"><img id="img1" src="https://via.placeholder.com/130x160/1f4f8b/ffffff?text=Imagen+1" alt="Imagen del campus 1"></div>
+                <div class="card"><img id="img2" src="https://via.placeholder.com/130x160/1f4f8b/ffffff?text=Imagen+2" alt="Imagen del campus 2"></div>
+                <div class="card"><img id="img3" src="https://via.placeholder.com/130x160/1f4f8b/ffffff?text=Imagen+3" alt="Imagen del campus 3"></div>
+                <div class="card"><img id="img4" src="https://via.placeholder.com/130x160/1f4f8b/ffffff?text=Imagen+4" alt="Imagen del campus 4"></div>
+            </div>
+            <input type="file" id="carouselInput" accept="image/*" multiple hidden>
+            <button class="btn" onclick="abrirSelectorCarrusel()">Cambiar imágenes del carrusel</button>
+            <div class="info-text">
+                💡 Puedes seleccionar hasta 4 imágenes a la vez (formato JPG, PNG, GIF - máximo 5MB cada una)
+            </div>
+        </div>
+
+        <!-- SECCIÓN PROMOCIÓN (Estudiantes) -->
+        <div id="promocionSection" class="students-section" style="display: none;">
+            <h2>Estudiantes</h2>
+            <div class="big-box">
+                <h4>Promociones 2025</h4>
+                <div class="big-preview" onclick="abrirSelectorPromocion()" title="Haz clic para cambiar imagen">
+                    <img id="imgGrande" src="https://via.placeholder.com/400x200/1f4f8b/ffffff?text=Promoción" alt="Promoción">
+                </div>
+                <input type="file" id="imgGrandeInput" accept="image/*" hidden>
+                <button class="btn" onclick="abrirSelectorPromocion()">Cambiar imagen principal</button>
+                <div class="info-text">
+                    💡 Haz clic en la imagen o en el botón para personalizar esta sección
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admisiones.js"></script>
+</body>
+</html>

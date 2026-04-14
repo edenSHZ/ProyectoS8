@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Instituto Francés de Ciencias</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="login-page">
+
+<div class="login-container">
+    <div class="login-card">
+
+        <!-- LOGO -->
+        <div class="logo-container">
+            <div class="logo-circle" id="logoCircle">
+                <img src="img/logo.jpeg" id="logoImage">
+            </div>
+        </div>
+
+        <h1>Bienvenido</h1>
+        <p>Ingresa tus credenciales para acceder</p>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <!-- FORM -->
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Correo electrónico</label>
+                <input type="email" id="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Contraseña</label>
+                <input type="password" id="password" required>
+            </div>
+
+            <button type="submit" class="login-btn">Iniciar Sesión</button>
+        </form>
+
+    </div>
+</div>
+<script src="js/login.js"></script>
+
+</body>
+</html>
