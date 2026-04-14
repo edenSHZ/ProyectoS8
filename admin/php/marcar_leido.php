@@ -12,10 +12,11 @@ if (!isset($data['id']) || !is_numeric($data['id'])) {
     exit;
 }
 
-$id = (int) $data['id'];
+$id       = (int) $data['id'];
+$id_admin = (int) $_SESSION['admin_id']; // tomamos el admin de la sesión
 
-$stmt = $conn->prepare("UPDATE CONTACTO SET leido = TRUE WHERE id_contacto = ?");
-$stmt->bind_param("i", $id);
+$stmt = $conn->prepare("UPDATE CONTACTO SET leido = TRUE, id_admin = ? WHERE id_contacto = ?");
+$stmt->bind_param("ii", $id_admin, $id);
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success"]);
