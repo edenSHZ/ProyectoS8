@@ -5,3 +5,8 @@ Dulce María Potenciano Hernández - Manager
 Sharon García Arenas - Front-end
 Neil André Dominguez García - Back-end
 Eden Sánchez Hernández - Back-end
+Bienvenidos al equipo
+
+## Fecha de actualización
+Marzo 2026
+
