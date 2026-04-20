@@ -90,6 +90,16 @@
                         <textarea id="mensaje" name="mensaje" rows="5" placeholder="Type here..." required></textarea>
                     </div>
 
+                    <!-- CHECKBOX DE PRIVACIDAD -->
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="privacidad" name="privacidad" required>
+                            <span class="checkmark"></span>
+                            He leído y acepto el
+                            <a href="privacidad.html" target="_blank" class="link-privacidad">Aviso de Privacidad</a>
+                            <span class="required">*</span>
+                        </label>
+                    </div>
                     <button type="submit" class="btn-enviar">Enviar</button>
                 </form>
             </div>
@@ -206,5 +216,6 @@
     </footer>
     <script src="scripts/menu_ham.js"></script>
     <script src="scripts/lazy-maps.js" defer></script>
+    <script src="scripts/validar-checkbox.js" defer></script>
 </body>
 </html>
