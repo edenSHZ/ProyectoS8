@@ -35,10 +35,6 @@ header{
     font-weight:600;
 }
 
-.logo img{
-    width:40px;
-}
-
 /* NAV */
 .main-nav ul{
     display:flex;
@@ -76,13 +72,26 @@ header{
     cursor:pointer;
 }
 
-/* HERO */
+/* Ocultar visualmente pero mantener para lectores de pantalla */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 
+/* HERO */
 .hero{
     background:var(--color-light);
     padding:40px 0 0 0;
     overflow:visible;
     position:relative;
+    z-index: 1;
 }
 
 .hero-container{
@@ -97,67 +106,86 @@ header{
 }
 
 /* TEXTO */
-
 .hero-content{
     flex:1;
+    max-width:600px;
+    transform: translateY(-20px);
 }
 
 .hero-content h1{
     font-size:90px;
     font-weight:700;
-    line-height:1.05;
+    line-height:1.15;
     color:#000;
     margin-bottom:30px;
     text-align: left;
     margin-left: 70px;
+    max-width: 500px;
 }
 
-/* BOTON */
-
+/* BOTÓN  */
 .cta-button{
-    background:#E11D1D;
+    display: inline-block;
+    background:var(--color-secondary);
     color:#fff;
     padding:16px 32px;
-    border:none;
     border-radius:40px;
     font-size:18px;
     font-weight:600;
+    text-decoration:none;
     cursor:pointer;
     box-shadow:0 8px 15px rgba(0,0,0,0.15);
-    margin-left: 70px;
-    transition: transform 0.3s;
+    margin-left:70px;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
+/* Hover */
 .cta-button:hover{
     box-shadow:0 12px 20px rgba(0,0,0,0.25);
     transform: translateY(-5px);
 }
 
-/* IMAGEN HERO */
+/* Click (mejora UX) */
+.cta-button:active{
+    transform: translateY(-2px);
+    box-shadow:0 6px 10px rgba(0,0,0,0.2);
+}
 
+/* Accesibilidad (focus visible) */
+.cta-button:focus-visible{
+    outline:3px solid rgba(225,29,29,0.4);
+    outline-offset:3px;
+}
+
+/* IMAGEN HERO */
 .hero-image{
-    flex:1;
+    flex:1.2;
     position:relative;
-    height:420px;
+    width:100%;
+    max-width:750px;
+    aspect-ratio: 4 / 3;
 }
 
 /* BLOB */
 .blob{
     position:absolute;
-    width:735px;
-    left:-80px;
-    top:-5px;
+    width: 120%;
+    max-width: clamp(600px, 70vw, 900px);
+    left: -15%;
+    top: 0;
     z-index:1;
 }
 
 /* IMAGEN ESTUDIANTES */
-
 .hero-image img{
     position:absolute;
-    width:1000px;
-    left:-10px;
-    top:60%;
-    transform:translateY(-50%);
+    top:50%;
+    left:45%;
+    transform:translate(-50%, -50%);
+    width: 90%;
+    max-width: 650px;
+    height: auto;
+    object-fit: contain;
     z-index:2;
 }
 
@@ -167,9 +195,12 @@ header{
     justify-content:center;
     align-items:center;
     gap:100px;
-    padding:60px 10px;
+    padding:120px 10px 60px;
+    margin-top:-78px;
     background: var(--color-bg);
     flex-wrap:wrap;
+    position:relative;
+    z-index:2;
 }
 
 .quick-link-item{
@@ -210,6 +241,10 @@ header{
     color:var(--color-text);
     line-height:1.4;
     max-width:180px;
+    min-height: 50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 /* AVALOS - MÁS GRANDE */
@@ -243,27 +278,6 @@ header{
     text-align: center;
     gap: 20px;
     min-width: 250px;
-}
-
-.logos img {
-    width: 140px;
-    height: auto;
-    max-height: 110px;
-    object-fit: contain;
-    margin-bottom: 10px;
-}
-
-/* Estilo específico para cada logo */
-.logos span:nth-child(1) img {
-    width: 130px;
-}
-
-.logos span:nth-child(2) img {
-    width: 180px;
-}
-
-.logos span:nth-child(3) img {
-    width: 140px;
 }
 
 /* Texto debajo de las imágenes */
@@ -545,17 +559,19 @@ header{
 }
 
 .validaciones-logos img {
+    display: block;
     width: 75px;
     height: auto;
     object-fit: contain;
-    display: block;
+    aspect-ratio: attr(width) / attr(height);
 }
 
-/* Fondo blanco SOLO para el logo de SEP (primer logo) */
-.validaciones-logos img:nth-child(1) {
-    background: white;
+/* Fondo blanco redondo SOLO para SEP */
+.validaciones-logos img[alt="SEP"] {
+    background-color: white;
     padding: 0px 0px;
-    border-radius: 300px;
+    border-radius: 300%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sutil sombra para destacar */
 }
 
 /* Columna 3: Contacto y Mapa */
@@ -605,8 +621,8 @@ header{
 }
 
 .map-placeholder {
-    width: 100%;
-    height: 100px;
+    width: 250px;
+    height: 200px;
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.3);
     border-radius: 4px;
@@ -627,6 +643,85 @@ header{
 
     .mapa-right h4 {
         white-space: normal; /* Permite que el título se rompa en móvil */
+    }
+}
+
+/* ===== ESTILOS PARA EL PLACEHOLDER DEL MAPA ===== */
+.map-placeholder-visual {
+    width: 250px;
+    height: 200px;
+    background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.map-placeholder-visual:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.map-placeholder-content {
+    text-align: center;
+    color: white;
+}
+
+.map-placeholder-content svg {
+    margin-bottom: 12px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.map-placeholder-content p {
+    margin: 8px 0 16px 0;
+    font-size: 13px;
+    opacity: 0.95;
+}
+
+.btn-activar-mapa {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-activar-mapa:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+#map-dynamic {
+    width: 250px;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#map-dynamic iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .map-placeholder-visual,
+    #map-dynamic {
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
     }
 }
 
@@ -712,22 +807,11 @@ header{
 
 /* RESPONSIVE */
 @media (max-width:900px){
-    .hero-container{
-        flex-direction:column-reverse;
-        text-align:center;
-    }
-    
-    .hero-content{
-        text-align:center;
-    }
-    
-    .hero-content h1{
-        font-size:40px;
-    }
-    
     .quick-links{
         gap:60px;
         padding:40px 20px;
+        margin-top: 0;
+        padding-top: 60px;
     }
     
     .quick-link-item{
@@ -770,11 +854,6 @@ header{
     .search-box input{
         width:100%;
     }
-    
-    .hero-content h1{
-        font-size:32px;
-    }
-    
     .quick-links{
         gap:40px;
     }
@@ -811,15 +890,6 @@ header{
 }
 
 @media (max-width:480px){
-    .hero-content h1{
-        font-size:28px;
-    }
-    
-    .cta-button{
-        padding:12px 24px;
-        font-size:14px;
-    }
-    
     .quick-links{
         gap:30px;
     }
@@ -840,6 +910,248 @@ header{
     
     .quick-link-item span{
         font-size:14px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE HEADER, HERO, BLOB E IMAGEN
+   ============================================ */
+
+/* === MENÚ HAMBURGUESA === */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.menu-toggle svg {
+    width: 28px;
+    height: 28px;
+    stroke: white;
+    stroke-width: 2;
+}
+
+/* Overlay para el menú */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Tablet y Móvil (<= 900px) */
+@media (max-width: 900px) {
+    /* === HEADER === */
+    .header-top {
+        position: relative;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    /* Botón hamburguesa */
+    .menu-toggle {
+        display: block !important;
+        order: 1;
+    }
+    
+    .logo {
+        order: 2;
+        flex: 1;
+    }
+    
+    .search-box {
+        order: 3;
+        width: 100%;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+    
+    /* Navegación móvil */
+    .main-nav {
+        position: fixed !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 280px !important;
+        height: 100vh !important;
+        background: var(--color-primary) !important;
+        z-index: 1000 !important;
+        transition: left 0.3s ease !important;
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2) !important;
+        padding-top: 70px !important;
+        display: block !important;
+    }
+    
+    .main-nav.active {
+        left: 0 !important;
+    }
+    
+    .main-nav ul {
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .main-nav ul li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+        list-style: none !important;
+    }
+    
+    .main-nav ul li a {
+        display: block !important;
+        padding: 15px 25px !important;
+        font-size: 16px !important;
+        color: white !important;
+        text-decoration: none !important;
+
+    }
+    
+    /* Overlay activo */
+    .menu-overlay.active {
+        display: block !important;
+    }
+    
+}
+
+/* === MÓVIL PEQUEÑO (<= 600px) === */
+@media (max-width: 600px) {
+    /* Header */
+    .main-nav {
+        width: 260px !important;
+    }
+    
+    .logo span {
+        font-size: 14px;
+    }
+    
+    .logo img {
+        width: 35px;
+    }
+}
+
+@media (max-width: 900px){
+    .hero{
+        padding-bottom: 40px;
+    }
+
+    .hero-container{
+        flex-direction:column;
+    }
+
+    .hero-image{
+        order:1;
+        max-width:500px;
+        margin:auto;
+    }
+
+    .hero-content{
+        order:2;
+        text-align:center;
+        align-items: center;
+    }
+
+    .hero-content h1,
+    .cta-button{
+        margin-left:0;
+    }
+
+    .hero {
+        padding-bottom: 40px;
+    }
+
+    .hero-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .hero-image{
+        order:1;
+        max-width:500px;
+        margin:auto;
+        position: relative;
+    }
+
+    .blob{
+        position:absolute;
+        width: 120%;
+        max-width: 700px;
+        top: 50%;
+        left: -12%;
+        transform: translateY(-59%);
+        z-index:1;
+    }
+
+    .hero-image img{
+        position:relative;
+        z-index:2;
+        width:100%;
+        height:auto;
+    }
+}
+
+@media (max-width:600px){
+    .hero-image{
+        position: relative;
+        overflow: visible;
+    }
+
+    .blob{
+        width: 100%;
+        max-width: 200px;
+        left: -15%;
+        top: 45%;
+        transform: translate(-50%, -70%);
+    }
+
+    .hero-image img{
+        width:100%;
+        position: relative;
+        z-index: 2;
+    }
+}
+
+/* ============================================
+   RESPONSIVE MÓVIL PEQUEÑO (<= 480px)
+   ============================================ */
+@media (max-width: 480px) {
+    .hero {
+        padding-bottom: 30px;
+    }
+
+    .hero-image {
+        max-width: 380px;
+        min-height: 240px;
+    }
+    
+    .blob {
+        width: 100%;
+        max-width: 380px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -60%);
+    }
+    
+    .hero-image img {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .hero-content h1 {
+        font-size: 36px;
+    }
+    
+    .cta-button {
+        padding: 12px 24px;
+        font-size: 16px;
     }
 }
 
@@ -3347,5 +3659,140 @@ RESPONSIVE AVISO PRIVACIDAD
     .btn-aviso {
         padding: 10px 24px;
         font-size: 14px;
+    }
+}
+
+/* ===== MEJORAS DE ACCESIBILIDAD PARA MÓVIL ===== */
+
+/* Aumentar área táctil de botones */
+.cta-button,
+.btn-servicio,
+.quick-link-item,
+.carrusel-btn,
+.search-box button {
+    min-height: 44px;  /* Tamaño mínimo recomendado para dedos */
+    min-width: 44px;
+}
+
+/* Mejorar espaciado entre elementos táctiles */
+.quick-link-item {
+    padding: 12px 16px;
+    margin: 4px;
+}
+
+/* Asegurar que los enlaces del menú sean fáciles de tocar */
+.main-nav ul li a {
+    display: inline-block;
+}
+
+/* Focus visible para navegación por teclado */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid #4a90e2;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Ocultar el outline para usuarios de mouse, mantener para teclado */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Mejorar contraste en hover */
+.cta-button:hover,
+.btn-servicio:hover {
+    filter: brightness(1.1);
+}
+
+/* Asegurar que el texto sea legible */
+.footer-col ul li a {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 4px 0;
+}
+
+.footer-col ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Skip link para navegación por teclado */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: white;
+    padding: 8px 16px;
+    z-index: 100;
+    text-decoration: none;
+    border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* ============================================
+   CHECKBOX DE PRIVACIDAD - CENTRADO
+   ============================================ */
+
+.checkbox-group {
+    margin: 25px 0;
+    text-align: center;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--color-gray);
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--color-secondary);
+    margin: 0;
+}
+
+.checkbox-label a.link-privacidad {
+    color: var(--color-primary);
+    text-decoration: underline;
+    transition: color 0.3s;
+}
+
+.checkbox-label a.link-privacidad:hover {
+    color: var(--color-secondary);
+}
+
+.checkbox-label .required {
+    color: var(--color-secondary);
+    margin-left: 2px;
+}
+
+/* Estilo para cuando el checkbox no está marcado (error visual) */
+.checkbox-group.error .checkbox-label {
+    color: var(--color-secondary);
+}
+
+.checkbox-group.error input[type="checkbox"] {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .checkbox-label {
+        font-size: 12px;
+        flex-wrap: wrap;
+        text-align: center;
     }
 }
