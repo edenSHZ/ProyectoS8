@@ -539,6 +539,7 @@ th {
             border-radius: 3px;
             font-size: 11px;
         }
+        
 /* ============ OFERTA ACADÉMICA STYLES ============ */
 .oferta .header {
     margin-bottom: 30px;
@@ -593,6 +594,7 @@ th {
     font-size: 24px;
     font-weight: bold;
 }
+
 .preview {
     background: #f0f0f0;
     height: 180px;
@@ -656,7 +658,7 @@ th {
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     border-left: 4px solid #1f4f8b;
 }
-/* ===== ESTILOS PARA LOS DETALLES DEL CURSO ===== */
+
 .course-details {
     text-align: left;
     padding: 15px;
@@ -680,6 +682,113 @@ th {
 .detail-text {
     color: #555;
     line-height: 1.4;
+}
+
+/* ===== TABS ===== */
+.tabs-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 12px;
+}
+
+.tab {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1.5px solid #1f4f8b;
+    background: white;
+    color: #1f4f8b;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.tab.active {
+    background: #1f4f8b;
+    color: white;
+}
+
+.tab:hover:not(.active) {
+    background: #e8f0fb;
+}
+
+/* ===== BOTONES DE ACCIÓN ===== */
+.tab-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.btn-agregar {
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-agregar-cat {
+    background: #1f4f8b;
+    color: white;
+}
+
+.btn-agregar-cat:hover {
+    background: #163d6e;
+}
+
+.btn-agregar-curso {
+    background: #28a745;
+    color: white;
+}
+
+.btn-agregar-curso:hover {
+    background: #218838;
+}
+
+.btn-eliminar-cat {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-eliminar-cat:hover {
+    background: #c82333;
+}
+
+/* ===== BOTONES EN CARDS ===== */
+.card-btns {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-elim-curso {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 6px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(108,117,125,0.3);
+}
+
+.btn-elim-curso:hover {
+    background: #5a6268;
+    transform: scale(1.05);
+}
+
+.btn-elim-curso:active {
+    transform: scale(0.95);
 }
 
 /* ===== MODAL ===== */
@@ -707,14 +816,8 @@ th {
 }
 
 @keyframes modalAnimacion {
-    from {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
 }
 
 .modal-header {
@@ -722,13 +825,13 @@ th {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    border-bottom: 2px solid #ffffff;
+    border-bottom: 2px solid #f0f0f0;
 }
 
 .modal-header h3 {
     margin: 0;
-    color: #b3b1b1;
-    font-size: 24px;
+    color: #1f4f8b;
+    font-size: 20px;
 }
 
 .close {
@@ -758,16 +861,19 @@ th {
     color: #333;
 }
 
-.form-input, .form-textarea {
+.form-input,
+.form-textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
     font-family: inherit;
+    box-sizing: border-box;
 }
 
-.form-input:focus, .form-textarea:focus {
+.form-input:focus,
+.form-textarea:focus {
     outline: none;
     border-color: #1f4f8b;
 }
@@ -780,6 +886,7 @@ th {
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
+    transition: background 0.2s;
 }
 
 .btn-secundario:hover {
@@ -806,6 +913,8 @@ th {
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
 }
 
 .btn-cancelar:hover {
@@ -819,13 +928,15 @@ th {
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
 }
 
 .btn-guardar:hover {
     background: #218838;
 }
 
-/* Mensaje flotante */
+/* ===== MENSAJE FLOTANTE ===== */
 .mensaje-flotante {
     position: fixed;
     bottom: 20px;
@@ -839,10 +950,20 @@ th {
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(20px); }
-    15% { opacity: 1; transform: translateY(0); }
-    85% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-20px); }
+    0%   { opacity: 0; transform: translateY(20px);  }
+    15%  { opacity: 1; transform: translateY(0);      }
+    85%  { opacity: 1; transform: translateY(0);      }
+    100% { opacity: 0; transform: translateY(-20px);  }
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1f4f8b;
+    margin: 24px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e0e0;
 }
 /* ============ ADMISIONES STYLES ============ */
 .admisiones .main {
@@ -872,7 +993,36 @@ th {
     margin-bottom: 5px;
 }
 
-/* Carrusel */
+/* ===== SELECTOR DE MODO ===== */
+.modo-selector {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.modo-btn {
+    padding: 10px 24px;
+    border-radius: 25px;
+    border: 2px solid #1f4f8b;
+    background: white;
+    color: #1f4f8b;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.modo-btn.active {
+    background: #1f4f8b;
+    color: white;
+}
+
+.modo-btn:hover:not(.active) {
+    background: #e8f0fb;
+}
+
+/* ===== CARRUSEL ===== */
 .carousel-section {
     background: white;
     padding: 25px;
@@ -891,17 +1041,17 @@ th {
 
 .admisiones .card {
     background: #f8f9fa;
-    width: 130px;
-    height: 160px;
+    width: 180px;
     border-radius: 15px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    justify-content: flex-start;
+    overflow: visible;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
     border: 2px solid transparent;
+    padding-bottom: 12px;
 }
 
 .admisiones .card:hover {
@@ -912,16 +1062,60 @@ th {
 
 .admisiones .card img {
     width: 100%;
-    height: 100%;
+    height: 160px;
     object-fit: cover;
     transition: transform 0.3s;
+    border-radius: 12px 12px 0 0;
 }
 
 .admisiones .card img:hover {
     transform: scale(1.05);
 }
 
-/* Botón */
+/* ===== BOTONES DE CARD ===== */
+.card-img-btns {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 8px;
+    width: 100%;
+}
+
+.btn-cambiar-img,
+.btn-eliminar-img {
+    flex: 1;
+    min-width: 60px;
+    text-align: center;
+    padding: 5px 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    border: none;
+    transition: background 0.2s;
+}
+
+.btn-cambiar-img {
+    background: #1f4f8b;
+    color: white;
+}
+
+.btn-cambiar-img:hover {
+    background: #163d6e;
+}
+
+.btn-eliminar-img {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-eliminar-img:hover {
+    background: #c82333;
+}
+
+/* ===== BOTÓN PRINCIPAL ===== */
 .admisiones .btn {
     background: #dc3545;
     color: white;
@@ -942,7 +1136,11 @@ th {
     box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
 }
 
-/* Estudiantes */
+.admisiones .btn:active {
+    transform: scale(0.95);
+}
+
+/* ===== ESTUDIANTES ===== */
 .students-section {
     margin-top: 30px;
     background: white;
@@ -983,7 +1181,6 @@ th {
     overflow: hidden;
     border: 2px solid #dee2e6;
     transition: border-color 0.3s;
-    cursor: pointer;
 }
 
 .big-preview:hover {
@@ -996,6 +1193,48 @@ th {
     object-fit: cover;
 }
 
+/* ===== BOTONES PROMOCIÓN ===== */
+.promo-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.btn-cambiar-promo {
+    background: #1f4f8b;
+    color: white;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-cambiar-promo:hover {
+    background: #163d6e;
+}
+
+.btn-eliminar-promo {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-eliminar-promo:hover {
+    background: #c82333;
+}
+
+/* ===== INFO TEXT ===== */
 .info-text {
     margin-top: 15px;
     color: #6c757d;
@@ -1006,7 +1245,7 @@ th {
     border-radius: 8px;
 }
 
-/* Mensaje flotante */
+/* ===== TOAST ===== */
 .toast-message {
     position: fixed;
     top: 20px;
@@ -1022,14 +1261,13 @@ th {
 }
 
 @keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0);    opacity: 1; }
+    to   { transform: translateX(100%); opacity: 0; }
 }
 
 /* ============ SELECTOR DE MODO ============ */
