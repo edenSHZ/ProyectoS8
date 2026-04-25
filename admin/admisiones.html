@@ -3,162 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oferta Académica - Instituto Francés</title>
+    <title>Admisiones - Instituto Francés de Ciencias</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="oferta">
-
-<div class="sidebar">
-    <div class="sidebar-header">
-        <div class="logo-container">
-            <img src="img/logo.jpeg" alt="Logo" class="logo-circle" id="logoImage">
+<body class="admisiones">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="img/logo.jpeg" alt="Logo Instituto Francés" class="logo-circle" id="logoImage">
+            </div>
+            <div class="sidebar-title">
+                <h2>Instituto Francés<br>de Ciencias</h2>
+                <p>Excelencia académica</p>
+            </div>
+            <input type="file" id="logoInput" accept="image/*" class="hidden-input">
         </div>
-        <div class="sidebar-title">
-            <h2>Instituto Francés<br>de Ciencias</h2>
-        </div>
-        <input type="file" id="logoInput" hidden>
-    </div>
-    <ul class="menu">
-        <li id="menuDashboard">Dashboard</li>
-        <li id="menuNoticias">Noticias y Eventos</li>
-        <li class="active">Oferta Académica</li>
-        <li id="menuAdmisiones">Admisiones</li>
-        <li id="menuContacto">Contacto</li>
-    </ul>
-</div>
-
-<div class="main">
-    <div class="header">
-        <h1 class="title">Oferta Académica</h1>
+        <ul class="menu">
+            <li id="menuDashboard">Dashboard</li>
+            <li id="menuNoticias">Noticias y Eventos</li>
+            <li id="menuOferta">Oferta Académica</li>
+            <li class="active" id="menuAdmisiones">Admisiones</li>
+            <li id="menuContacto">Contacto</li>
+        </ul>
     </div>
 
-    <!-- PESTAÑAS -->
-    <div class="tabs-container" id="tabsContainer">
-        <p style="color:#888;font-size:13px;">Cargando categorías...</p>
+    <div class="main">
+        <div class="header">
+            <h1 class="title">Admisiones</h1>
+        </div>
+
+        <!-- SELECTOR DE MODO -->
+        <div class="modo-selector">
+            <button class="modo-btn active" data-modo="carrusel">Carrusel de imágenes</button>
+            <button class="modo-btn"        data-modo="promocion">Promoción para estudiantes</button>
+        </div>
+
+        <!-- SECCIÓN CARRUSEL -->
+        <div id="carruselSection">
+            <h3 style="margin-bottom:15px;color:#1f4f8b;">Galería del campus</h3>
+            <div class="carousel" id="carruselGrid">
+                <p style="color:#888;font-size:14px;">Cargando imágenes...</p>
+            </div>
+
+            <!-- Input para subir múltiples imágenes -->
+            <input type="file" id="carouselInput" accept="image/*" multiple hidden>
+            <!-- Input para cambiar imagen individual -->
+            <input type="file" id="cambiarInput"  accept="image/*" hidden>
+
+            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+                <button class="btn" id="btnSubirCarrusel">+ Agregar imágenes al carrusel</button>
+            </div>
+            <div class="info-text">
+                Puedes agregar hasta 4 imágenes. Cada imagen tiene botón de cambiar y eliminar.
+            </div>
+        </div>
+
+        <!-- SECCIÓN PROMOCIÓN -->
+        <div id="promocionSection" style="display:none;">
+            <h2>Estudiantes</h2>
+            <div class="big-box">
+                <h4>Promociones 2025</h4>
+                <div id="promocionContainer">
+                    <p style="color:#888;font-size:14px;">Cargando imagen de promoción...</p>
+                </div>
+                <input type="file" id="imgGrandeInput"   accept="image/*" hidden>
+                <input type="file" id="cambiarPromoInput" accept="image/*" hidden>
+                <button class="btn" id="btnSubirPromocion" style="margin-top:12px;">
+                    + Subir imagen de promoción
+                </button>
+                <div class="info-text">Solo se permite una imagen de promoción.</div>
+            </div>
+        </div>
     </div>
 
-    <!-- BOTONES DE ACCIÓN -->
-    <div class="tab-actions">
-        <button class="btn-agregar btn-agregar-cat"   id="btnAgregarCategoria">+ Agregar categoría</button>
-        <button class="btn-agregar btn-agregar-curso"  id="btnAgregarCurso">+ Agregar curso</button>
-        <button class="btn-agregar btn-eliminar-cat"   id="btnEliminarCategoria">🗑 Eliminar categoría</button>
-    </div>
-
-    <!-- CARDS DE CURSOS -->
-    <div id="contenidoCursos">
-        <p style="color:#888;font-size:14px;">Selecciona una categoría.</p>
-    </div>
-</div>
-
-<!-- MODAL AGREGAR CATEGORÍA -->
-<div id="modalCategoria" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Nueva categoría</h3>
-            <span class="close" id="btnCerrarModalCat">&times;</span>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label>Nombre *</label>
-                <input type="text" id="catNombre" class="form-input" placeholder="Ej: Idiomas">
-            </div>
-            <div class="form-group">
-                <label>Descripción</label>
-                <textarea id="catDescripcion" class="form-textarea" rows="3" placeholder="Descripción de la categoría"></textarea>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-cancelar" id="btnCancelarModalCat">Cancelar</button>
-            <button class="btn-guardar" id="btnGuardarCategoria">Guardar</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL AGREGAR CURSO -->
-<div id="modalAgregarCurso" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Nuevo curso</h3>
-            <span class="close" id="btnCerrarModalAgrCurso">&times;</span>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label>Categoría *</label>
-                <select id="cursoCategoria" class="form-input"></select>
-            </div>
-            <div class="form-group">
-                <label>Nombre del curso *</label>
-                <input type="text" id="cursoNombre" class="form-input" placeholder="Ej: Inglés Básico">
-            </div>
-            <div class="form-group">
-                <label>Imagen</label>
-                <button type="button" class="btn-secundario" id="btnSelImgNuevo">Seleccionar imagen</button>
-                <input type="file" id="cursoImgInput" accept="image/*" hidden>
-                <div id="cursoImgPreview" style="margin-top:8px;"></div>
-            </div>
-            <div class="form-group">
-                <label>Duración</label>
-                <input type="text" id="cursoDuracion" class="form-input" placeholder="Ej: 3 meses">
-            </div>
-            <div class="form-group">
-                <label>Horario</label>
-                <input type="text" id="cursoHorario" class="form-input" placeholder="Ej: Lunes a Viernes 9am-12pm">
-            </div>
-            <div class="form-group">
-                <label>Requisitos</label>
-                <input type="text" id="cursoRequisitos" class="form-input" placeholder="Ej: Ninguno">
-            </div>
-            <div class="form-group">
-                <label>Descripción</label>
-                <textarea id="cursoDescripcion" class="form-textarea" rows="3" placeholder="Descripción del curso"></textarea>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-cancelar" id="btnCancelarModalAgrCurso">Cancelar</button>
-            <button class="btn-guardar" id="btnGuardarNuevoCurso">Guardar</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL EDITAR CURSO -->
-<div id="modalEditarCurso" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Editar curso</h3>
-            <span class="close" id="btnCerrarModalEdit">&times;</span>
-        </div>
-        <div class="modal-body">
-            <input type="hidden" id="modalCursoId">
-            <input type="file" id="modalFileInput" accept="image/*" hidden>
-            <div class="form-group">
-                <label>Imagen del curso</label>
-                <button type="button" class="btn-secundario" id="btnSeleccionarImagen">Seleccionar imagen</button>
-                <div id="modalPreview" class="modal-preview"></div>
-            </div>
-            <div class="form-group">
-                <label>Duración</label>
-                <input type="text" id="modalDuracion" class="form-input" placeholder="Ej: 3 meses">
-            </div>
-            <div class="form-group">
-                <label>Horario</label>
-                <input type="text" id="modalHorario" class="form-input" placeholder="Ej: Lunes a Viernes 9am-12pm">
-            </div>
-            <div class="form-group">
-                <label>Requisitos</label>
-                <input type="text" id="modalRequisitos" class="form-input" placeholder="Ej: Ninguno">
-            </div>
-            <div class="form-group">
-                <label>Descripción</label>
-                <textarea id="modalDescripcion" class="form-textarea" rows="3" placeholder="Descripción del curso"></textarea>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-cancelar" id="btnCancelarModal">Cancelar</button>
-            <button class="btn-guardar" id="btnGuardarCurso">Guardar cambios</button>
-        </div>
-    </div>
-</div>
-
-<script src="js/ofertas.js"></script>
+    <script src="js/admisiones.js"></script>
 </body>
 </html>

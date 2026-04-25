@@ -6,10 +6,8 @@
     <title>Oferta Académica - Instituto Francés</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body class="oferta">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
     <div class="sidebar-header">
         <div class="logo-container">
@@ -20,7 +18,6 @@
         </div>
         <input type="file" id="logoInput" hidden>
     </div>
-
     <ul class="menu">
         <li id="menuDashboard">Dashboard</li>
         <li id="menuNoticias">Noticias y Eventos</li>
@@ -30,367 +27,138 @@
     </ul>
 </div>
 
-<!-- CONTENIDO -->
 <div class="main">
-
     <div class="header">
         <h1 class="title">Oferta Académica</h1>
     </div>
 
-<p class="subtitle">Idiomas y Certificaciones</p>
-    <!-- FILA 1 -->
-    <div class="grid-cards">
-
-        <!-- INGLES -->
-        <div class="card" data-curso="ingles">
-            <h3>🇬🇧 Inglés</h3>
-
-            <div class="preview">
-                <img id="imgIngles" src="https://via.placeholder.com/300x180">
-            </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionIngles"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioIngles"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosIngles"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionIngles"></span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="editarCurso('ingles')">
-                Editar curso
-            </button>
-        </div>
-
-        <!-- FRANCES -->
-        <div class="card" data-curso="frances">
-            <h3>🇫🇷 Francés</h3>
-
-            <div class="preview">
-                <img id="imgFrances" src="https://via.placeholder.com/300x180">
-            </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionFrances"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioFrances"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosFrances"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionFrances"></span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="editarCurso('frances')">
-                Editar curso
-            </button>
-        </div>
+    <!-- PESTAÑAS -->
+    <div class="tabs-container" id="tabsContainer">
+        <p style="color:#888;font-size:13px;">Cargando categorías...</p>
     </div>
 
-
-    <!-- FILA 2 -->
-    <h2 class="section-title">Prepa Abierta</h2>
-
-    <div class="grid-cards">
-
-        <div class="card" data-curso="prepa">
-            <h3>Termina tu prepa</h3>
-
-            <div class="preview">
-                <img id="imgPrepa" src="https://via.placeholder.com/300x180">
-            </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionPrepa"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioPrepa"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosPrepa"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionPrepa"></span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="editarCurso('prepa')">
-                Editar curso
-            </button>
-        </div>
-
+    <!-- BOTONES DE ACCIÓN -->
+    <div class="tab-actions">
+        <button class="btn-agregar btn-agregar-cat"   id="btnAgregarCategoria">+ Agregar categoría</button>
+        <button class="btn-agregar btn-agregar-curso"  id="btnAgregarCurso">+ Agregar curso</button>
+        <button class="btn-agregar btn-eliminar-cat"   id="btnEliminarCategoria">🗑 Eliminar categoría</button>
     </div>
 
-    <!-- FILA 3 -->
-    <h2 class="section-title">Cursos de Admisión y Verano</h2>
-
-    <div class="grid-cards">
-
-        <div class="card" data-curso="admPrepa">
-            <h3>Admisión prepa</h3>
-
-            <div class="preview">
-                <img id="imgAdmPrepa" src="https://via.placeholder.com/300x180">
-            </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionAdmPrepa"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioAdmPrepa"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosAdmPrepa"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionAdmPrepa"></span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="editarCurso('admPrepa')">
-                Editar curso
-            </button>
-        </div>
-
-        <div class="card" data-curso="admUni">
-            <h3>Admisión universidad</h3>
-
-            <div class="preview">
-                <img id="imgAdmUni" src="https://via.placeholder.com/300x180">
-            </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionAdmUni"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioAdmUni"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosAdmUni"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionAdmUni"></span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="editarCurso('admUni')">
-                Editar curso
-            </button>
-        </div>
-
-        <div class="card" data-curso="verano">
-            <h3>Curso de verano</h3>
-
-            <div class="preview">
-                <img id="imgVerano" src="https://via.placeholder.com/300x180">
-            </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionVerano"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioVerano"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosVerano"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionVerano"></span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="editarCurso('verano')">
-                Editar curso
-            </button>
-        </div>
-
+    <!-- CARDS DE CURSOS -->
+    <div id="contenidoCursos">
+        <p style="color:#888;font-size:14px;">Selecciona una categoría.</p>
     </div>
+</div>
 
-    <!-- FILA 4 -->
-    <h2 class="section-title">Clases Particulares y Regularización</h2>
-
-    <div class="grid-cards">
-
-        <div class="card" data-curso="mate">
-            <h3>Matemáticas</h3>
-
-            <div class="preview">
-                <img id="imgMate" src="https://via.placeholder.com/300x180">
-            </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionMate"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioMate"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosMate"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionMate"></span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="editarCurso('mate')">
-                Editar curso
-            </button>
+<!-- MODAL AGREGAR CATEGORÍA -->
+<div id="modalCategoria" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Nueva categoría</h3>
+            <span class="close" id="btnCerrarModalCat">&times;</span>
         </div>
-
-        <div class="card" data-curso="diseno">
-            <h3>Diseño gráfico</h3>
-
-            <div class="preview">
-                <img id="imgDiseno" src="https://via.placeholder.com/300x180">
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" id="catNombre" class="form-input" placeholder="Ej: Idiomas">
             </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionDiseno"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioDiseno"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosDiseno"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionDiseno"></span>
-                </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="catDescripcion" class="form-textarea" rows="3" placeholder="Descripción de la categoría"></textarea>
             </div>
-
-            <button class="btn" onclick="editarCurso('diseno')">
-                Editar curso
-            </button>
         </div>
-
-        <div class="card" data-curso="robotica">
-            <h3>Robótica</h3>
-
-            <div class="preview">
-                <img id="imgRobotica" src="https://via.placeholder.com/300x180">
-            </div>
-
-            <div class="course-details">
-                <div class="detail-item">
-                    <span class="detail-icon">⏱ Duración:</span>
-                    <span class="detail-text" id="duracionRobotica"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">🕒 Horario:</span>
-                    <span class="detail-text" id="horarioRobotica"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">✅ Requisitos:</span>
-                    <span class="detail-text" id="requisitosRobotica"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-icon">📖 Descripción:</span>
-                    <span class="detail-text" id="descripcionRobotica"></span>
-                </div>
-            </div>
-
-            <button class="btn" onclick="editarCurso('robotica')">
-                Editar curso
-            </button>
+        <div class="modal-footer">
+            <button class="btn-cancelar" id="btnCancelarModalCat">Cancelar</button>
+            <button class="btn-guardar" id="btnGuardarCategoria">Guardar</button>
         </div>
     </div>
 </div>
 
-<!-- MODAL PARA EDITAR CURSO -->
+<!-- MODAL AGREGAR CURSO -->
+<div id="modalAgregarCurso" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Nuevo curso</h3>
+            <span class="close" id="btnCerrarModalAgrCurso">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Categoría *</label>
+                <select id="cursoCategoria" class="form-input"></select>
+            </div>
+            <div class="form-group">
+                <label>Nombre del curso *</label>
+                <input type="text" id="cursoNombre" class="form-input" placeholder="Ej: Inglés Básico">
+            </div>
+            <div class="form-group">
+                <label>Imagen</label>
+                <button type="button" class="btn-secundario" id="btnSelImgNuevo">Seleccionar imagen</button>
+                <input type="file" id="cursoImgInput" accept="image/*" hidden>
+                <div id="cursoImgPreview" style="margin-top:8px;"></div>
+            </div>
+            <div class="form-group">
+                <label>Duración</label>
+                <input type="text" id="cursoDuracion" class="form-input" placeholder="Ej: 3 meses">
+            </div>
+            <div class="form-group">
+                <label>Horario</label>
+                <input type="text" id="cursoHorario" class="form-input" placeholder="Ej: Lunes a Viernes 9am-12pm">
+            </div>
+            <div class="form-group">
+                <label>Requisitos</label>
+                <input type="text" id="cursoRequisitos" class="form-input" placeholder="Ej: Ninguno">
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="cursoDescripcion" class="form-textarea" rows="3" placeholder="Descripción del curso"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancelar" id="btnCancelarModalAgrCurso">Cancelar</button>
+            <button class="btn-guardar" id="btnGuardarNuevoCurso">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR CURSO -->
 <div id="modalEditarCurso" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Editar Curso</h3>
-            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h3>Editar curso</h3>
+            <span class="close" id="btnCerrarModalEdit">&times;</span>
         </div>
         <div class="modal-body">
+            <input type="hidden" id="modalCursoId">
             <input type="file" id="modalFileInput" accept="image/*" hidden>
-            
             <div class="form-group">
-                <label>Imagen del curso:</label>
-                <button type="button" class="btn-secundario" onclick="abrirSelectorImagen()">
-                    Seleccionar imagen
-                </button>
+                <label>Imagen del curso</label>
+                <button type="button" class="btn-secundario" id="btnSeleccionarImagen">Seleccionar imagen</button>
                 <div id="modalPreview" class="modal-preview"></div>
             </div>
-
             <div class="form-group">
-                <label>Duración:</label>
-                <input type="text" id="modalDuracion" class="form-input" placeholder="Ej: 3 meses (120 horas)">
+                <label>Duración</label>
+                <input type="text" id="modalDuracion" class="form-input" placeholder="Ej: 3 meses">
             </div>
-
             <div class="form-group">
-                <label>Horario:</label>
+                <label>Horario</label>
                 <input type="text" id="modalHorario" class="form-input" placeholder="Ej: Lunes a Viernes 9am-12pm">
             </div>
-
             <div class="form-group">
-                <label>Requisitos:</label>
-                <input type="text" id="modalRequisitos" class="form-input" placeholder="Ej: Ninguno, todos los niveles">
+                <label>Requisitos</label>
+                <input type="text" id="modalRequisitos" class="form-input" placeholder="Ej: Ninguno">
             </div>
-
             <div class="form-group">
-                <label>Descripción:</label>
+                <label>Descripción</label>
                 <textarea id="modalDescripcion" class="form-textarea" rows="3" placeholder="Descripción del curso"></textarea>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-            <button type="button" class="btn-guardar" onclick="guardarCambiosCurso()">Guardar cambios</button>
+            <button class="btn-cancelar" id="btnCancelarModal">Cancelar</button>
+            <button class="btn-guardar" id="btnGuardarCurso">Guardar cambios</button>
         </div>
     </div>
 </div>
 
 <script src="js/ofertas.js"></script>
-
 </body>
 </html>
