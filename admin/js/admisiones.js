@@ -1,328 +1,313 @@
-// ============================================
-// VARIABLE PARA SABER QUÉ MODO ESTÁ ACTIVO
-// ============================================
-let modoActivo = 'carrusel'; // 'carrusel' o 'promocion'
+const BASE    = "php";
+const UPLOADS = "uploads/galeria/";
 
-// ============================================
-// CAMBIAR ENTRE CARRUSEL Y PROMOCIÓN
-// ============================================
+let modoActivo      = 'carrusel';
+let imagenCambiandoId = null;
+let carruselData    = [];
+let promocionData   = null;
+
+// ============ TOAST ============
+function mostrarToast(msg, tipo = "success") {
+    const colores = { success: "#28a745", error: "#dc3545", warning: "#ffc107" };
+    const toast = document.createElement('div');
+    toast.textContent = msg;
+    toast.style.cssText = `
+        position:fixed; bottom:24px; right:24px; padding:12px 20px;
+        background:${colores[tipo]}; color:white; border-radius:8px;
+        font-size:14px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);
+        transition: opacity 0.4s;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3000);
+}
+
+// ============ CAMBIAR MODO ============
 function cambiarModo(modo) {
     modoActivo = modo;
-    
-    // Actualizar clases de los botones
     document.querySelectorAll('.modo-btn').forEach(btn => {
-        btn.classList.remove('active');
+        btn.classList.toggle('active', btn.dataset.modo === modo);
     });
-    document.querySelector(`.modo-btn[data-modo="${modo}"]`).classList.add('active');
-    
-    // Mostrar/ocultar secciones
-    const carruselSection = document.getElementById('carruselSection');
-    const promocionSection = document.getElementById('promocionSection');
-    
-    if (modo === 'carrusel') {
-        carruselSection.style.display = 'block';
-        promocionSection.style.display = 'none';
-    } else {
-        carruselSection.style.display = 'none';
-        promocionSection.style.display = 'block';
-    }
+    document.getElementById('carruselSection').style.display  = modo === 'carrusel'  ? 'block' : 'none';
+    document.getElementById('promocionSection').style.display = modo === 'promocion' ? 'block' : 'none';
 }
 
-// ============================================
-// ABRIR SELECTOR DE IMÁGENES SEGÚN MODO
-// ============================================
-function abrirSelectorCarrusel() {
-    const input = document.getElementById("carouselInput");
-    input.value = '';
-    input.click();
-}
-
-function abrirSelectorPromocion() {
-    const input = document.getElementById("imgGrandeInput");
-    input.value = '';
-    input.click();
-}
-
-// ============================================
-// FUNCIÓN PARA MOSTRAR MENSAJE
-// ============================================
-function mostrarMensaje(mensaje, esError = false) {
-    let msgDiv = document.createElement('div');
-    msgDiv.textContent = mensaje;
-    msgDiv.className = 'toast-message';
-    msgDiv.style.background = esError ? '#dc3545' : '#28a745';
-    
-    document.body.appendChild(msgDiv);
-    
-    setTimeout(() => {
-        msgDiv.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => {
-            if (msgDiv.parentNode) {
-                document.body.removeChild(msgDiv);
+// ============ CARGAR GALERÍA ============
+function cargarGaleria() {
+    fetch(`${BASE}/obtener_galeria.php`)
+        .then(res => res.json())
+        .then(data => {
+            if (Array.isArray(data)) {
+                carruselData  = data.filter(i => i.tipo === 'carrusel');
+                promocionData = data.find(i => i.tipo === 'promocion') || null;
+                renderizarCarrusel();
+                renderizarPromocion();
             }
-        }, 300);
-    }, 3000);
+        })
+        .catch(() => mostrarToast("Error al cargar galería", "error"));
 }
 
-// ============================================
-// VALIDAR IMAGEN
-// ============================================
-function validarImagen(archivo) {
-    if (!archivo.type.startsWith('image/')) {
-        mostrarMensaje('❌ Por favor, selecciona un archivo de imagen válido', true);
-        return false;
-    }
-    
-    if (archivo.size > 5 * 1024 * 1024) {
-        mostrarMensaje('❌ La imagen es demasiado grande. Máximo 5MB', true);
-        return false;
-    }
-    
-    return true;
-}
+// ============ RENDERIZAR CARRUSEL ============
+function renderizarCarrusel() {
+    const grid = document.getElementById('carruselGrid');
 
-// ============================================
-// GUARDAR IMÁGENES EN localStorage (LOCAL)
-// ============================================
-function guardarEnLocalStorage(tipo, datos) {
-    try {
-        if (tipo === 'carrusel') {
-            localStorage.setItem('carrusel_imagenes', JSON.stringify(datos));
-        } else if (tipo === 'promocion') {
-            localStorage.setItem('promocion_imagen', datos);
-        }
-        return true;
-    } catch (error) {
-        console.error('Error al guardar en localStorage:', error);
-        return false;
-    }
-}
-
-// ============================================
-// CARGAR IMÁGENES DESDE localStorage
-// ============================================
-function cargarDesdeLocalStorage() {
-    // Cargar carrusel
-    const carruselGuardado = localStorage.getItem('carrusel_imagenes');
-    if (carruselGuardado) {
-        try {
-            const imagenes = JSON.parse(carruselGuardado);
-            imagenes.forEach((imgData, index) => {
-                const imgElement = document.getElementById(`img${index + 1}`);
-                if (imgElement && imgData) {
-                    imgElement.src = imgData;
-                }
-            });
-            console.log('✅ Carrusel cargado desde localStorage');
-        } catch (e) {
-            console.error('Error al cargar carrusel:', e);
-        }
-    }
-    
-    // Cargar promoción
-    const promocionGuardada = localStorage.getItem('promocion_imagen');
-    if (promocionGuardada) {
-        const imgElement = document.getElementById('imgGrande');
-        if (imgElement) {
-            imgElement.src = promocionGuardada;
-            console.log('✅ Promoción cargada desde localStorage');
-        }
-    }
-}
-
-// ============================================
-// MANEJAR SUBIDA DE CARRUSEL (4 imágenes)
-// ============================================
-document.getElementById("carouselInput").addEventListener("change", function() {
-    let archivos = this.files;
-    
-    if (archivos.length === 0) {
+    if (carruselData.length === 0) {
+        grid.innerHTML = '<p style="color:#888;font-size:14px;">No hay imágenes en el carrusel. Agrega hasta 4.</p>';
         return;
     }
-    
-    if (archivos.length > 4) {
-        mostrarMensaje('⚠️ Solo se pueden seleccionar máximo 4 imágenes. Las primeras 4 serán utilizadas.', true);
+
+    grid.innerHTML = `
+        <div class="carousel">
+            ${carruselData.map(img => `
+                <div class="card" data-id="${img.id}">
+                    <img src="${UPLOADS + img.imagen}" alt="Imagen carrusel ${img.orden}"
+                        style="width:100%;height:160px;object-fit:cover;border-radius:8px;">
+                    <div style="display:flex;gap:6px;margin-top:8px;justify-content:center;">
+                        <button class="btn-cambiar-carrusel" data-id="${img.id}"
+                                style="background:#1f4f8b;color:white;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;">
+                            Cambiar
+                        </button>
+                        <button class="btn-eliminar-carrusel" data-id="${img.id}"
+                                style="background:#dc3545;color:white;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+// ============ RENDERIZAR PROMOCIÓN ============
+function renderizarPromocion() {
+    const container = document.getElementById('promocionContainer');
+    const btnSubir  = document.getElementById('btnSubirPromocion');
+
+    if (!promocionData) {
+        container.innerHTML = '<p style="color:#888;font-size:14px;">No hay imagen de promoción.</p>';
+        btnSubir.style.display = 'block';
+        return;
     }
-    
-    let imagenesCargadas = 0;
-    let limite = Math.min(archivos.length, 4);
-    let imagenesData = [];
-    
+
+    btnSubir.style.display = 'none';
+    container.innerHTML = `
+        <div style="position:relative;display:inline-block;width:100%;">
+            <img src="${UPLOADS + promocionData.imagen}" alt="Promoción"
+                 style="width:100%;max-height:300px;object-fit:cover;border-radius:12px;">
+            <div style="display:flex;gap:8px;margin-top:10px;justify-content:center;">
+                <button id="btnCambiarPromo"
+                        style="background:#1f4f8b;color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;">
+                    Cambiar imagen
+                </button>
+                <button id="btnEliminarPromo" data-id="${promocionData.id}"
+                        style="background:#dc3545;color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;">
+                    Eliminar imagen
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Listeners de promoción
+    document.getElementById('btnCambiarPromo')?.addEventListener('click', () => {
+        imagenCambiandoId = promocionData.id;
+        document.getElementById('cambiarPromoInput').click();
+    });
+
+    document.getElementById('btnEliminarPromo')?.addEventListener('click', () => {
+        eliminarImagen(promocionData.id);
+    });
+}
+
+// ============ SUBIR IMÁGENES CARRUSEL (múltiple) ============
+function subirImagenesCarrusel(archivos) {
+    const disponibles = 4 - carruselData.length;
+
+    if (disponibles <= 0) {
+        mostrarToast("Ya tienes 4 imágenes. Elimina una primero.", "warning");
+        return;
+    }
+
+    const limite = Math.min(archivos.length, disponibles);
+    let subidas  = 0;
+
     for (let i = 0; i < limite; i++) {
-        let archivo = archivos[i];
-        
-        if (!validarImagen(archivo)) {
-            continue;
-        }
-        
-        let lector = new FileReader();
-        
-        lector.onload = (function(index) {
-            return function(e) {
-                let imgElement = document.getElementById("img" + (index + 1));
-                if (imgElement) {
-                    const imgData = e.target.result;
-                    imgElement.src = imgData;
-                    imagenesData[index] = imgData;
-                    imagenesCargadas++;
-                    
-                    if (imagenesCargadas === limite) {
-                        // Guardar en localStorage
-                        guardarEnLocalStorage('carrusel', imagenesData);
-                        mostrarMensaje(`✅ ¡${limite} imagen(es) guardadas en el carrusel!`);
+        const orden    = carruselData.length + i + 1;
+        const formData = new FormData();
+        formData.append('imagen', archivos[i]);
+        formData.append('tipo',   'carrusel');
+        formData.append('orden',  orden);
+
+        fetch(`${BASE}/guardar_galeria.php`, { method: "POST", body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    subidas++;
+                    if (subidas === limite) {
+                        mostrarToast(`${subidas} imagen(es) agregadas al carrusel`);
+                        cargarGaleria();
                     }
+                } else {
+                    mostrarToast(data.mensaje || "Error al subir", "error");
                 }
-            };
-        })(i);
-        
-        lector.onerror = function() {
-            mostrarMensaje('❌ Error al leer el archivo: ' + archivo.name, true);
-        };
-        
-        lector.readAsDataURL(archivo);
+            })
+            .catch(() => mostrarToast("Error de conexión", "error"));
     }
-});
-
-// ============================================
-// MANEJAR SUBIDA DE PROMOCIÓN (1 imagen)
-// ============================================
-document.getElementById("imgGrandeInput").addEventListener("change", function() {
-    let archivo = this.files[0];
-    
-    if (!archivo) {
-        return;
-    }
-    
-    if (!validarImagen(archivo)) {
-        return;
-    }
-    
-    let lector = new FileReader();
-    
-    lector.onload = function(e) {
-        let imgElement = document.getElementById("imgGrande");
-        if (imgElement) {
-            const imgData = e.target.result;
-            imgElement.src = imgData;
-            // Guardar en localStorage
-            guardarEnLocalStorage('promocion', imgData);
-            mostrarMensaje('✅ ¡Imagen de promoción guardada correctamente!');
-        }
-    };
-    
-    lector.onerror = function() {
-        mostrarMensaje('❌ Error al leer el archivo', true);
-    };
-    
-    lector.readAsDataURL(archivo);
-});
-
-// ============================================
-// DRAG & DROP PARA CARRUSEL
-// ============================================
-const carouselCards = document.querySelectorAll('.card');
-carouselCards.forEach((card, index) => {
-    card.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        card.style.borderColor = '#1f4f8b';
-    });
-    
-    card.addEventListener('dragleave', () => {
-        card.style.borderColor = 'transparent';
-    });
-    
-    card.addEventListener('drop', (e) => {
-        e.preventDefault();
-        card.style.borderColor = 'transparent';
-        
-        const files = e.dataTransfer.files;
-        if (files.length > 0 && modoActivo === 'carrusel') {
-            const file = files[0];
-            if (validarImagen(file)) {
-                const lector = new FileReader();
-                lector.onload = function(e) {
-                    const imgElement = document.getElementById(`img${index + 1}`);
-                    imgElement.src = e.target.result;
-                    
-                    // Actualizar localStorage
-                    const imagenesData = [];
-                    for (let i = 0; i < 4; i++) {
-                        const img = document.getElementById(`img${i + 1}`);
-                        if (img) {
-                            imagenesData[i] = img.src;
-                        }
-                    }
-                    guardarEnLocalStorage('carrusel', imagenesData);
-                    mostrarMensaje(`✅ Imagen ${index + 1} actualizada por drag & drop`);
-                };
-                lector.readAsDataURL(file);
-            }
-        }
-    });
-});
-
-// ============================================
-// DRAG & DROP PARA PROMOCIÓN
-// ============================================
-const bigPreview = document.querySelector('.big-preview');
-if (bigPreview) {
-    bigPreview.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        bigPreview.style.borderColor = '#1f4f8b';
-    });
-    
-    bigPreview.addEventListener('dragleave', () => {
-        bigPreview.style.borderColor = '#dee2e6';
-    });
-    
-    bigPreview.addEventListener('drop', (e) => {
-        e.preventDefault();
-        bigPreview.style.borderColor = '#dee2e6';
-        
-        const files = e.dataTransfer.files;
-        if (files.length > 0 && modoActivo === 'promocion') {
-            const file = files[0];
-            if (validarImagen(file)) {
-                const lector = new FileReader();
-                lector.onload = function(e) {
-                    const imgElement = document.getElementById('imgGrande');
-                    imgElement.src = e.target.result;
-                    guardarEnLocalStorage('promocion', e.target.result);
-                    mostrarMensaje('✅ Imagen de promoción actualizada por drag & drop');
-                };
-                lector.readAsDataURL(file);
-            }
-        }
-    });
 }
 
-// ============================================
-// NAVEGACIÓN
-// ============================================
-document.getElementById('menuDashboard')?.addEventListener('click', function() {
-    window.location.href = 'inicio_admin.html';
+// ============ SUBIR IMAGEN PROMOCIÓN ============
+function subirImagenPromocion(archivo) {
+    const formData = new FormData();
+    formData.append('imagen', archivo);
+    formData.append('tipo',   'promocion');
+    formData.append('orden',  1);
+
+    fetch(`${BASE}/guardar_galeria.php`, { method: "POST", body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                mostrarToast("Imagen de promoción guardada");
+                cargarGaleria();
+            } else {
+                mostrarToast(data.mensaje || "Error al subir", "error");
+            }
+        })
+        .catch(() => mostrarToast("Error de conexión", "error"));
+}
+
+// ============ CAMBIAR IMAGEN ============
+function cambiarImagen(id, archivo) {
+    const formData = new FormData();
+    formData.append('id',     id);
+    formData.append('imagen', archivo);
+
+    fetch(`${BASE}/cambiar_galeria.php`, { method: "POST", body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                mostrarToast("Imagen actualizada");
+                cargarGaleria();
+            } else {
+                mostrarToast(data.mensaje || "Error al cambiar", "error");
+            }
+        })
+        .catch(() => mostrarToast("Error de conexión", "error"));
+}
+
+// ============ ELIMINAR IMAGEN ============
+function eliminarImagen(id) {
+    if (!confirm("¿Está seguro de eliminar esta imagen?")) return;
+
+    fetch(`${BASE}/eliminar_galeria.php`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            mostrarToast("Imagen eliminada");
+            cargarGaleria();
+        } else {
+            mostrarToast(data.mensaje || "Error al eliminar", "error");
+        }
+    })
+    .catch(() => mostrarToast("Error de conexión", "error"));
+}
+
+// ============ DELEGACIÓN DE EVENTOS ============
+document.addEventListener('click', function(e) {
+
+    // Tabs modo
+    const modoBnt = e.target.closest('.modo-btn');
+    if (modoBnt) {
+        cambiarModo(modoBnt.dataset.modo);
+        return;
+    }
+
+    // Cambiar imagen carrusel individual
+    const btnCambiar = e.target.closest('.btn-cambiar-carrusel');
+    if (btnCambiar) {
+        imagenCambiandoId = parseInt(btnCambiar.dataset.id);
+        document.getElementById('cambiarInput').click();
+        return;
+    }
+
+    // Eliminar imagen carrusel
+    const btnEliminar = e.target.closest('.btn-eliminar-carrusel');
+    if (btnEliminar) {
+        eliminarImagen(parseInt(btnEliminar.dataset.id));
+        return;
+    }
 });
 
-document.getElementById('menuNoticias')?.addEventListener('click', function() {
-    window.location.href = 'avisos_noticias.html';
-});
+// ============ DOMCONTENTLOADED ============
+document.addEventListener('DOMContentLoaded', function() {
 
-document.getElementById('menuOferta')?.addEventListener('click', function() {
-    window.location.href = 'oferta_academica.html';
-});
+    // Subir múltiples imágenes carrusel
+    document.getElementById('btnSubirCarrusel')?.addEventListener('click', () => {
+        document.getElementById('carouselInput').click();
+    });
 
-document.getElementById('menuContacto')?.addEventListener('click', function() {
-    window.location.href = 'contacto.html';
-});
+    document.getElementById('carouselInput')?.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            subirImagenesCarrusel(this.files);
+            this.value = '';
+        }
+    });
 
-// ============================================
-// INICIALIZAR TODO AL CARGAR LA PÁGINA
-// ============================================
-document.addEventListener('DOMContentLoaded', () => {
-    // Cargar imágenes guardadas
-    cargarDesdeLocalStorage();
-    
-    // Prevenir comportamiento por defecto de drag & drop global
-    document.addEventListener('dragover', (e) => e.preventDefault());
-    document.addEventListener('drop', (e) => e.preventDefault());
+    // Cambiar imagen carrusel individual
+    document.getElementById('cambiarInput')?.addEventListener('change', function() {
+        if (this.files[0] && imagenCambiandoId) {
+            cambiarImagen(imagenCambiandoId, this.files[0]);
+            imagenCambiandoId = null;
+            this.value = '';
+        }
+    });
+
+    // Subir imagen promoción
+    document.getElementById('btnSubirPromocion')?.addEventListener('click', () => {
+        document.getElementById('imgGrandeInput').click();
+    });
+
+    document.getElementById('imgGrandeInput')?.addEventListener('change', function() {
+        if (this.files[0]) {
+            subirImagenPromocion(this.files[0]);
+            this.value = '';
+        }
+    });
+
+    // Cambiar imagen promoción
+    document.getElementById('cambiarPromoInput')?.addEventListener('change', function() {
+        if (this.files[0] && imagenCambiandoId) {
+            cambiarImagen(imagenCambiandoId, this.files[0]);
+            imagenCambiandoId = null;
+            this.value = '';
+        }
+    });
+
+    // Logo
+    document.getElementById('logoImage')?.addEventListener('click', () => {
+        document.getElementById('logoInput')?.click();
+    });
+
+    document.getElementById('logoInput')?.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = ev => document.getElementById('logoImage').src = ev.target.result;
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Navegación
+    document.getElementById('menuDashboard')?.addEventListener('click',  () => window.location.href = 'inicio_admin.html');
+    document.getElementById('menuNoticias')?.addEventListener('click',   () => window.location.href = 'avisos_noticias.html');
+    document.getElementById('menuOferta')?.addEventListener('click',     () => window.location.href = 'oferta_academica.html');
+    document.getElementById('menuContacto')?.addEventListener('click',   () => window.location.href = 'contacto.html');
+
+    // Drag & Drop carrusel
+    document.addEventListener('dragover', e => e.preventDefault());
+    document.addEventListener('drop',     e => e.preventDefault());
+
+    // Inicializar
+    cargarGaleria();
 });
