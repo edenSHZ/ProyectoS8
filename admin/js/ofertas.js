@@ -1,5 +1,5 @@
 const BASE    = "php";
-const UPLOADS = "uploads";
+const UPLOADS = "uploads/cursos/";
 
 let categorias       = [];
 let cursos           = [];
@@ -98,8 +98,8 @@ function renderizarCursos() {
                     <h3>${curso.nombre}</h3>
                     <div class="preview">
                         <img id="imgCurso${curso.id_curso}"
-                             src="${curso.imagen ? UPLOADS + curso.imagen : 'https://placehold.co/300x180'}"
-                             alt="${curso.nombre}">
+                            src="${curso.imagen ? UPLOADS + curso.imagen : 'https://placehold.co/300x180'}"
+                            alt="${curso.nombre}">
                     </div>
                     <div class="course-details">
                         <div class="detail-item">
@@ -414,21 +414,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         reader.readAsDataURL(file);
     });
-
-    // Logo
-    document.getElementById('logoImage')?.addEventListener('click', () => {
-        document.getElementById('logoInput')?.click();
-    });
-
-    document.getElementById('logoInput')?.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = ev => document.getElementById('logoImage').src = ev.target.result;
-            reader.readAsDataURL(file);
-        }
-    });
-
     // Navegación
     document.getElementById('menuDashboard')?.addEventListener('click',  () => window.location.href = 'inicio_admin.html');
     document.getElementById('menuNoticias')?.addEventListener('click',   () => window.location.href = 'avisos_noticias.html');
