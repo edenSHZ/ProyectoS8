@@ -1,6 +1,6 @@
 // ============ CONFIG Y ESTADO (globales) ============
 const BASE = "php";
-const UPLOADS = "../uploads/eventos/";
+const UPLOADS = "uploads/eventos/";
 
 let eventos = [];
 let eventosFiltrados = [];
