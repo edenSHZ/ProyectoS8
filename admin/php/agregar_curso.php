@@ -44,7 +44,7 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
         exit;
     }
 
-    $carpeta = "uploads/cursos/";
+    $carpeta = "../uploads/cursos/";
     if (!is_dir($carpeta)) mkdir($carpeta, 0755, true);
 
     $imagenNombre = uniqid() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
