@@ -1,0 +1,2 @@
+# Bloquear acceso directo a los PHP desde el navegador
+Options -Indexes

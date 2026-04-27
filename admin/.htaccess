@@ -1,0 +1,8 @@
+# Página principal
+DirectoryIndex index.html
+
+# Ocultar listado de archivos (seguridad básica)
+Options -Indexes
+
+# Redirigir errores
+ErrorDocument 404 /Pruebas/views/404.html
