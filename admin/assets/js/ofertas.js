@@ -1,5 +1,5 @@
-const BASE    = "/pruebas/api/ofertas";
-const UPLOADS = "/pruebas/uploads/cursos/";
+const BASE    = `${BASE_URL}/api/ofertas`;
+const UPLOADS = `${BASE_URL}/uploads/cursos/`;
 
 let categorias       = [];
 let cursos           = [];

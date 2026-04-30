@@ -1,6 +1,6 @@
 // ============ CONFIG Y ESTADO (globales) ============
-const BASE    = "/pruebas/api/eventos";
-const UPLOADS = "/pruebas/uploads/eventos/";
+const BASE    = `${BASE_URL}/api/eventos`;
+const UPLOADS = `${BASE_URL}/uploads/eventos/`;
 
 let eventos = [];
 let eventosFiltrados = [];
@@ -11,6 +11,36 @@ let nombreArchivoActual = '';
 let eventoEditandoId = null;
 let imagenEventoBase64 = null;
 let nombreImagenEvento = '';
+
+// ============ UTILIDAD XSS — ESCAPE HTML (global) ============
+/**
+ * Escapa caracteres especiales HTML para evitar XSS.
+ * Úsala SIEMPRE que insertes datos dinámicos en innerHTML o document.write.
+ */
+function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;')
+        .replace(/'/g,  '&#039;')
+        .replace(/\//g, '&#x2F;');
+}
+
+/**
+ * Escapa una URL para usarla de forma segura en atributos src/href.
+ * Bloquea esquemas peligrosos como javascript: o data:.
+ */
+function escapeUrl(url) {
+    if (!url) return '';
+    const trimmed = String(url).trim().toLowerCase();
+    if (trimmed.startsWith('javascript:') || trimmed.startsWith('data:')) return '';
+    return String(url)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
 // ============ UTILIDADES DE FECHA (global) ============
 function formatearFecha(fechaBD) {
@@ -52,28 +82,34 @@ function mostrarEventos() {
     const eventosPagina = eventosFiltrados.slice(inicio, fin);
 
     if (eventosPagina.length === 0) {
+        // ✅ Texto estático sin datos del usuario — seguro
         listaEventos.innerHTML = '<div class="no-events">No hay eventos disponibles</div>';
         actualizarPaginacion();
         return;
     }
 
+    // ✅ CORREGIDO: todos los datos dinámicos pasan por escapeHtml() / escapeUrl()
     listaEventos.innerHTML = eventosPagina.map(evento => `
-        <div class="event" data-id="${evento.id}">
+        <div class="event" data-id="${escapeHtml(evento.id)}">
             <div class="event-info">
                 <div class="event-title">
-                    ${evento.tipo_evento === 'noticia' ? '📰 ' : '📌 '}${evento.titulo}
-                    ${evento.imagen ? `<span class="event-attachment" onclick="verImagenEvento(${evento.id})">🖼️ Ver imagen</span>` : ''}
+                    ${evento.tipo_evento === 'noticia' ? '' : ' '}${escapeHtml(evento.titulo)}
+                    ${evento.imagen
+                        ? `<span class="event-attachment" onclick="verImagenEvento(${parseInt(evento.id)})">🖼️ Ver imagen</span>`
+                        : ''}
                 </div>
                 <div class="event-date">
-                    📅 ${evento.fechaDisplay} |
+                    📅 ${escapeHtml(evento.fechaDisplay)} |
                     Tipo: ${evento.tipo_evento === 'noticia' ? 'Noticia' : 'Evento'} |
-                    Estado: ${evento.estado === 'publicado' ? '✅ Publicado' : '📝 Borrador'}
+                    Estado: ${evento.estado === 'publicado' ? ' Publicado' : ' Borrador'}
                 </div>
-                ${evento.descripcion ? `<div class="event-desc">${evento.descripcion}</div>` : ''}
+                ${evento.descripcion
+                    ? `<div class="event-desc">${escapeHtml(evento.descripcion)}</div>`
+                    : ''}
             </div>
             <div class="actions">
-                <button class="icon-btn edit"   onclick="abrirModalEditar(${evento.id})">✏️</button>
-                <button class="icon-btn delete" onclick="eliminarEvento(${evento.id})">🗑️</button>
+                <button class="icon-btn edit"   onclick="abrirModalEditar(${parseInt(evento.id)})">✏️</button>
+                <button class="icon-btn delete" onclick="eliminarEvento(${parseInt(evento.id)})">🗑️</button>
             </div>
         </div>
     `).join('');
@@ -87,6 +123,7 @@ function actualizarPaginacion() {
     if (totalPaginas <= 1) { paginacionDiv.innerHTML = ''; return; }
     let html = '';
     for (let i = 1; i <= Math.min(totalPaginas, 10); i++) {
+        // ✅ Solo valores numéricos — seguros
         html += `<span class="page ${i === paginaActual ? 'active' : ''}" onclick="cambiarPagina(${i})">${i}</span>`;
     }
     paginacionDiv.innerHTML = html;
@@ -101,10 +138,11 @@ function cambiarPagina(pagina) {
 function mostrarToast(msg, tipo = "success") {
     const colores = { success: "#28a745", error: "#dc3545", warning: "#ffc107" };
     const toast = document.createElement('div');
+    // ✅ CORREGIDO: textContent en lugar de innerHTML — nunca interpreta HTML
     toast.textContent = msg;
     toast.style.cssText = `
         position:fixed; bottom:24px; right:24px; padding:12px 20px;
-        background:${colores[tipo]}; color:white; border-radius:8px;
+        background:${colores[tipo] ?? colores.success}; color:white; border-radius:8px;
         font-size:14px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);
         transition: opacity 0.4s;
     `;
@@ -119,10 +157,19 @@ function mostrarVistaPreviaEvento(src, nombre) {
     const nombreSpan  = document.getElementById('nombreImagenPreview');
     const nombreDiv   = document.getElementById('nombreImagenEvento');
     if (vistaPrevia && previewImg) {
-        previewImg.src = src;
-        nombreSpan.innerHTML = nombre.length > 25 ? nombre.substring(0, 22) + '...' : nombre;
+        // ✅ CORREGIDO: src validado con escapeUrl(); nombre con escapeHtml()
+        previewImg.src = escapeUrl(src);
+        const nombreCorto = nombre.length > 25 ? nombre.substring(0, 22) + '...' : nombre;
+        // ✅ textContent para el nombre del archivo
+        nombreSpan.textContent = nombreCorto;
         vistaPrevia.style.display = 'block';
-        if (nombreDiv) nombreDiv.innerHTML = `<span class="badge-file">✅ ${nombre}</span>`;
+        if (nombreDiv) {
+            nombreDiv.textContent = '';
+            const badge = document.createElement('span');
+            badge.className = 'badge-file';
+            badge.textContent = `✅ ${nombre}`;
+            nombreDiv.appendChild(badge);
+        }
     }
 }
 
@@ -145,12 +192,15 @@ function abrirModalEditar(id) {
 
     eventoEditandoId = id;
     document.getElementById('modalEvento').style.display = 'block';
-    document.getElementById('modalTitulo').innerText     = '✏️ Editar Evento';
-    document.getElementById('eventoTitulo').value        = evento.titulo;
-    document.getElementById('eventoDescripcion').value   = evento.descripcion || '';
+    document.getElementById('modalTitulo').innerText     = 'Editar Evento';
+
+    // ✅ Se asigna con .value — el navegador no interpreta HTML en inputs, pero
+    //    es buena práctica y queda explícito que los datos vienen de BD.
+    document.getElementById('eventoTitulo').value        = evento.titulo ?? '';
+    document.getElementById('eventoDescripcion').value   = evento.descripcion ?? '';
     document.getElementById('eventoFecha').value         = formatearFecha(evento.fecha);
-    document.getElementById('eventoTipo').value          = evento.tipo_evento || 'evento';
-    document.getElementById('eventoEstado').value        = evento.estado || 'borrador';
+    document.getElementById('eventoTipo').value          = evento.tipo_evento ?? 'evento';
+    document.getElementById('eventoEstado').value        = evento.estado ?? 'borrador';
 
     if (evento.imagen) {
         imagenEventoBase64 = null;
@@ -185,23 +235,58 @@ function verImagenEvento(id) {
     id = parseInt(id);
     const evento = eventos.find(e => e.id === id);
     if (!evento || !evento.imagen) { mostrarToast("No hay imagen", "warning"); return; }
-    const ventana = window.open();
-    ventana.document.write(`
-        <html><head><title>${evento.titulo}</title>
-        <style>
-            body { display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; background:#1a1a2e; }
-            img  { max-width:90%; max-height:85vh; border-radius:10px; box-shadow:0 4px 20px rgba(0,0,0,0.5); }
-            .title { color:white; text-align:center; margin-top:15px; font-family:Arial; font-size:18px; }
-            .close-btn { position:fixed; top:20px; right:30px; background:red; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; font-size:16px; }
-        </style></head>
-        <body>
-            <button class="close-btn" onclick="window.close()">Cerrar</button>
-            <div>
-                <img src="${UPLOADS + evento.imagen}" alt="${evento.titulo}">
-                <div class="title">📌 ${evento.titulo}</div>
-            </div>
-        </body></html>
-    `);
+
+    // ✅ CORREGIDO: se construye el DOM de la ventana con APIs seguras
+    //    en lugar de document.write() con template literals sin escapar.
+    const ventana = window.open('', '_blank');
+    if (!ventana) { mostrarToast("El navegador bloqueó la ventana emergente", "warning"); return; }
+
+    const doc = ventana.document;
+    doc.open();
+    doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
+    doc.close();
+
+    // Estilos
+    const style = doc.createElement('style');
+    style.textContent = `
+        body { display:flex; justify-content:center; align-items:center;
+               flex-direction:column; min-height:100vh; margin:0; background:#1a1a2e; }
+        img  { max-width:90%; max-height:85vh; border-radius:10px;
+               box-shadow:0 4px 20px rgba(0,0,0,0.5); }
+        .title { color:white; text-align:center; margin-top:15px;
+                 font-family:Arial; font-size:18px; }
+        .close-btn { position:fixed; top:20px; right:30px; background:red; color:white;
+                     border:none; padding:10px 20px; border-radius:5px;
+                     cursor:pointer; font-size:16px; }
+    `;
+    doc.head.appendChild(style);
+
+    // Título de pestaña — textContent, nunca innerHTML
+    doc.title = evento.titulo;
+
+    // Botón cerrar
+    const btn = doc.createElement('button');
+    btn.className = 'close-btn';
+    btn.textContent = 'Cerrar';
+    btn.onclick = () => ventana.close();
+    doc.body.appendChild(btn);
+
+    // Contenedor
+    const wrapper = doc.createElement('div');
+
+    // Imagen — src y alt asignados como propiedades, no como HTML
+    const img = doc.createElement('img');
+    img.src = UPLOADS + evento.imagen;   // la URL viene de nuestra BD/servidor
+    img.alt = evento.titulo;             // .alt = asignación de propiedad, segura
+    wrapper.appendChild(img);
+
+    // Título
+    const title = doc.createElement('div');
+    title.className = 'title';
+    title.textContent = evento.titulo;   // ✅ textContent — nunca interpreta HTML
+    wrapper.appendChild(title);
+
+    doc.body.appendChild(wrapper);
 }
 
 // ============ DOMCONTENTLOADED ============
@@ -217,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function abrirModalEvento() {
         eventoEditandoId = null;
         document.getElementById('modalEvento').style.display = 'block';
-        document.getElementById('modalTitulo').innerText     = '➕ Agregar Nuevo Evento';
+        document.getElementById('modalTitulo').innerText     = ' Agregar Nuevo Evento';
         document.getElementById('eventoTitulo').value        = '';
         document.getElementById('eventoDescripcion').value   = '';
         document.getElementById('eventoFecha').value         = '';
@@ -295,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         const formData = new FormData();
         formData.append('archivo', archivoInput.files[0]);
-        fetch(`/pruebas/api/eventos/guardar_calendario.php`, { method: "POST", body: formData })
+        fetch(`${BASE}/guardar_calendario.php`, { method: "POST", body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
@@ -318,7 +403,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         nombreArchivoActual = file.name;
-        document.getElementById('nombreArchivo').innerHTML = `<span class="badge-file"> ${nombreArchivoActual}</span>`;
+        // ✅ CORREGIDO: textContent en lugar de innerHTML para el nombre del archivo
+        const span = document.createElement('span');
+        span.className = 'badge-file';
+        span.textContent = ` ${nombreArchivoActual}`;
+        const nombreDiv = document.getElementById('nombreArchivo');
+        nombreDiv.innerHTML = '';
+        nombreDiv.appendChild(span);
     });
 
     document.getElementById('optionEventoImage')?.addEventListener('click', () => {

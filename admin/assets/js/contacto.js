@@ -1,4 +1,4 @@
-const BASE = "/pruebas/api/contacto";
+const BASE    = `${BASE_URL}/api/contacto`;
 let mensajes = [];
 
 // ============ TOAST ============

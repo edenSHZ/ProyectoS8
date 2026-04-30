@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ============ PROTEGER DASHBOARD ============
-    fetch("/pruebas/api/config/verificar_sesion.php", { credentials: "include" })
+    fetch(`${BASE_URL}/api/config/verificar_sesion.php`, { credentials: "include" })
         .then(res => res.json())
         .then(data => {
-            if (!data.logueado) window.location.href = "index.html";
+            if (!data.logueado) window.location.href = `${BASE_URL}/index.html`;
         });
 
     // ============ MOSTRAR EMAIL ============
-    fetch("/pruebas/api/config/obtener_admin.php", { credentials: "include" })
+    fetch(`${BASE_URL}/api/config/obtener_admin.php`, { credentials: "include" })
         .then(res => res.json())
         .then(data => {
             const userEl = document.getElementById("userEmail");
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     // ============ CARGAR DATOS DASHBOARD ============
-    fetch("/pruebas/api/config/obtener_dashboard.php", { credentials: "include" })
+    fetch(`${BASE_URL}/api/config/obtener_dashboard.php`, { credentials: "include" })
         .then(res => res.json())
         .then(data => {
 
@@ -67,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("logoutBtn");
     if (logoutBtn) {
         logoutBtn.addEventListener("click", async () => {
-            await fetch("/pruebas/logout.php", { method: "POST", credentials: "include" });
-            window.location.href = "/pruebas/index.html";
+            await fetch(`${BASE_URL}/logout.php`, { method: "POST", credentials: "include" });
+            window.location.href = `${BASE_URL}/index.html`;
         });
     }
 
@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(tiempoInactividad);
         tiempoInactividad = setTimeout(() => {
             alert("Sesión cerrada por inactividad");
-            fetch("/pruebas/logout.php", { credentials: "include" })
-                .then(() => window.location.href = "/pruebas/index.html");
+            fetch(`${BASE_URL}/logout.php`, { credentials: "include" })
+                .then(() => window.location.href = `${BASE_URL}/index.html`);
         }, 300000);
     }
     document.onmousemove = resetTimer;

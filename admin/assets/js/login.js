@@ -1,7 +1,7 @@
-const loginForm    = document.getElementById('loginForm');
-const emailInput   = document.getElementById('email');
-const passwordInput= document.getElementById('password');
-const errorMessage = document.getElementById('errorMessage');
+const loginForm     = document.getElementById('loginForm');
+const emailInput    = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const errorMessage  = document.getElementById('errorMessage');
 
 // MOSTRAR ERROR
 function showError(msg) {
@@ -16,11 +16,11 @@ function validateEmail(email) {
 }
 
 // VERIFICAR SESIÓN AL CARGAR
-fetch("api/config/verificar_sesion.php", { credentials: "include" })
+fetch(`${BASE_URL}/api/config/verificar_sesion.php`, { credentials: "include" })
     .then(res => res.json())
     .then(data => {
         if (data.logueado) {
-            window.location.href = "/pruebas/views/inicio_admin.html";
+            window.location.href = `${BASE_URL}/views/inicio_admin.html`;
         }
     })
     .catch(() => {});
@@ -46,7 +46,7 @@ loginForm.addEventListener('submit', function(e) {
     btn.textContent = "Verificando...";
     btn.disabled    = true;
 
-    fetch("/pruebas/login.php", {
+    fetch(`${BASE_URL}/login.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -54,10 +54,10 @@ loginForm.addEventListener('submit', function(e) {
     .then(res => res.json())
     .then(data => {
         if (data.status === "success") {
-            btn.textContent   = "Ingresando...";
+            btn.textContent      = "Ingresando...";
             btn.style.background = "#28a745";
             setTimeout(() => {
-                window.location.href = "/pruebas/views/inicio_admin.html";
+                window.location.href = `${BASE_URL}/views/inicio_admin.html`;
             }, 800);
         } else {
             showError(data.message);

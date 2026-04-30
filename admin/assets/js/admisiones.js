@@ -1,5 +1,5 @@
-const BASE    = "/pruebas/api/admisiones";
-const UPLOADS = "/pruebas/uploads/galeria/";
+const BASE    = `${BASE_URL}/api/admisiones`;
+const UPLOADS = `${BASE_URL}/uploads/galeria/`;
 
 let modoActivo      = 'carrusel';
 let imagenCambiandoId = null;

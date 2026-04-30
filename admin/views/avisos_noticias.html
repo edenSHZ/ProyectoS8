@@ -37,7 +37,7 @@
             <input type="text" class="search" placeholder="Buscar eventos..." id="buscador">
             <div style="display: flex; gap: 10px;">
                 <button class="btn" id="btnAgregarEvento">+ Agregar evento</button>
-                <button class="btn" id="btnAgregarCalendario">📅 Agregar calendario</button>
+                <button class="btn" id="btnAgregarCalendario">Agregar calendario</button>
             </div>
         </div>
 
@@ -78,13 +78,13 @@
                 <div class="form-group">
                     <label>Estado</label>
                     <select id="eventoEstado">
-                        <option value="borrador">📝 Borrador</option>
-                        <option value="publicado">✅ Publicado</option>
+                        <option value="borrador">Borrador</option>
+                        <option value="publicado">Publicado</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Imagen (opcional)</label>
-                    <button type="button" class="btn-subir-imagen" id="optionEventoImage">🖼️ Subir imagen</button>
+                    <button type="button" class="btn-subir-imagen" id="optionEventoImage">Subir imagen</button>
                     <input type="file" id="archivoEvento" class="file-input-hidden" accept="image/*">
                     <div id="nombreImagenEvento" class="file-name"></div>
                     <div id="vistaPreviaEvento" style="display: none; margin-top: 10px;">
@@ -100,8 +100,8 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-modal btn-cancel"     id="cancelModalEvento">Cancelar</button>
-                <button class="btn-modal btn-save-draft" id="saveBorradorEvento">📝 Guardar Borrador</button>
-                <button class="btn-modal btn-save"       id="saveModalEvento">✅ Publicar</button>
+                <button class="btn-modal btn-save-draft" id="saveBorradorEvento">Guardar Borrador</button>
+                <button class="btn-modal btn-save"       id="saveModalEvento">Publicar</button>
             </div>
         </div>
     </div>
@@ -110,13 +110,13 @@
     <div id="modalCalendario" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>📅 Subir Calendario</h3>
+                <h3>Subir Calendario</h3>
                 <span class="close-modal" id="closeModalCalendario">&times;</span>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>Archivo PDF *</label>
-                    <button type="button" class="btn-subir-imagen" id="btnSeleccionarPDF">📄 Subir PDF</button>
+                    <button type="button" class="btn-subir-imagen" id="btnSeleccionarPDF">Subir PDF</button>
                     <input type="file" id="archivoCalendario" class="file-input-hidden" accept=".pdf">
                     <div id="nombreArchivo" class="file-name"></div>
                     <small style="color: #666;">* Solo se permiten archivos PDF</small>
@@ -128,7 +128,7 @@
             </div>
         </div>
     </div>
-
+    <script src="../assets/js/config.js"></script>
     <script src="../assets/js/avisos.js"></script>
 </body>
 </html>

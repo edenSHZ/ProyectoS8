@@ -5,4 +5,4 @@ DirectoryIndex index.html
 Options -Indexes
 
 # Redirigir errores
-ErrorDocument 404 /Pruebas/views/404.html
+ErrorDocument 404 /proyectoinstituto/views/404.html
