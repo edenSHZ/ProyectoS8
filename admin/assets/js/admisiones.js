@@ -1,10 +1,32 @@
 const BASE    = `${BASE_URL}/api/admisiones`;
 const UPLOADS = `${BASE_URL}/uploads/galeria/`;
 
-let modoActivo      = 'carrusel';
+let modoActivo        = 'carrusel';
 let imagenCambiandoId = null;
-let carruselData    = [];
-let promocionData   = null;
+let carruselData      = [];
+let promocionData     = null;
+
+// ============ ESCAPE XSS ============
+function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;')
+        .replace(/'/g,  '&#039;')
+        .replace(/\//g, '&#x2F;');
+}
+
+function escapeUrl(url) {
+    if (!url) return '';
+    const trimmed = String(url).trim().toLowerCase();
+    if (trimmed.startsWith('javascript:') || trimmed.startsWith('data:')) return '';
+    return String(url)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
 // ============ TOAST ============
 function mostrarToast(msg, tipo = "success") {
@@ -13,7 +35,7 @@ function mostrarToast(msg, tipo = "success") {
     toast.textContent = msg;
     toast.style.cssText = `
         position:fixed; bottom:24px; right:24px; padding:12px 20px;
-        background:${colores[tipo]}; color:white; border-radius:8px;
+        background:${colores[tipo] ?? colores.success}; color:white; border-radius:8px;
         font-size:14px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);
         transition: opacity 0.4s;
     `;
@@ -33,7 +55,9 @@ function cambiarModo(modo) {
 
 // ============ CARGAR GALERÍA ============
 function cargarGaleria() {
-    fetch(`${BASE}/obtener_galeria.php`)
+    fetch(`${BASE}/obtener_galeria.php`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+    })
         .then(res => res.json())
         .then(data => {
             if (Array.isArray(data)) {
@@ -55,18 +79,19 @@ function renderizarCarrusel() {
         return;
     }
 
+    // ✅ IDs como enteros, URLs con escapeUrl
     grid.innerHTML = `
         <div class="carousel">
             ${carruselData.map(img => `
-                <div class="card" data-id="${img.id}">
-                    <img src="${UPLOADS + img.imagen}" alt="Imagen carrusel ${img.orden}"
+                <div class="card" data-id="${parseInt(img.id)}">
+                    <img src="${escapeUrl(UPLOADS + img.imagen)}" alt="Imagen carrusel ${parseInt(img.orden)}"
                         style="width:100%;height:160px;object-fit:cover;border-radius:8px;">
                     <div style="display:flex;gap:6px;margin-top:8px;justify-content:center;">
-                        <button class="btn-cambiar-carrusel" data-id="${img.id}"
+                        <button class="btn-cambiar-carrusel" data-id="${parseInt(img.id)}"
                                 style="background:#1f4f8b;color:white;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;">
                             Cambiar
                         </button>
-                        <button class="btn-eliminar-carrusel" data-id="${img.id}"
+                        <button class="btn-eliminar-carrusel" data-id="${parseInt(img.id)}"
                                 style="background:#dc3545;color:white;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;">
                             Eliminar
                         </button>
@@ -89,30 +114,44 @@ function renderizarPromocion() {
     }
 
     btnSubir.style.display = 'none';
-    container.innerHTML = `
-        <div style="position:relative;display:inline-block;width:100%;">
-            <img src="${UPLOADS + promocionData.imagen}" alt="Promoción"
-                style="width:100%;max-height:300px;object-fit:cover;border-radius:12px;">
-            <div style="display:flex;gap:8px;margin-top:10px;justify-content:center;">
-                <button id="btnCambiarPromo"
-                        style="background:#1f4f8b;color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;">
-                    Cambiar imagen
-                </button>
-                <button id="btnEliminarPromo" data-id="${promocionData.id}"
-                        style="background:#dc3545;color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;">
-                    Eliminar imagen
-                </button>
-            </div>
-        </div>
-    `;
 
-    // Listeners de promoción
-    document.getElementById('btnCambiarPromo')?.addEventListener('click', () => {
+    // ✅ Construido con DOM API — sin innerHTML con datos dinámicos
+    container.innerHTML = '';
+
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'position:relative;display:inline-block;width:100%;';
+
+    const img = document.createElement('img');
+    img.src   = escapeUrl(UPLOADS + promocionData.imagen);
+    img.alt   = 'Promoción';
+    img.style.cssText = 'width:100%;max-height:300px;object-fit:cover;border-radius:12px;';
+    wrapper.appendChild(img);
+
+    const btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:8px;margin-top:10px;justify-content:center;';
+
+    const btnCambiar = document.createElement('button');
+    btnCambiar.id = 'btnCambiarPromo';
+    btnCambiar.textContent = 'Cambiar imagen';
+    btnCambiar.style.cssText = 'background:#1f4f8b;color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;';
+
+    const btnEliminar = document.createElement('button');
+    btnEliminar.id = 'btnEliminarPromo';
+    btnEliminar.dataset.id = parseInt(promocionData.id);
+    btnEliminar.textContent = 'Eliminar imagen';
+    btnEliminar.style.cssText = 'background:#dc3545;color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;';
+
+    btnRow.appendChild(btnCambiar);
+    btnRow.appendChild(btnEliminar);
+    wrapper.appendChild(btnRow);
+    container.appendChild(wrapper);
+
+    btnCambiar.addEventListener('click', () => {
         imagenCambiandoId = promocionData.id;
         document.getElementById('cambiarPromoInput').click();
     });
 
-    document.getElementById('btnEliminarPromo')?.addEventListener('click', () => {
+    btnEliminar.addEventListener('click', () => {
         eliminarImagen(promocionData.id);
     });
 }
@@ -136,7 +175,11 @@ function subirImagenesCarrusel(archivos) {
         formData.append('tipo',   'carrusel');
         formData.append('orden',  orden);
 
-        fetch(`${BASE}/guardar_galeria.php`, { method: "POST", body: formData })
+        fetch(`${BASE}/guardar_galeria.php`, {
+            method: "POST",
+            headers: { "X-Requested-With": "XMLHttpRequest" }, // ✅
+            body: formData
+        })
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
@@ -160,7 +203,11 @@ function subirImagenPromocion(archivo) {
     formData.append('tipo',   'promocion');
     formData.append('orden',  1);
 
-    fetch(`${BASE}/admisiones/guardar_galeria.php`, { method: "POST", body: formData })
+    fetch(`${BASE}/guardar_galeria.php`, {
+        method: "POST",
+        headers: { "X-Requested-With": "XMLHttpRequest" }, // ✅ — también se corrigió la URL (tenía /admisiones/ duplicado)
+        body: formData
+    })
         .then(res => res.json())
         .then(data => {
             if (data.status === "success") {
@@ -179,7 +226,11 @@ function cambiarImagen(id, archivo) {
     formData.append('id',     id);
     formData.append('imagen', archivo);
 
-    fetch(`${BASE}/cambiar_galeria.php`, { method: "POST", body: formData })
+    fetch(`${BASE}/cambiar_galeria.php`, {
+        method: "POST",
+        headers: { "X-Requested-With": "XMLHttpRequest" }, // ✅
+        body: formData
+    })
         .then(res => res.json())
         .then(data => {
             if (data.status === "success") {
@@ -196,9 +247,12 @@ function cambiarImagen(id, archivo) {
 function eliminarImagen(id) {
     if (!confirm("¿Está seguro de eliminar esta imagen?")) return;
 
-    fetch(`${BASE}/admisiones/eliminar_galeria.php`, {
+    fetch(`${BASE}/eliminar_galeria.php`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest" // ✅ — también se corrigió la URL (tenía /admisiones/ duplicado)
+        },
         body: JSON.stringify({ id })
     })
     .then(res => res.json())
@@ -216,14 +270,12 @@ function eliminarImagen(id) {
 // ============ DELEGACIÓN DE EVENTOS ============
 document.addEventListener('click', function(e) {
 
-    // Tabs modo
     const modoBnt = e.target.closest('.modo-btn');
     if (modoBnt) {
         cambiarModo(modoBnt.dataset.modo);
         return;
     }
 
-    // Cambiar imagen carrusel individual
     const btnCambiar = e.target.closest('.btn-cambiar-carrusel');
     if (btnCambiar) {
         imagenCambiandoId = parseInt(btnCambiar.dataset.id);
@@ -231,7 +283,6 @@ document.addEventListener('click', function(e) {
         return;
     }
 
-    // Eliminar imagen carrusel
     const btnEliminar = e.target.closest('.btn-eliminar-carrusel');
     if (btnEliminar) {
         eliminarImagen(parseInt(btnEliminar.dataset.id));
@@ -242,7 +293,6 @@ document.addEventListener('click', function(e) {
 // ============ DOMCONTENTLOADED ============
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Subir múltiples imágenes carrusel
     document.getElementById('btnSubirCarrusel')?.addEventListener('click', () => {
         document.getElementById('carouselInput').click();
     });
@@ -254,7 +304,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Cambiar imagen carrusel individual
     document.getElementById('cambiarInput')?.addEventListener('change', function() {
         if (this.files[0] && imagenCambiandoId) {
             cambiarImagen(imagenCambiandoId, this.files[0]);
@@ -263,7 +312,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Subir imagen promoción
     document.getElementById('btnSubirPromocion')?.addEventListener('click', () => {
         document.getElementById('imgGrandeInput').click();
     });
@@ -275,7 +323,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Cambiar imagen promoción
     document.getElementById('cambiarPromoInput')?.addEventListener('change', function() {
         if (this.files[0] && imagenCambiandoId) {
             cambiarImagen(imagenCambiandoId, this.files[0]);
@@ -284,16 +331,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Navegación
     document.getElementById('menuDashboard')?.addEventListener('click',  () => window.location.href = 'inicio_admin.html');
     document.getElementById('menuNoticias')?.addEventListener('click',   () => window.location.href = 'avisos_noticias.html');
     document.getElementById('menuOferta')?.addEventListener('click',     () => window.location.href = 'oferta_academica.html');
     document.getElementById('menuContacto')?.addEventListener('click',   () => window.location.href = 'contacto.html');
 
-    // Drag & Drop carrusel
     document.addEventListener('dragover', e => e.preventDefault());
     document.addEventListener('drop',     e => e.preventDefault());
 
-    // Inicializar
     cargarGaleria();
 });

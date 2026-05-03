@@ -1,2 +1,20 @@
-# Bloquear acceso directo a los PHP desde el navegador
+# Ocultar listado de archivos
 Options -Indexes
+
+# Bloquear acceso directo a todos los PHP desde el navegador.
+# Solo se permiten peticiones que vengan del mismo servidor (fetch/XMLHttpRequest).
+# Si no viene el header X-Requested-With, se rechaza con 403.
+RewriteEngine On
+RewriteCond %{HTTP:X-Requested-With} !XMLHttpRequest [NC]
+RewriteRule \.php$ - [F,L]
+
+# Bloquear acceso a archivos de configuración sensibles por si acaso
+<FilesMatch "\.(env|json|sql|log|ini|sh|bak)$">
+    Require all denied
+</FilesMatch>
+
+# Limitar tamaño máximo de subida — protección DoS
+php_value upload_max_filesize 2M
+php_value post_max_size 3M
+php_value max_execution_time 30
+php_value memory_limit 64M

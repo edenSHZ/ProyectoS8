@@ -2,9 +2,12 @@
 include "../config/conexion.php";
 include "../config/auth_check.php";
 
-header("Content-Type: application/json");
+header("Content-Type: application/json; charset=UTF-8");
 
-$sql = "SELECT c.*, cat.nombre as categoria_nombre 
+// ✅ SELECT explícito — no usar SELECT * para evitar traer columnas innecesarias
+$sql = "SELECT c.id_curso, c.id_categoria, c.nombre, c.descripcion,
+               c.imagen, c.duracion, c.horario, c.requisitos,
+               cat.nombre AS categoria_nombre
         FROM CURSO c
         JOIN CATEGORIA_CURSO cat ON c.id_categoria = cat.id_categoria
         WHERE cat.activo = TRUE
@@ -13,25 +16,29 @@ $sql = "SELECT c.*, cat.nombre as categoria_nombre
 $result = $conn->query($sql);
 
 if (!$result) {
+    error_log("Error al consultar cursos: " . $conn->error);
     echo json_encode(["status" => "error", "mensaje" => "Error al consultar"]);
     exit;
 }
 
 $cursos = [];
 while ($row = $result->fetch_assoc()) {
+    //    Sin htmlspecialchars — los datos van en JSON, no en HTML.
+    //    json_encode() escapa correctamente para JSON.
+    //    El escape XSS se hace en el JS al insertar en el DOM con escapeHtml().
     $cursos[] = [
-        "id_curso"          => (int) $row['id_curso'],
-        "id_categoria"      => (int) $row['id_categoria'],
-        "categoria_nombre"  => htmlspecialchars($row['categoria_nombre'], ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-        "nombre"            => htmlspecialchars($row['nombre'],           ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-        "descripcion"       => htmlspecialchars($row['descripcion'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-        "imagen"            => $row['imagen'] ? htmlspecialchars($row['imagen'], ENT_QUOTES | ENT_HTML5, 'UTF-8') : null,
-        "duracion"          => htmlspecialchars($row['duracion']   ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-        "horario"           => htmlspecialchars($row['horario']    ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-        "requisitos"        => htmlspecialchars($row['requisitos'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+        "id_curso"         => (int) $row['id_curso'],
+        "id_categoria"     => (int) $row['id_categoria'],
+        "categoria_nombre" => $row['categoria_nombre'],
+        "nombre"           => $row['nombre'],
+        "descripcion"      => $row['descripcion']  ?? '',
+        "imagen"           => $row['imagen']        ?: null,
+        "duracion"         => $row['duracion']      ?? '',
+        "horario"          => $row['horario']       ?? '',
+        "requisitos"       => $row['requisitos']    ?? '',
     ];
 }
 
-echo json_encode($cursos);
+echo json_encode($cursos, JSON_UNESCAPED_UNICODE);
 $conn->close();
 ?>

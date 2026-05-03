@@ -13,10 +13,6 @@ let imagenEventoBase64 = null;
 let nombreImagenEvento = '';
 
 // ============ UTILIDAD XSS — ESCAPE HTML (global) ============
-/**
- * Escapa caracteres especiales HTML para evitar XSS.
- * Úsala SIEMPRE que insertes datos dinámicos en innerHTML o document.write.
- */
 function escapeHtml(str) {
     if (str === null || str === undefined) return '';
     return String(str)
@@ -28,10 +24,6 @@ function escapeHtml(str) {
         .replace(/\//g, '&#x2F;');
 }
 
-/**
- * Escapa una URL para usarla de forma segura en atributos src/href.
- * Bloquea esquemas peligrosos como javascript: o data:.
- */
 function escapeUrl(url) {
     if (!url) return '';
     const trimmed = String(url).trim().toLowerCase();
@@ -52,7 +44,9 @@ function formatearFecha(fechaBD) {
 
 // ============ CARGAR EVENTOS (global) ============
 function cargarEventos() {
-    fetch(`${BASE}/obtener_evento.php`)
+    fetch(`${BASE}/obtener_evento.php`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
         .then(res => res.json())
         .then(data => {
             if (Array.isArray(data)) {
@@ -82,13 +76,11 @@ function mostrarEventos() {
     const eventosPagina = eventosFiltrados.slice(inicio, fin);
 
     if (eventosPagina.length === 0) {
-        // ✅ Texto estático sin datos del usuario — seguro
         listaEventos.innerHTML = '<div class="no-events">No hay eventos disponibles</div>';
         actualizarPaginacion();
         return;
     }
 
-    // ✅ CORREGIDO: todos los datos dinámicos pasan por escapeHtml() / escapeUrl()
     listaEventos.innerHTML = eventosPagina.map(evento => `
         <div class="event" data-id="${escapeHtml(evento.id)}">
             <div class="event-info">
@@ -123,7 +115,6 @@ function actualizarPaginacion() {
     if (totalPaginas <= 1) { paginacionDiv.innerHTML = ''; return; }
     let html = '';
     for (let i = 1; i <= Math.min(totalPaginas, 10); i++) {
-        // ✅ Solo valores numéricos — seguros
         html += `<span class="page ${i === paginaActual ? 'active' : ''}" onclick="cambiarPagina(${i})">${i}</span>`;
     }
     paginacionDiv.innerHTML = html;
@@ -138,7 +129,6 @@ function cambiarPagina(pagina) {
 function mostrarToast(msg, tipo = "success") {
     const colores = { success: "#28a745", error: "#dc3545", warning: "#ffc107" };
     const toast = document.createElement('div');
-    // ✅ CORREGIDO: textContent en lugar de innerHTML — nunca interpreta HTML
     toast.textContent = msg;
     toast.style.cssText = `
         position:fixed; bottom:24px; right:24px; padding:12px 20px;
@@ -157,17 +147,15 @@ function mostrarVistaPreviaEvento(src, nombre) {
     const nombreSpan  = document.getElementById('nombreImagenPreview');
     const nombreDiv   = document.getElementById('nombreImagenEvento');
     if (vistaPrevia && previewImg) {
-        // ✅ CORREGIDO: src validado con escapeUrl(); nombre con escapeHtml()
         previewImg.src = escapeUrl(src);
         const nombreCorto = nombre.length > 25 ? nombre.substring(0, 22) + '...' : nombre;
-        // ✅ textContent para el nombre del archivo
         nombreSpan.textContent = nombreCorto;
         vistaPrevia.style.display = 'block';
         if (nombreDiv) {
             nombreDiv.textContent = '';
             const badge = document.createElement('span');
             badge.className = 'badge-file';
-            badge.textContent = `✅ ${nombre}`;
+            badge.textContent = `${nombre}`;
             nombreDiv.appendChild(badge);
         }
     }
@@ -184,6 +172,103 @@ function ocultarVistaPreviaEvento() {
     nombreImagenEvento = '';
 }
 
+// ============ CALENDARIOS ============
+
+// Cargar listado de calendarios desde la BD
+function cargarCalendarios() {
+    const lista = document.getElementById('listaCalendarios');
+    if (!lista) return;
+    lista.innerHTML = '<p class="calendarios-cargando">Cargando...</p>';
+
+    fetch(`${BASE}/obtener_calendarios.php`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (Array.isArray(data)) {
+                renderizarCalendarios(data);
+            } else {
+                lista.innerHTML = '<p class="calendarios-vacio">Error al cargar.</p>';
+            }
+        })
+        .catch(() => {
+            lista.innerHTML = '<p class="calendarios-vacio">Error de conexión.</p>';
+        });
+}
+
+// Renderizar el listado — todos los datos escapados con escapeHtml / escapeUrl
+function renderizarCalendarios(data) {
+    const lista = document.getElementById('listaCalendarios');
+    if (!lista) return;
+
+    if (data.length === 0) {
+        lista.innerHTML = '<p class="calendarios-vacio">No hay calendarios subidos.</p>';
+        return;
+    }
+
+    //  Construido con DOM API — sin innerHTML con datos dinámicos
+    lista.innerHTML = '';
+    data.forEach(cal => {
+        const item = document.createElement('div');
+        item.className = 'calendario-item';
+
+        const info = document.createElement('div');
+        info.className = 'calendario-item-info';
+
+        const nombre = document.createElement('span');
+        nombre.className = 'calendario-item-nombre';
+        nombre.title = cal.archivo;
+        //  textContent — nunca interpreta HTML
+        nombre.textContent = '📄 ' + cal.archivo;
+
+        const fecha = document.createElement('span');
+        fecha.className = 'calendario-item-fecha';
+        fecha.textContent = 'Subido: ' + formatearFecha(cal.created_at);
+
+        info.appendChild(nombre);
+        info.appendChild(fecha);
+
+        const btnEliminar = document.createElement('button');
+        btnEliminar.className = 'btn-eliminar-calendario';
+        btnEliminar.textContent = '🗑️ Eliminar';
+        btnEliminar.dataset.id = parseInt(cal.id);
+
+        item.appendChild(info);
+        item.appendChild(btnEliminar);
+        lista.appendChild(item);
+    });
+
+    // Delegación de eventos para botones de eliminar
+    lista.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-eliminar-calendario');
+        if (btn) eliminarCalendario(parseInt(btn.dataset.id));
+    }, { once: true }); // once:true evita acumular listeners en cada recarga
+}
+
+// Eliminar calendario
+function eliminarCalendario(id) {
+    if (!confirm("¿Está seguro de eliminar este calendario?")) return;
+
+    fetch(`${BASE}/eliminar_calendario.php`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({ id })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            mostrarToast("Calendario eliminado");
+            cargarCalendarios(); // recargar el listado
+        } else {
+            mostrarToast(data.mensaje || "Error al eliminar", "error");
+        }
+    })
+    .catch(() => mostrarToast("Error de conexión", "error"));
+}
+
 // ============ FUNCIONES GLOBALES ============
 function abrirModalEditar(id) {
     id = parseInt(id);
@@ -193,9 +278,6 @@ function abrirModalEditar(id) {
     eventoEditandoId = id;
     document.getElementById('modalEvento').style.display = 'block';
     document.getElementById('modalTitulo').innerText     = 'Editar Evento';
-
-    // ✅ Se asigna con .value — el navegador no interpreta HTML en inputs, pero
-    //    es buena práctica y queda explícito que los datos vienen de BD.
     document.getElementById('eventoTitulo').value        = evento.titulo ?? '';
     document.getElementById('eventoDescripcion').value   = evento.descripcion ?? '';
     document.getElementById('eventoFecha').value         = formatearFecha(evento.fecha);
@@ -216,7 +298,10 @@ function eliminarEvento(id) {
     if (!confirm("¿Está seguro de eliminar este evento?")) return;
     fetch(`${BASE}/eliminar_evento.php`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        },
         body: JSON.stringify({ id })
     })
     .then(res => res.json())
@@ -236,8 +321,6 @@ function verImagenEvento(id) {
     const evento = eventos.find(e => e.id === id);
     if (!evento || !evento.imagen) { mostrarToast("No hay imagen", "warning"); return; }
 
-    // ✅ CORREGIDO: se construye el DOM de la ventana con APIs seguras
-    //    en lugar de document.write() con template literals sin escapar.
     const ventana = window.open('', '_blank');
     if (!ventana) { mostrarToast("El navegador bloqueó la ventana emergente", "warning"); return; }
 
@@ -246,7 +329,6 @@ function verImagenEvento(id) {
     doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
     doc.close();
 
-    // Estilos
     const style = doc.createElement('style');
     style.textContent = `
         body { display:flex; justify-content:center; align-items:center;
@@ -260,30 +342,23 @@ function verImagenEvento(id) {
                      cursor:pointer; font-size:16px; }
     `;
     doc.head.appendChild(style);
-
-    // Título de pestaña — textContent, nunca innerHTML
     doc.title = evento.titulo;
 
-    // Botón cerrar
     const btn = doc.createElement('button');
     btn.className = 'close-btn';
     btn.textContent = 'Cerrar';
     btn.onclick = () => ventana.close();
     doc.body.appendChild(btn);
 
-    // Contenedor
     const wrapper = doc.createElement('div');
-
-    // Imagen — src y alt asignados como propiedades, no como HTML
     const img = doc.createElement('img');
-    img.src = UPLOADS + evento.imagen;   // la URL viene de nuestra BD/servidor
-    img.alt = evento.titulo;             // .alt = asignación de propiedad, segura
+    img.src = UPLOADS + evento.imagen;
+    img.alt = evento.titulo;
     wrapper.appendChild(img);
 
-    // Título
     const title = doc.createElement('div');
     title.className = 'title';
-    title.textContent = evento.titulo;   // ✅ textContent — nunca interpreta HTML
+    title.textContent = evento.titulo;
     wrapper.appendChild(title);
 
     doc.body.appendChild(wrapper);
@@ -346,7 +421,11 @@ document.addEventListener('DOMContentLoaded', function() {
             ? `${BASE}/editar_evento.php`
             : `${BASE}/guardar_evento.php`;
 
-        fetch(url, { method: "POST", body: formData })
+        fetch(url, {
+            method: "POST",
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+            body: formData
+        })
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
@@ -366,6 +445,8 @@ document.addEventListener('DOMContentLoaded', function() {
         nombreArchivoActual = '';
         document.getElementById('nombreArchivo').innerHTML  = '';
         document.getElementById('archivoCalendario').value  = '';
+        // ✅ Cargar listado cada vez que se abre el modal
+        cargarCalendarios();
     }
 
     function cerrarModalCalendario() {
@@ -380,12 +461,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         const formData = new FormData();
         formData.append('archivo', archivoInput.files[0]);
-        fetch(`${BASE}/guardar_calendario.php`, { method: "POST", body: formData })
+        fetch(`${BASE}/guardar_calendario.php`, {
+            method: "POST",
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+            body: formData
+        })
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
                     mostrarToast("Calendario subido correctamente");
-                    cerrarModalCalendario();
+                    // Limpiar input y recargar listado sin cerrar el modal
+                    archivoInput.value = '';
+                    document.getElementById('nombreArchivo').innerHTML = '';
+                    cargarCalendarios();
                 } else {
                     mostrarToast(data.mensaje || "Error al subir", "error");
                 }
@@ -403,7 +491,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         nombreArchivoActual = file.name;
-        // ✅ CORREGIDO: textContent en lugar de innerHTML para el nombre del archivo
         const span = document.createElement('span');
         span.className = 'badge-file';
         span.textContent = ` ${nombreArchivoActual}`;
@@ -458,7 +545,5 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target === modalCalendario) cerrarModalCalendario();
     };
 
-    // ============ INICIALIZAR ============
     cargarEventos();
-
-}); // fin DOMContentLoaded
+});

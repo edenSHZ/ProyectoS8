@@ -118,13 +118,13 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
 
     // Eliminar imagen anterior del servidor antes de subir la nueva
     if ($imagenNombre) {
-        $rutaAnterior = "../uploads/eventos/" . $imagenNombre;
+        $rutaAnterior = "../../uploads/eventos/" . $imagenNombre;
         if (file_exists($rutaAnterior)) {
             unlink($rutaAnterior);
         }
     }
 
-    $carpeta = "../uploads/eventos/";
+    $carpeta = "../../uploads/eventos/";
     if (!is_dir($carpeta)) {
         mkdir($carpeta, 0755, true);
     }

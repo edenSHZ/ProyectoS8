@@ -61,7 +61,7 @@ if (!in_array($mime_type, $mimesPermitidos)) {
     exit;
 }
 
-$carpeta = "../uploads/galeria/";
+$carpeta = "../../uploads/calendarios/";
 if (!is_dir($carpeta)) mkdir($carpeta, 0755, true);
 
 $imagenNombre = uniqid() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;

@@ -42,7 +42,6 @@
         </div>
 
         <div class="events" id="listaEventos"></div>
-
         <div class="pagination" id="paginacion"></div>
     </div>
 
@@ -121,6 +120,14 @@
                     <div id="nombreArchivo" class="file-name"></div>
                     <small style="color: #666;">* Solo se permiten archivos PDF</small>
                 </div>
+
+                <!-- ===== LISTADO DE CALENDARIOS SUBIDOS ===== -->
+                <div class="lista-calendarios">
+                    <h4>📋 Calendarios subidos</h4>
+                    <div id="listaCalendarios">
+                        <p class="calendarios-cargando">Cargando...</p>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-modal btn-cancel" id="cancelModalCalendario">Cancelar</button>
@@ -128,6 +135,7 @@
             </div>
         </div>
     </div>
+
     <script src="../assets/js/config.js"></script>
     <script src="../assets/js/avisos.js"></script>
 </body>

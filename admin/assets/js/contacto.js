@@ -1,6 +1,18 @@
 const BASE    = `${BASE_URL}/api/contacto`;
 let mensajes = [];
 
+// ============ ESCAPE XSS ============
+function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;')
+        .replace(/'/g,  '&#039;')
+        .replace(/\//g, '&#x2F;');
+}
+
 // ============ TOAST ============
 function mostrarToast(msg, tipo = "success") {
     const colores = { success: "#28a745", error: "#dc3545", warning: "#ffc107" };
@@ -8,7 +20,7 @@ function mostrarToast(msg, tipo = "success") {
     toast.textContent = msg;
     toast.style.cssText = `
         position:fixed; bottom:24px; right:24px; padding:12px 20px;
-        background:${colores[tipo]}; color:white; border-radius:8px;
+        background:${colores[tipo] ?? colores.success}; color:white; border-radius:8px;
         font-size:14px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);
         transition: opacity 0.4s;
     `;
@@ -26,7 +38,9 @@ function formatearFecha(fechaBD) {
 
 // ============ CARGAR MENSAJES ============
 function cargarMensajes() {
-    fetch(`${BASE}/obtener_contacto.php`)
+    fetch(`${BASE}/obtener_contacto.php`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+    })
         .then(res => res.json())
         .then(data => {
             if (Array.isArray(data)) {
@@ -47,8 +61,9 @@ function mostrarMensajes() {
         return;
     }
 
+    // ✅ Todos los datos dinámicos pasan por escapeHtml()
     lista.innerHTML = mensajes.map(m => `
-        <div class="message" id="msg-${m.id_contacto}" style="
+        <div class="message" id="msg-${parseInt(m.id_contacto)}" style="
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -62,17 +77,17 @@ function mostrarMensajes() {
                     color: ${m.leido ? '#666' : '#1a1a1a'};
                 ">
                     ${m.leido ? '' : '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#3b82f6;margin-right:6px;"></span>'}
-                    ${m.asunto || 'Sin asunto'}
+                    ${escapeHtml(m.asunto) || 'Sin asunto'}
                 </div>
                 <div class="message-sub" style="font-size: 13px; color: #888; margin-top: 2px;">
-                    ${m.nombre} — ${formatearFecha(m.created_at)}
+                    ${escapeHtml(m.nombre)} — ${escapeHtml(formatearFecha(m.created_at))}
                 </div>
             </div>
             <div class="actions" style="display: flex; gap: 12px; align-items: center;">
-                <span class="btn-ver" data-id="${m.id_contacto}"
+                <span class="btn-ver" data-id="${parseInt(m.id_contacto)}"
                     title="${m.leido ? 'Ya leído' : 'Marcar como leído'}"
                     style="cursor: pointer; font-size: 18px; opacity: ${m.leido ? '0.4' : '1'};">👁️</span>
-                <span class="btn-eliminar" data-id="${m.id_contacto}"
+                <span class="btn-eliminar" data-id="${parseInt(m.id_contacto)}"
                     title="Eliminar"
                     style="cursor: pointer; font-size: 18px;">🗑️</span>
             </div>
@@ -85,6 +100,7 @@ function verDetalle(id) {
     const mensaje = mensajes.find(m => m.id_contacto === id);
     if (!mensaje) return;
 
+    // ✅ textContent — nunca interpreta HTML
     document.getElementById('detalle-nombre').textContent   = mensaje.nombre;
     document.getElementById('detalle-email').textContent    = mensaje.email;
     document.getElementById('detalle-telefono').textContent = mensaje.telefono || 'No proporcionado';
@@ -98,7 +114,10 @@ function verDetalle(id) {
     if (!mensaje.leido) {
         fetch(`${BASE}/marcar_leido.php`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest" // ✅
+            },
             body: JSON.stringify({ id })
         })
         .then(res => res.json())
@@ -124,7 +143,10 @@ function eliminarMensaje(id) {
 
     fetch(`${BASE}/eliminar_contacto.php`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest" // ✅
+        },
         body: JSON.stringify({ id })
     })
     .then(res => res.json())
@@ -144,32 +166,26 @@ function eliminarMensaje(id) {
 // ============ DOMCONTENTLOADED ============
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Delegación de eventos
     document.addEventListener('click', function(e) {
         const btnVer = e.target.closest('.btn-ver');
         if (btnVer) {
-            const id = parseInt(btnVer.dataset.id);
-            verDetalle(id);
+            verDetalle(parseInt(btnVer.dataset.id));
             return;
         }
 
         const btnEliminar = e.target.closest('.btn-eliminar');
         if (btnEliminar) {
-            const id = parseInt(btnEliminar.dataset.id);
-            eliminarMensaje(id);
+            eliminarMensaje(parseInt(btnEliminar.dataset.id));
             return;
         }
     });
 
-    // Cerrar panel
     document.getElementById('overlay')?.addEventListener('click', cerrarPanel);
 
-    // Navegación
     document.getElementById('menuDashboard')?.addEventListener('click',  () => window.location.href = 'inicio_admin.html');
     document.getElementById('menuNoticias')?.addEventListener('click',   () => window.location.href = 'avisos_noticias.html');
     document.getElementById('menuOferta')?.addEventListener('click',     () => window.location.href = 'oferta_academica.html');
     document.getElementById('menuAdmisiones')?.addEventListener('click', () => window.location.href = 'admisiones.html');
 
-    // Inicializar
     cargarMensajes();
 });

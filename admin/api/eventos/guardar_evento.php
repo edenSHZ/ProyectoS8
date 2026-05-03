@@ -91,7 +91,7 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
         exit;
     }
 
-    $carpeta = "../uploads/eventos/";
+    $carpeta = "../../uploads/calendarios/";
     if (!is_dir($carpeta)) {
         mkdir($carpeta, 0755, true);
     }
@@ -122,16 +122,14 @@ $stmt->bind_param("ssssss", $titulo, $descripcion, $fecha, $tipo, $estado, $imag
 if ($stmt->execute()) {
     $nuevoId = $conn->insert_id;
 
-    // ✅ Sin htmlspecialchars en la respuesta JSON —
-    //    json_encode() escapa correctamente para JSON.
-    //    El escape XSS se realiza en el JS al insertar en el DOM con escapeHtml().
+
     echo json_encode([
         "status" => "success",
         "id"     => $nuevoId,
         "imagen" => $imagenNombre,
     ], JSON_UNESCAPED_UNICODE);
 } else {
-    // Error real solo al log — no se expone al cliente
+
     error_log("Error al guardar evento: " . $conn->error);
     echo json_encode(["status" => "error", "mensaje" => "Error interno al guardar el evento"]);
 }

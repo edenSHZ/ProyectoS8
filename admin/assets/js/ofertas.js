@@ -7,6 +7,28 @@ let categoriaActiva  = null;
 let cursoEditandoId  = null;
 let imagenSeleccionada = null;
 
+// ============ ESCAPE XSS ============
+function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;')
+        .replace(/'/g,  '&#039;')
+        .replace(/\//g, '&#x2F;');
+}
+
+function escapeUrl(url) {
+    if (!url) return '';
+    const trimmed = String(url).trim().toLowerCase();
+    if (trimmed.startsWith('javascript:') || trimmed.startsWith('data:')) return '';
+    return String(url)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 // ============ TOAST ============
 function mostrarToast(msg, tipo = "success") {
     const colores = { success: "#28a745", error: "#dc3545", warning: "#ffc107" };
@@ -14,7 +36,7 @@ function mostrarToast(msg, tipo = "success") {
     toast.textContent = msg;
     toast.style.cssText = `
         position:fixed; bottom:24px; right:24px; padding:12px 20px;
-        background:${colores[tipo]}; color:white; border-radius:8px;
+        background:${colores[tipo] ?? colores.success}; color:white; border-radius:8px;
         font-size:14px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);
         transition: opacity 0.4s;
     `;
@@ -24,7 +46,9 @@ function mostrarToast(msg, tipo = "success") {
 
 // ============ CARGAR CATEGORÍAS ============
 function cargarCategorias() {
-    fetch(`${BASE}/obtener_categorias.php`)
+    fetch(`${BASE}/obtener_categorias.php`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+    })
         .then(res => res.json())
         .then(data => {
             if (Array.isArray(data)) {
@@ -48,8 +72,8 @@ function renderizarTabs() {
     }
     container.innerHTML = categorias.map(cat => `
         <button class="tab ${cat.id_categoria === categoriaActiva ? 'active' : ''}"
-                data-id="${cat.id_categoria}">
-            ${cat.nombre}
+                data-id="${parseInt(cat.id_categoria)}">
+            ${escapeHtml(cat.nombre)}
         </button>
     `).join('');
 }
@@ -58,7 +82,7 @@ function renderizarTabs() {
 function llenarSelectCategorias() {
     const select = document.getElementById('cursoCategoria');
     select.innerHTML = categorias.map(cat =>
-        `<option value="${cat.id_categoria}">${cat.nombre}</option>`
+        `<option value="${parseInt(cat.id_categoria)}">${escapeHtml(cat.nombre)}</option>`
     ).join('');
 }
 
@@ -71,7 +95,9 @@ function seleccionarTab(id) {
 
 // ============ CARGAR CURSOS POR CATEGORÍA ============
 function cargarCursosPorCategoria(idCategoria) {
-    fetch(`${BASE}/obtener_curso.php`)
+    fetch(`${BASE}/obtener_curso.php`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+    })
         .then(res => res.json())
         .then(data => {
             if (Array.isArray(data)) {
@@ -94,34 +120,34 @@ function renderizarCursos() {
     contenido.innerHTML = `
         <div class="grid-cards">
             ${cursos.map(curso => `
-                <div class="card" data-id="${curso.id_curso}">
-                    <h3>${curso.nombre}</h3>
+                <div class="card" data-id="${parseInt(curso.id_curso)}">
+                    <h3>${escapeHtml(curso.nombre)}</h3>
                     <div class="preview">
-                        <img id="imgCurso${curso.id_curso}"
-                            src="${curso.imagen ? UPLOADS + curso.imagen : 'https://placehold.co/300x180'}"
-                            alt="${curso.nombre}">
+                        <img id="imgCurso${parseInt(curso.id_curso)}"
+                            src="${curso.imagen ? escapeUrl(UPLOADS + curso.imagen) : 'https://placehold.co/300x180'}"
+                            alt="${escapeHtml(curso.nombre)}">
                     </div>
                     <div class="course-details">
                         <div class="detail-item">
                             <span class="detail-icon">Duración:</span>
-                            <span class="detail-text" id="duracion${curso.id_curso}">${curso.duracion || '—'}</span>
+                            <span class="detail-text" id="duracion${parseInt(curso.id_curso)}">${escapeHtml(curso.duracion) || '—'}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-icon">Horario:</span>
-                            <span class="detail-text" id="horario${curso.id_curso}">${curso.horario || '—'}</span>
+                            <span class="detail-text" id="horario${parseInt(curso.id_curso)}">${escapeHtml(curso.horario) || '—'}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-icon">Requisitos:</span>
-                            <span class="detail-text" id="requisitos${curso.id_curso}">${curso.requisitos || '—'}</span>
+                            <span class="detail-text" id="requisitos${parseInt(curso.id_curso)}">${escapeHtml(curso.requisitos) || '—'}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-icon">Descripción:</span>
-                            <span class="detail-text" id="descripcion${curso.id_curso}">${curso.descripcion || '—'}</span>
+                            <span class="detail-text" id="descripcion${parseInt(curso.id_curso)}">${escapeHtml(curso.descripcion) || '—'}</span>
                         </div>
                     </div>
                     <div class="card-btns">
-                        <button class="btn btn-editar-curso"   data-id="${curso.id_curso}">Editar</button>
-                        <button class="btn-elim-curso btn-eliminar-curso" data-id="${curso.id_curso}">Eliminar</button>
+                        <button class="btn btn-editar-curso"             data-id="${parseInt(curso.id_curso)}">Editar</button>
+                        <button class="btn-elim-curso btn-eliminar-curso" data-id="${parseInt(curso.id_curso)}">Eliminar</button>
                     </div>
                 </div>
             `).join('')}
@@ -134,17 +160,25 @@ function abrirModalEditar(id) {
     const curso = cursos.find(c => c.id_curso === id);
     if (!curso) return;
 
-    cursoEditandoId  = id;
+    cursoEditandoId    = id;
     imagenSeleccionada = null;
 
     document.getElementById('modalCursoId').value     = id;
-    document.getElementById('modalDuracion').value    = curso.duracion   || '';
-    document.getElementById('modalHorario').value     = curso.horario    || '';
-    document.getElementById('modalRequisitos').value  = curso.requisitos || '';
-    document.getElementById('modalDescripcion').value = curso.descripcion|| '';
-    document.getElementById('modalPreview').innerHTML = curso.imagen
-        ? `<img src="${UPLOADS + curso.imagen}" style="max-width:100%;max-height:150px;border-radius:8px;margin-top:8px;">`
-        : '';
+    document.getElementById('modalDuracion').value    = curso.duracion    ?? '';
+    document.getElementById('modalHorario').value     = curso.horario     ?? '';
+    document.getElementById('modalRequisitos').value  = curso.requisitos  ?? '';
+    document.getElementById('modalDescripcion').value = curso.descripcion ?? '';
+
+    const modalPreview = document.getElementById('modalPreview');
+    if (curso.imagen) {
+        modalPreview.innerHTML = '';
+        const img = document.createElement('img');
+        img.src   = escapeUrl(UPLOADS + curso.imagen);
+        img.style.cssText = 'max-width:100%;max-height:150px;border-radius:8px;margin-top:8px;';
+        modalPreview.appendChild(img);
+    } else {
+        modalPreview.innerHTML = '';
+    }
 
     document.getElementById('modalEditarCurso').style.display = 'flex';
 }
@@ -152,7 +186,7 @@ function abrirModalEditar(id) {
 // ============ CERRAR MODALES ============
 function cerrarModalEditar() {
     document.getElementById('modalEditarCurso').style.display = 'none';
-    cursoEditandoId  = null;
+    cursoEditandoId    = null;
     imagenSeleccionada = null;
     document.getElementById('modalFileInput').value = '';
 }
@@ -188,7 +222,11 @@ function guardarEdicionCurso() {
     const fileInput = document.getElementById('modalFileInput');
     if (fileInput.files[0]) formData.append('imagen', fileInput.files[0]);
 
-    fetch(`${BASE}/editar_curso.php`, { method: "POST", body: formData })
+    fetch(`${BASE}/editar_curso.php`, {
+        method: "POST",
+        headers: { "X-Requested-With": "XMLHttpRequest" }, // ✅
+        body: formData
+    })
         .then(res => res.json())
         .then(data => {
             if (data.status === "success") {
@@ -214,7 +252,10 @@ function guardarCategoria() {
 
     fetch(`${BASE}/agregar_categoria.php`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest" // ✅
+        },
         body: JSON.stringify({ nombre, descripcion })
     })
     .then(res => res.json())
@@ -251,13 +292,16 @@ function guardarNuevoCurso() {
     const fileInput = document.getElementById('cursoImgInput');
     if (fileInput.files[0]) formData.append('imagen', fileInput.files[0]);
 
-    fetch(`${BASE}/agregar_curso.php`, { method: "POST", body: formData })
+    fetch(`${BASE}/agregar_curso.php`, {
+        method: "POST",
+        headers: { "X-Requested-With": "XMLHttpRequest" }, // ✅
+        body: formData
+    })
         .then(res => res.json())
         .then(data => {
             if (data.status === "success") {
                 mostrarToast("Curso agregado correctamente");
                 cerrarModalAgregarCurso();
-                // Si el nuevo curso es de la categoría activa recarga
                 if (parseInt(idCategoria) === categoriaActiva) {
                     cargarCursosPorCategoria(categoriaActiva);
                 }
@@ -274,7 +318,10 @@ function eliminarCurso(id) {
 
     fetch(`${BASE}/eliminar_curso.php`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest" // ✅
+        },
         body: JSON.stringify({ id })
     })
     .then(res => res.json())
@@ -301,7 +348,10 @@ function eliminarCategoriaActiva() {
 
     fetch(`${BASE}/eliminar_categoria.php`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest" // ✅
+        },
         body: JSON.stringify({ id: categoriaActiva })
     })
     .then(res => res.json())
@@ -322,40 +372,34 @@ function eliminarCategoriaActiva() {
 // ============ DELEGACIÓN DE EVENTOS ============
 document.addEventListener('click', function(e) {
 
-    // Tabs
     const tab = e.target.closest('.tab');
     if (tab) {
         seleccionarTab(parseInt(tab.dataset.id));
         return;
     }
 
-    // Botón editar curso
     const btnEditar = e.target.closest('.btn-editar-curso');
     if (btnEditar) {
         abrirModalEditar(parseInt(btnEditar.dataset.id));
         return;
     }
 
-    // Botón eliminar curso
     const btnElimCurso = e.target.closest('.btn-eliminar-curso');
     if (btnElimCurso) {
         eliminarCurso(parseInt(btnElimCurso.dataset.id));
         return;
     }
 
-    // Cerrar modal editar
     if (['btnCerrarModalEdit', 'btnCancelarModal', 'modalEditarCurso'].includes(e.target.id)) {
         cerrarModalEditar();
         return;
     }
 
-    // Cerrar modal categoría
     if (['btnCerrarModalCat', 'btnCancelarModalCat', 'modalCategoria'].includes(e.target.id)) {
         cerrarModalCategoria();
         return;
     }
 
-    // Cerrar modal agregar curso
     if (['btnCerrarModalAgrCurso', 'btnCancelarModalAgrCurso', 'modalAgregarCurso'].includes(e.target.id)) {
         cerrarModalAgregarCurso();
         return;
@@ -365,14 +409,12 @@ document.addEventListener('click', function(e) {
 // ============ DOMCONTENTLOADED ============
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Botones principales
     document.getElementById('btnAgregarCategoria')?.addEventListener('click', () => {
         document.getElementById('modalCategoria').style.display = 'flex';
     });
 
     document.getElementById('btnAgregarCurso')?.addEventListener('click', () => {
         document.getElementById('modalAgregarCurso').style.display = 'flex';
-        // Seleccionar la categoría activa por defecto
         if (categoriaActiva) {
             document.getElementById('cursoCategoria').value = categoriaActiva;
         }
@@ -393,8 +435,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!file) return;
         const reader = new FileReader();
         reader.onload = evt => {
-            document.getElementById('modalPreview').innerHTML =
-                `<img src="${evt.target.result}" style="max-width:100%;max-height:150px;border-radius:8px;margin-top:8px;">`;
+            const modalPreview = document.getElementById('modalPreview');
+            modalPreview.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = evt.target.result;
+            img.style.cssText = 'max-width:100%;max-height:150px;border-radius:8px;margin-top:8px;';
+            modalPreview.appendChild(img);
         };
         reader.readAsDataURL(file);
     });
@@ -409,17 +455,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!file) return;
         const reader = new FileReader();
         reader.onload = evt => {
-            document.getElementById('cursoImgPreview').innerHTML =
-                `<img src="${evt.target.result}" style="max-width:100%;max-height:120px;border-radius:8px;margin-top:8px;">`;
+            const cursoImgPreview = document.getElementById('cursoImgPreview');
+            cursoImgPreview.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = evt.target.result;
+            img.style.cssText = 'max-width:100%;max-height:120px;border-radius:8px;margin-top:8px;';
+            cursoImgPreview.appendChild(img);
         };
         reader.readAsDataURL(file);
     });
+
     // Navegación
     document.getElementById('menuDashboard')?.addEventListener('click',  () => window.location.href = 'inicio_admin.html');
     document.getElementById('menuNoticias')?.addEventListener('click',   () => window.location.href = 'avisos_noticias.html');
     document.getElementById('menuAdmisiones')?.addEventListener('click', () => window.location.href = 'admisiones.html');
     document.getElementById('menuContacto')?.addEventListener('click',   () => window.location.href = 'contacto.html');
 
-    // Inicializar
     cargarCategorias();
 });

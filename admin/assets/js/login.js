@@ -3,20 +3,24 @@ const emailInput    = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 const errorMessage  = document.getElementById('errorMessage');
 
-// MOSTRAR ERROR
+// ============ MOSTRAR ERROR ============
 function showError(msg) {
+    // ✅ textContent — nunca interpreta HTML
     errorMessage.textContent = "⚠️ " + msg;
     errorMessage.classList.add('show');
     setTimeout(() => errorMessage.classList.remove('show'), 3000);
 }
 
-// VALIDAR EMAIL
+// ============ VALIDAR EMAIL ============
 function validateEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// VERIFICAR SESIÓN AL CARGAR
-fetch(`${BASE_URL}/api/config/verificar_sesion.php`, { credentials: "include" })
+// ============ VERIFICAR SESIÓN AL CARGAR ============
+fetch(`${BASE_URL}/api/config/verificar_sesion.php`, {
+    credentials: "include",
+    headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+})
     .then(res => res.json())
     .then(data => {
         if (data.logueado) {
@@ -25,7 +29,7 @@ fetch(`${BASE_URL}/api/config/verificar_sesion.php`, { credentials: "include" })
     })
     .catch(() => {});
 
-// LOGIN
+// ============ LOGIN ============
 loginForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -48,7 +52,10 @@ loginForm.addEventListener('submit', function(e) {
 
     fetch(`${BASE_URL}/login.php`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest" // ✅
+        },
         body: JSON.stringify({ email, password })
     })
     .then(res => res.json())
@@ -60,10 +67,11 @@ loginForm.addEventListener('submit', function(e) {
                 window.location.href = `${BASE_URL}/views/inicio_admin.html`;
             }, 800);
         } else {
-            showError(data.message);
+            // ✅ showError usa textContent internamente — seguro
+            showError(data.message || "Credenciales incorrectas");
             passwordInput.value = "";
-            btn.textContent  = "Iniciar sesión";
-            btn.disabled     = false;
+            btn.textContent = "Iniciar sesión";
+            btn.disabled    = false;
         }
     })
     .catch(() => {

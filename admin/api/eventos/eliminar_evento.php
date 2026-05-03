@@ -22,7 +22,7 @@ $row = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 if ($row && $row['imagen']) {
-    $ruta = "../uploads/eventos/" . $row['imagen'];
+    $ruta = "../../uploads/eventos/" . $row['imagen'];
     if (file_exists($ruta)) unlink($ruta);
 }
 
