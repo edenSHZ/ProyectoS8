@@ -1,0 +1,29 @@
+# Página principal
+DirectoryIndex index.html
+
+# Ocultar listado de archivos
+Options -Indexes
+
+# Redirigir errores
+ErrorDocument 404 /proyectoinstituto/views/404.html
+
+# Bloquear acceso directo a archivos sensibles en la raíz
+<FilesMatch "\.(env|sql|log|ini|sh|bak|json)$">
+    Require all denied
+</FilesMatch>
+
+# Bloquear acceso a carpetas internas — nadie debe ver config/ ni uploads/ directo
+RedirectMatch 403 ^/proyectoinstituto/config/.*$
+RedirectMatch 403 ^/proyectoinstituto/uploads/.*\.php$
+
+# Cabeceras de seguridad HTTP
+<IfModule mod_headers.c>
+    # Evita que el navegador adivine el tipo de archivo (protege contra MIME sniffing)
+    Header set X-Content-Type-Options "nosniff"
+
+    # Evita que tu sitio se cargue dentro de un iframe (protege contra clickjacking)
+    Header set X-Frame-Options "SAMEORIGIN"
+
+    # Activa el filtro XSS del navegador (navegadores antiguos)
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

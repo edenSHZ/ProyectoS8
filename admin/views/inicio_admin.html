@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Instituto Francés</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="dashboard">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="../assets/img/logo.jpeg" class="logo-circle" id="logoImage">
+            </div>
+            <div class="sidebar-title">
+                <h2>Instituto Francés<br>de Ciencias</h2>
+                <p>Excelencia académica</p>
+            </div>
+            <input type="file" id="logoInput" class="hidden-input">
+        </div>
+
+        <ul class="menu">
+            <li class="active">Dashboard</li>
+            <li id="menuNoticias">Noticias y Eventos</li>
+            <li id="menuOferta">Oferta Académica</li>
+            <li id="menuAdmisiones">Admisiones</li>
+            <li id="menuContacto">Contacto</li>
+        </ul>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+            <div class="header-left">
+                <div class="title">Dashboard</div>
+                <div class="user-info">
+                    Bienvenido, <span id="userEmail"></span>
+                    <span class="status-indicator">
+                        <span class="status-dot"></span> Activo
+                    </span>
+                </div>
+            </div>
+
+            <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+        </div>
+
+<!-- CARDS -->
+<div class="grid-2col">
+    <div class="dashboard-card">
+        <h2 id="cardPublicados">—</h2>
+        <p>Entradas publicadas</p>
+    </div>
+    <div class="dashboard-card">
+        <h2 id="cardMensajes">—</h2>
+        <p>Mensajes</p>
+    </div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="grid-2col">
+    <div class="box promo">
+        <h3>Promociones estudiantes</h3>
+        <img src="https://placehold.co/600x400" id="promoImage">
+        <input type="file" id="fileInput" style="display:none;">
+        <button class="btn" id="changeImageBtn">Cambiar imagen</button>
+    </div>
+
+    <div class="box">
+        <h3>Últimas noticias & eventos</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyEventos">
+                <tr><td colspan="4" style="text-align:center;color:#888;">Cargando...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MENSAJES -->
+<div class="messages">
+    <h3>Mensajes del formulario</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Asunto</th>
+                <th>Mensaje</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyMensajes">
+            <tr><td colspan="5" style="text-align:center;color:#888;">Cargando...</td></tr>
+        </tbody>
+    </table>
+</div>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/inicio.js"></script>
+</body>
+</html>

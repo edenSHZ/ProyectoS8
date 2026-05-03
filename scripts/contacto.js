@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btnEnviar.textContent = "Enviando...";
         btnEnviar.disabled    = true;
 
-        fetch("php/guardar_contacto.php", {
+        fetch("config/guardar_contacto.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nombre, telefono, email, asunto, mensaje })
