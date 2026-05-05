@@ -1120,7 +1120,7 @@ header{
 }
 
 /* ============================================
-   RESPONSIVE MÓVIL PEQUEÑO (<= 480px)
+RESPONSIVE MÓVIL PEQUEÑO (<= 480px)
    ============================================ */
 @media (max-width: 480px) {
     .hero {
@@ -1193,7 +1193,90 @@ OFERTA ACADÉMICA
 /* =========================
 SECCIONES DE OFERTA
 ========================= */
+/* =========================
+TABS DE CATEGORÍAS — SCROLL HORIZONTAL
+========================= */
 
+.oferta-tabs-wrapper {
+    display: flex;
+    flex-wrap: nowrap;           /* nunca rompe en varias filas */
+    overflow-x: auto;            /* scroll horizontal si no caben */
+    gap: 8px;
+    margin-bottom: 32px;
+    padding-bottom: 8px;         /* espacio para que no se corte la sombra del tab */
+    -webkit-overflow-scrolling: touch; /* scroll suave en iOS */
+    scrollbar-width: none;       /* oculta scrollbar en Firefox */
+}
+
+/* Oculta scrollbar en Chrome/Safari */
+.oferta-tabs-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.oferta-tab {
+    background: #f0f4f8;
+    color: var(--color-primary-dark);
+    border: 2px solid #d0dce8;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    white-space: nowrap;         /* cada tab en una sola línea, sin salto de texto */
+    flex-shrink: 0;              /* los tabs no se comprimen */
+}
+
+.oferta-tab:hover {
+    background: #dce8f4;
+    border-color: var(--color-primary-dark);
+}
+
+.oferta-tab.active {
+    background: var(--color-primary-dark);
+    color: white;
+    border-color: var(--color-primary-dark);
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .oferta-tabs-wrapper {
+        gap: 6px;
+        margin-bottom: 24px;
+    }
+
+    .oferta-tab {
+        padding: 7px 16px;
+        font-size: 13px;
+    }
+}
+
+/* Móvil */
+@media (max-width: 600px) {
+    .oferta-tabs-wrapper {
+        gap: 6px;
+        margin-bottom: 20px;
+    }
+
+    .oferta-tab {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}
+
+/* Móvil pequeño */
+@media (max-width: 480px) {
+    .oferta-tabs-wrapper {
+        gap: 5px;
+        margin-bottom: 16px;
+    }
+
+    .oferta-tab {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
 .seccion-oferta {
     margin-bottom: 50px;
 }
