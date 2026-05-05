@@ -92,8 +92,15 @@ function mostrarEventos() {
                 </div>
                 <div class="event-date">
                     📅 ${escapeHtml(evento.fechaDisplay)} |
-                    Tipo: ${evento.tipo_evento === 'noticia' ? 'Noticia' : 'Evento'} |
-                    Estado: ${evento.estado === 'publicado' ? ' Publicado' : ' Borrador'}
+                        Tipo: ${{
+                        'noticia':'Noticia',
+                        'evento':'Evento',
+                        'curso':'Curso',
+                        'convocatoria':'Convocatoria',
+                        'graduación':'Graduación',
+                        'taller':'Taller'
+                        }[evento.tipo_evento] || 'Evento'} |
+                        Estado: ${evento.estado === 'publicado' ? ' Publicado' : ' Borrador'}
                 </div>
                 ${evento.descripcion
                     ? `<div class="event-desc">${escapeHtml(evento.descripcion)}</div>`
