@@ -65,29 +65,31 @@
                 </div>
 
                 <div class="calendario-container">
-                    <!-- Visor de PDF -->
-                    <div class="pdf-visualizador">
-                        <iframe
-                            src="pdf/calendario_25-26.pdf"
-                            frameborder="0"
-                            title="Calendario Escolar">
-                        </iframe>
-                    </div>
+                    <div class="calendario-container">
+    
+    <!-- Visor de PDF -->
+    <div class="pdf-visualizador">
+        <iframe
+            id="visorPDF"
+            frameborder="0"
+            title="Calendario Escolar">
+        </iframe>
+    </div>
 
-                    <!-- Botón de descarga -->
-                    <div class="descarga-container">
-                        <a href="pdf/calendario_25-26.pdf"
-                           download="Calendario_Escolar_2025-2026.pdf"
-                           class="btn-descargar">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                            Descargar Calendario (PDF)
-                        </a>
-                    </div>
-                </div>
+    <!-- Botón de descarga -->
+    <div class="descarga-container">
+        <a id="btnDescargar"
+        class="btn-descargar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Descargar Calendario (PDF)
+        </a>
+    </div>
+
+</div>
             </div>
         </section>
     </main>
@@ -222,5 +224,6 @@
     </footer>
     <script src="scripts/menu_ham.js"></script>
     <script src="scripts/lazy-maps.js" defer></script>
+    <script src="scripts/calendario.js"></script>
 </body>
 </html>

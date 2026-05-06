@@ -163,43 +163,79 @@ body {
     padding: 20px;
 }
 
-.promo {
-    text-align: center;
+/* Clase para elementos que ocupan todo el ancho */
+.full-width {
+    grid-column: span 2;
 }
 
-.promo img {
-    width: 100%;
-    height: 150px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    object-fit: cover;
-    background: #b0b0b0;
+/* Ajuste responsive */
+@media (max-width: 768px) {
+    .grid-2col {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .full-width {
+        grid-column: span 1;
+    }
 }
 
-table {
+/* Estilos para la tabla dentro del box */
+.box table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
 }
 
-th, td {
+.box th, 
+.box td {
     padding: 8px;
     border-bottom: 1px solid #ccc;
     text-align: left;
 }
 
-th {
+.box th {
     background: #dcdcdc;
 }
 
+/* Contenedor con scroll para tablas en móvil */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Estilos para la tabla de mensajes */
 .messages {
     background: #e5e5e5;
     border-radius: 12px;
     padding: 20px;
+    margin-top: 20px;
 }
 
 .messages h3 {
     margin-bottom: 15px;
+}
+
+.messages table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.messages th, 
+.messages td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}
+
+.messages th {
+    background: #dcdcdc;
+}
+
+/* Celda de mensaje largo con word-break */
+.messages td:last-child {
+    max-width: 300px;
+    word-break: break-word;
 }
 
 /* HEADER DASHBOARD */
@@ -258,7 +294,6 @@ th {
     background: #c82333;
     transform: scale(1.05);
 }
-
 
 /* ============ NOTICIAS Y EVENTOS STYLES ============ */
 .noticias .title {
