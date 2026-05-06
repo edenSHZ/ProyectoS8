@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias y Eventos - Instituto Francés de Ciencias</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="noticias">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="../assets/img/logo.jpeg" alt="Logo Instituto Francés" class="logo-circle" id="logoImage">
+            </div>
+            <div class="sidebar-title">
+                <h2>Instituto Francés<br>de Ciencias</h2>
+                <p>Excelencia académica</p>
+            </div>
+            <input type="file" id="logoInput" accept="image/*" class="hidden-input">
+        </div>
+
+        <ul class="menu">
+            <li id="menuDashboard">Dashboard</li>
+            <li class="active" id="menuNoticias">Noticias y Eventos</li>
+            <li id="menuOferta">Oferta Académica</li>
+            <li id="menuAdmisiones">Admisiones</li>
+            <li id="menuContacto">Contacto</li>
+        </ul>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main">
+        <h1 class="title">Noticias y Eventos</h1>
+
+        <div class="top-bar">
+            <input type="text" class="search" placeholder="Buscar eventos..." id="buscador">
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" id="btnAgregarEvento">+ Agregar evento</button>
+                <button class="btn" id="btnAgregarCalendario">Agregar calendario</button>
+            </div>
+        </div>
+
+        <div class="events" id="listaEventos"></div>
+        <div class="pagination" id="paginacion"></div>
+    </div>
+
+    <!-- MODAL AGREGAR/EDITAR EVENTO -->
+    <div id="modalEvento" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitulo">➕ Agregar Nuevo Evento</h3>
+                <span class="close-modal" id="closeModalEvento">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Título *</label>
+                    <input type="text" id="eventoTitulo" placeholder="Ej: Conferencia de Inteligencia Artificial">
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="eventoDescripcion" placeholder="Describe el evento..." rows="4"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Fecha *</label>
+                        <input type="text" id="eventoFecha" placeholder="DD/MM/AAAA">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <select id="eventoTipo">
+                            <option value="noticia">Noticia</option>
+                            <option value="evento">Evento</option>
+                            <option value="curso">Curso</option>
+                            <option value="convocatoria">Convocatoria</option>
+                            <option value="graduación">Graduación</option>
+                            <option value="taller">Taller</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select id="eventoEstado">
+                        <option value="borrador">Borrador</option>
+                        <option value="publicado">Publicado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Imagen (opcional)</label>
+                    <button type="button" class="btn-subir-imagen" id="optionEventoImage">Subir imagen</button>
+                    <input type="file" id="archivoEvento" class="file-input-hidden" accept="image/*">
+                    <div id="nombreImagenEvento" class="file-name"></div>
+                    <div id="vistaPreviaEvento" style="display: none; margin-top: 10px;">
+                        <div class="preview-container">
+                            <img id="previewEventoImg" src="" alt="Vista previa">
+                            <div class="preview-info">
+                                <span id="nombreImagenPreview"></span>
+                                <button type="button" class="btn-remove-small" id="btnEliminarImagen">✖ Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel"     id="cancelModalEvento">Cancelar</button>
+                <button class="btn-modal btn-save-draft" id="saveBorradorEvento">Guardar Borrador</button>
+                <button class="btn-modal btn-save"       id="saveModalEvento">Publicar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CALENDARIO -->
+    <div id="modalCalendario" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Subir Calendario</h3>
+                <span class="close-modal" id="closeModalCalendario">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Archivo PDF *</label>
+                    <button type="button" class="btn-subir-imagen" id="btnSeleccionarPDF">Subir PDF</button>
+                    <input type="file" id="archivoCalendario" class="file-input-hidden" accept=".pdf">
+                    <div id="nombreArchivo" class="file-name"></div>
+                    <small style="color: #666;">* Solo se permiten archivos PDF</small>
+                </div>
+
+                <!-- ===== LISTADO DE CALENDARIOS SUBIDOS ===== -->
+                <div class="lista-calendarios">
+                    <h4>📋 Calendarios subidos</h4>
+                    <div id="listaCalendarios">
+                        <p class="calendarios-cargando">Cargando...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" id="cancelModalCalendario">Cancelar</button>
+                <button class="btn-modal btn-save"   id="saveModalCalendario">Subir calendario</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/avisos.js"></script>
+</body>
+</html>

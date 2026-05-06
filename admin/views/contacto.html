@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Instituto Francés de Ciencias</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="contacto">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="../assets/img/logo.jpeg" alt="Logo Instituto Francés" class="logo-circle" id="logoImage">
+            </div>
+            <div class="sidebar-title">
+                <h2>Instituto Francés<br>de Ciencias</h2>
+                <p>Excelencia académica</p>
+            </div>
+            <input type="file" id="logoInput" accept="image/*" class="hidden-input">
+        </div>
+        <ul class="menu">
+            <li id="menuDashboard">Dashboard</li>
+            <li id="menuNoticias">Noticias y Eventos</li>
+            <li id="menuOferta">Oferta Académica</li>
+            <li id="menuAdmisiones">Admisiones</li>
+            <li class="active" id="menuContacto">Contacto</li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <h1>Contacto</h1>
+
+        <div class="card">
+            <p class="subtitle">Mensajes recibidos del formulario</p>
+            <div id="listaMensajes">
+                <p style="color: var(--color-text-secondary); font-size: 14px;">Cargando mensajes...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL FLOTANTE -->
+    <div id="panelDetalle" style="
+        display: none;
+        position: fixed;
+        top: 0; right: 0;
+        width: 380px;
+        height: 100vh;
+        background: white;
+        box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+        z-index: 1000;
+        padding: 32px 24px;
+        overflow-y: auto;
+        font-family: inherit;
+    ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 500;">Detalle del mensaje</h3>
+            <button onclick="cerrarPanel()" style="
+                background: none; border: none; cursor: pointer;
+                font-size: 20px; color: #666; padding: 4px 8px;
+            ">✕</button>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+            <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px;">Nombre</span>
+            <p id="detalle-nombre" style="margin: 4px 0 0; font-weight: 500; font-size: 15px;"></p>
+        </div>
+        <div style="margin-bottom: 16px;">
+            <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px;">Correo</span>
+            <p id="detalle-email" style="margin: 4px 0 0; font-size: 14px; color: #3b82f6;"></p>
+        </div>
+        <div style="margin-bottom: 16px;">
+            <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px;">Teléfono</span>
+            <p id="detalle-telefono" style="margin: 4px 0 0; font-size: 14px;"></p>
+        </div>
+        <div style="margin-bottom: 16px;">
+            <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px;">Asunto</span>
+            <p id="detalle-asunto" style="margin: 4px 0 0; font-size: 14px; font-weight: 500;"></p>
+        </div>
+        <div style="margin-bottom: 16px;">
+            <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px;">Fecha</span>
+            <p id="detalle-fecha" style="margin: 4px 0 0; font-size: 14px;"></p>
+        </div>
+        <div>
+            <span style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px;">Mensaje</span>
+            <p id="detalle-mensaje" style="
+                margin: 8px 0 0;
+                font-size: 14px;
+                line-height: 1.6;
+                background: #f8f9fa;
+                padding: 12px;
+                border-radius: 8px;
+                border-left: 3px solid #3b82f6;
+            "></p>
+        </div>
+    </div>
+
+    <!-- OVERLAY -->
+    <div id="overlay" onclick="cerrarPanel()" style="
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.3);
+        z-index: 999;
+    "></div>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/contacto.js"></script>
+</body>
+</html>

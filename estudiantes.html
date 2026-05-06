@@ -8,19 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Skip Link para usuarios de teclado -->
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
     <header>
         <div class="header-top">
             <div class="logo">
-                <img
-                    srcset="img/optimizado/logo-ifc-1x.webp 1x, img/optimizado/logo-ifc-2x.webp 2x"
-                    src="img/optimizado/logo-ifc-1x.webp"
-                    alt="Instituto Francés de Ciencias"
-                    width="40"
-                    height="40"
-                    loading="lazy"
-                >
+                <img srcset="img/optimizado/logo-ifc-1x.webp 1x, img/optimizado/logo-ifc-2x.webp 2x"
+                     src="img/optimizado/logo-ifc-1x.webp" alt="Instituto Francés de Ciencias"
+                     width="40" height="40" loading="lazy">
                 <span>Instituto Francés de Ciencias</span>
             </div>
 
@@ -43,51 +37,64 @@
                 </ul>
             </nav>
 
-            <!-- Overlay para cerrar menú -->
             <div class="menu-overlay" id="menuOverlay"></div>
 
             <div class="search-box">
                 <label for="search-input" class="visually-hidden">Buscar en el sitio</label>
-                <input type="text" id="search-input" name="search" placeholder="Buscar..." aria-label="Campo de búsqueda" autocomplete="off">
+                <input type="text" id="search-input" name="search" placeholder="Buscar..."
+                       aria-label="Campo de búsqueda" autocomplete="off">
                 <button aria-label="Realizar búsqueda">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
+                        <path d="M21 21l-6 -6"/>
+                    </svg>
                 </button>
             </div>
         </div>
     </header>
 
-    <main>
+    <main id="main-content">
         <section class="estudiantes">
             <div class="container">
                 <div class="estudiantes-header">
                     <h1>Estudiantes</h1>
                 </div>
 
+                <!-- Promoción — imagen dinámica desde PROMOCION_GALERIA -->
                 <div class="promo-estudiantes">
                     <h2>Promociones disponibles</h2>
-                    <img src="img&log/verano-est.jpg" alt="Promociones para estudiantes">
+                    <!--
+                        ✅ id="promoEstudiantes" — estudiantes.js actualiza el src
+                           con la imagen de tipo 'promocion' de la tabla PROMOCION_GALERIA.
+                           Si no hay imagen en la BD, se muestra la imagen estática.
+                    -->
+                    <img id="promoEstudiantes"
+                         src="img&log/verano-est.jpg"
+                         alt="Promociones para estudiantes">
                 </div>
 
+                <!-- Cursos — Cursos de Verano y Matemáticas desde la BD -->
                 <div class="cursos-estudiantes">
                     <h2>Cursos</h2>
-                    <div class="cardsedu-grid">
-                        <div class="estudiantes-card">
-                            <img src="img&log/ingles.png" alt="Cursos de verano">
-                            <h3>Cursos de Verano</h3>
-                        </div>
-                        <div class="estudiantes-card">
-                            <img src="img&log/frances.png" alt="Cursos de regularización">
-                            <h3>Cursos de Regularización</h3>
-                        </div>
+                    <!--
+                        ✅ id="cursosEstudiantesGrid" — estudiantes.js llena este grid
+                           con los cursos id 28 (Cursos de Verano) y 29 (Matemáticas)
+                           desde la tabla CURSO.
+                    -->
+                    <div class="cardsedu-grid" id="cursosEstudiantesGrid">
+                        <!-- Placeholder mientras carga -->
+                        <p style="color:#aaa;font-size:14px;">Cargando cursos...</p>
                     </div>
                 </div>
+
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
         <div class="footer-wrapper">
-            <!-- Columna 1: Enlaces de Apoyo -->
             <div class="footer-col">
                 <h4>Enlaces de Apoyo</h4>
                 <nav aria-label="Enlaces de apoyo del footer">
@@ -101,41 +108,20 @@
                 </nav>
             </div>
 
-            <!-- Columna 2: Validaciones oficiales -->
             <div class="footer-col">
                 <h4>Validaciones oficiales</h4>
                 <div class="validaciones-logos">
-                    <img
-                        srcset="img/optimizado/logo-sep-footer-1x.webp 1x, img/optimizado/logo-sep-footer-2x.webp 2x"
-                        src="img/optimizado/logo-sep-footer-1x.webp"
-                        alt="SEP"
-                        width="75"
-                        height="74"
-                        loading="lazy"
-                    >
-                    <img
-                        srcset="img/optimizado/logo-oxford-test-footer-1x.webp 1x, img/optimizado/logo-oxford-test-footer-2x.webp 2x"
-                        src="img/optimizado/logo-oxford-test-footer-1x.webp"
-                        alt="Oxford University Press"
-                        width="75"
-                        height="76"
-                        loading="lazy"
-                    >
-                    <img
-                        srcset="img/optimizado/DELF-logo-footer-1x.webp 1x, img/optimizado/DELF-logo-footer-2x.webp 2x"
-                        src="img/optimizado/DELF-logo-footer-1x.webp"
-                        alt="DELF"
-                        width="75"
-                        height="75"
-                        loading="lazy"
-                    >
+                    <img srcset="img/optimizado/logo-sep-footer-1x.webp 1x, img/optimizado/logo-sep-footer-2x.webp 2x"
+                         src="img/optimizado/logo-sep-footer-1x.webp" alt="SEP" width="75" height="74" loading="lazy">
+                    <img srcset="img/optimizado/logo-oxford-test-footer-1x.webp 1x, img/optimizado/logo-oxford-test-footer-2x.webp 2x"
+                         src="img/optimizado/logo-oxford-test-footer-1x.webp" alt="Oxford University Press" width="75" height="76" loading="lazy">
+                    <img srcset="img/optimizado/DELF-logo-footer-1x.webp 1x, img/optimizado/DELF-logo-footer-2x.webp 2x"
+                         src="img/optimizado/DELF-logo-footer-1x.webp" alt="DELF" width="75" height="75" loading="lazy">
                 </div>
             </div>
 
-            <!-- Columna 3: Contacto y Mapa en la misma fila -->
             <div class="footer-col footer-col-3">
                 <div class="contacto-mapa-row">
-                    <!-- Lado izquierdo: Contacto -->
                     <div class="contacto-left">
                         <h4>Contacto</h4>
                         <p><strong>Teléfono:</strong> 222 852 4533</p>
@@ -143,13 +129,10 @@
                         <p><strong>Correo:</strong> contacto@gmail.com</p>
                         <p><strong>Horario:</strong> Lun-Vie 9am - 6pm</p>
                     </div>
-
-                    <!-- Lado derecho: Mapa -->
                     <div class="mapa-right">
                         <h4>Ubicación en el mapa:</h4>
                         <div class="map-placeholder">
                             <div class="map-box" id="map-container">
-                                <!-- Placeholder visual que se muestra antes de cargar el mapa -->
                                 <div id="map-static" class="map-static-wrapper map-placeholder-visual">
                                     <div class="map-placeholder-content">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5">
@@ -166,7 +149,6 @@
                                         </button>
                                     </div>
                                 </div>
-                                <!-- Aquí se inyectará el iframe cuando el usuario haga clic o haga scroll -->
                                 <div id="map-dynamic" style="display: none;"></div>
                             </div>
                         </div>
@@ -174,29 +156,40 @@
                 </div>
             </div>
 
-            <!-- Columna 4: Redes Sociales + Instituto -->
             <div class="footer-col footer-redes">
                 <h4>Redes Sociales</h4>
                 <nav aria-label="Redes sociales del Instituto Francés de Ciencias">
                     <div class="social-icons">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"/></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"/><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"/></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></svg>
+                        <a href="https://www.facebook.com/InstitutoFrancesdeCiencias" target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0 -5 5v3H7v4h3v8h4v-8h3l1 -4h-4V7a1 1 0 0 1 1 -1h3z"/>
+                            </svg>
+                        </a>
+                        <a href="https://wa.me/521234567890" target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                                <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"/>
+                                <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/institutofrancesdeciencias?igsh=cXg0ZzloODRpbzU0" target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                                <path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/>
+                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
+                                <path d="M16.5 7.5v.01"/>
+                            </svg>
+                        </a>
                     </div>
                 </nav>
                 <p class="instituto-nombre">Instituto Francés de Ciencias</p>
             </div>
         </div>
 
-        <!-- COPYRIGHT -->
         <div class="copyright-bar">
             <p>© Instituto Francés de Ciencias 2026. Todos los derechos reservados</p>
         </div>
     </footer>
 
-    <!-- ========================================== -->
-    <!-- MODAL ESTUDIANTES (Cursos) -->
-    <!-- ========================================== -->
+    <!-- Modal estudiantes -->
     <div id="modal-estudiante" class="modal">
         <div class="modal-contenido">
             <span class="modal-cerrar">&times;</span>
@@ -206,17 +199,22 @@
             <div class="modal-body">
                 <h2 id="modal-estudiante-titulo"></h2>
                 <div class="modal-detalles">
-                    <p><strong>Duración:</strong> <span id="modal-estudiante-duracion"></span></p>
-                    <p><strong>Modalidad:</strong> <span id="modal-estudiante-modalidad"></span></p>
-                    <p><strong>Horario:</strong> <span id="modal-estudiante-horario"></span></p>
-                    <p><strong>Requisitos:</strong> <span id="modal-estudiante-requisitos"></span></p>
-                    <p><strong>Incluye:</strong> <span id="modal-estudiante-incluye"></span></p>
+                    <p><strong>Duración:</strong>    <span id="modal-estudiante-duracion"></span></p>
+                    <p><strong>Horario:</strong>     <span id="modal-estudiante-horario"></span></p>
+                    <p><strong>Requisitos:</strong>  <span id="modal-estudiante-requisitos"></span></p>
                     <p><strong>Descripción:</strong> <span id="modal-estudiante-descripcion"></span></p>
                 </div>
             </div>
         </div>
     </div>
+
+    <!--
+        Orden importante:
+        1. modal.js — registra cerrarModal y listeners de X, ESC y clic fuera
+        2. estudiantes.js — carga BD y abre modal con abrirModalEstudianteDesdeDB
+    -->
     <script src="scripts/modal.js"></script>
+    <script src="scripts/estudiantes.js"></script>
     <script src="scripts/menu_ham.js"></script>
     <script src="scripts/lazy-maps.js" defer></script>
 </body>
