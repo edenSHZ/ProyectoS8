@@ -2647,6 +2647,7 @@ PÁGINA DE NOTICIA DETALLE
     margin-bottom: 8px;
 }
 
+
 /* =========================
 RESPONSIVE
 ========================= */
@@ -2676,6 +2677,361 @@ RESPONSIVE
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+    }
+}
+
+
+/* ============================================
+   ESTILOS ADICIONALES PARA EL CONTENIDO DE NOTICIAS (NUEVO)
+   ============================================ */
+
+/* Estilos generales del cuerpo de la noticia - Mejoras */
+.noticia-body {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+/* Mejoras para párrafos */
+.noticia-body p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+/* Títulos adicionales dentro del contenido */
+.noticia-body h4 {
+    font-size: 1.2rem;
+    margin: 1.2rem 0 0.6rem;
+    color: #3a6b92;
+    font-weight: 500;
+}
+
+/* Listas ordenadas */
+.noticia-body ol {
+    margin: 1rem 0 1.5rem 2rem;
+    padding-left: 1rem;
+}
+
+/* Texto resaltado */
+.noticia-body strong {
+    color: #1a3a5c;
+    font-weight: 600;
+}
+
+.noticia-body em {
+    font-style: italic;
+    color: #555;
+}
+
+/* Citas */
+.noticia-body blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 2rem;
+    background: #f8f9fa;
+    border-left: 4px solid #e63946;
+    font-style: italic;
+    color: #555;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Línea divisoria */
+.noticia-body hr {
+    margin: 2rem 0;
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, #e0e0e0, #1a3a5c, #e0e0e0);
+}
+
+/* Enlaces dentro del contenido */
+.noticia-body a {
+    color: #e63946;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.noticia-body a:hover {
+    border-bottom-color: #e63946;
+}
+
+/* Imágenes dentro del contenido */
+.noticia-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Tablas */
+.noticia-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+}
+
+.noticia-body th,
+.noticia-body td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.noticia-body th {
+    background-color: #1a3a5c;
+    color: white;
+}
+
+.noticia-body tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Código */
+.noticia-body code {
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.noticia-body pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.noticia-body pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+
+/* ============================================
+   ESTILOS PARA PLACEHOLDER DE IMAGEN (NUEVO)
+   ============================================ */
+
+/* Placeholder cuando no hay imagen */
+.no-image-placeholder {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    border-radius: 12px;
+}
+
+.no-image-placeholder svg {
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.no-image-placeholder span {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Fallback para imágenes rotas */
+.fallback-placeholder {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    border-radius: 12px;
+}
+
+.fallback-placeholder svg {
+    margin-bottom: 1rem;
+}
+
+
+/* ============================================
+   LOADER Y MENSAJES DE ERROR (NUEVO)
+   ============================================ */
+
+.loader {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #666;
+}
+
+.loader::after {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #e63946;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error, .error-mensaje {
+    text-align: center;
+    padding: 40px;
+    color: #d32f2f;
+    background: #ffebee;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.no-resultados {
+    text-align: center;
+    padding: 60px 40px;
+    color: #666;
+    font-size: 18px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.error-mensaje .btn-volver {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+
+/* ============================================
+   RESPONSIVE ADICIONAL PARA TODOS LOS DISPOSITIVOS (NUEVO)
+   ============================================ */
+
+/* Tablet (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .noticias-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .noticias-secundarias {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .noticia-card .noticia-imagen img,
+    .noticia-card .no-image-placeholder {
+        height: 220px;
+    }
+}
+
+/* Móvil grande (mobile landscape) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .noticias-secundarias {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .noticia-card .noticia-contenido h3 {
+        font-size: 1rem;
+    }
+    
+    .noticia-card .noticia-contenido p {
+        font-size: 0.85rem;
+    }
+}
+
+/* Móvil pequeño (mobile portrait) - Extensión de tu responsive existente */
+@media (max-width: 480px) {
+    .section-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .section-header p {
+        font-size: 0.9rem;
+    }
+    
+    .noticias-secundarias {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .noticia-card.noticia-destacada .noticia-contenido h2 {
+        font-size: 1.2rem;
+    }
+    
+    .noticia-card .noticia-contenido p {
+        font-size: 0.8rem;
+    }
+    
+    .leer-mas {
+        font-size: 0.8rem;
+    }
+    
+    .btn-ver-mas {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .btn-volver {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    
+    /* Ajustes para imágenes en móvil */
+    .noticia-detalle-imagen {
+        height: 200px;
+    }
+    
+    .noticia-detalle-imagen img {
+        object-fit: cover;
+    }
+    
+    .categoria-img {
+        font-size: 0.75rem;
+        padding: 4px 12px;
+        bottom: 10px;
+        left: 10px;
+    }
+    
+    .noticia-body {
+        font-size: 14px;
+    }
+}
+
+/* Mejoras de tocabilidad para móviles */
+@media (max-width: 768px) {
+    .leer-mas,
+    .btn-ver-mas,
+    .btn-volver,
+    .btn-activar-mapa {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .noticia-card {
+        margin-bottom: 1rem;
+    }
+    
+    .menu-toggle {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .search-box input {
+        width: 120px;
+        font-size: 0.8rem;
     }
 }
 

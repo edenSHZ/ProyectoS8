@@ -1,90 +1,84 @@
-// Base de datos de noticias (misma que en noticia.js)
-const noticiasDB = {
-    'noticia-1': {
-        titulo: 'Ceremonia de Inauguración del Ciclo Escolar 2026',
-        fecha: '15 de Abril, 2026',
-        categoria: 'Evento',
-        imagen: 'img&log/Admisiones.jpg',
-        descripcion: 'El Instituto Francés de Ciencias celebró con gran éxito la ceremonia de inauguración del ciclo escolar 2026, contando con la presencia de autoridades educativas, docentes y estudiantes.'
-    },
-    'noticia-2': {
-        titulo: 'Inscripciones Abiertas: Cursos de Verano',
-        fecha: '10 de Abril, 2026',
-        categoria: 'Cursos',
-        imagen: 'img&log/curso verano.jpg',
-        descripcion: 'Ya están abiertas las inscripciones para los cursos de verano 2026 en el Instituto Francés de Ciencias. Una oportunidad única para reforzar conocimientos.'
-    },
-    'noticia-3': {
-        titulo: 'Convocatoria de Becas 2026',
-        fecha: '5 de Abril, 2026',
-        categoria: 'Convocatoria',
-        imagen: 'img&log/constancias.jpg',
-        descripcion: 'El Instituto Francés de Ciencias abre la convocatoria para el programa de becas correspondiente al ciclo escolar 2026-2027.'
-    },
-    'noticia-4': {
-        titulo: 'Feria Educativa 2026',
-        fecha: '28 de Marzo, 2026',
-        categoria: 'Evento',
-        imagen: 'img&log/fechas.jpg',
-        descripcion: 'Te invitamos a nuestra Feria Educativa 2026, donde podrás conocer toda nuestra oferta académica, talleres y actividades.'
-    },
-    'noticia-5': {
-        titulo: 'Taller de Orientación Vocacional',
-        fecha: '20 de Marzo, 2026',
-        categoria: 'Taller',
-        imagen: 'img&log/verano-est.jpg',
-        descripcion: 'Taller gratuito de orientación vocacional para estudiantes de preparatoria que estén por elegir su carrera universitaria.'
-    },
-    'noticia-6': {
-        titulo: 'Taller de Orientación Vocacional',
-        fecha: '20 de Marzo, 2026',
-        categoria: 'Taller',
-        imagen: 'img&log/verano-est.jpg',
-        descripcion: 'Taller gratuito de orientación vocacional para estudiantes de preparatoria que estén por elegir su carrera universitaria.'
-    },
-    'noticia-7': {
-        titulo: 'Taller de Orientación Vocacional',
-        fecha: '20 de Marzo, 2026',
-        categoria: 'Taller',
-        imagen: 'img&log/verano-est.jpg',
-        descripcion: 'Taller gratuito de orientación vocacional para estudiantes de preparatoria que estén por elegir su carrera universitaria.'
-    },
-    'noticia-8': {
-        titulo: 'Taller de Orientación Vocacional',
-        fecha: '20 de Marzo, 2026',
-        categoria: 'Taller',
-        imagen: 'img&log/verano-est.jpg',
-        descripcion: 'Taller gratuito de orientación vocacional para estudiantes de preparatoria que estén por elegir su carrera universitaria.'
-    }
-};
-
-// Función para cargar todas las noticias
-function cargarTodasNoticias() {
+// Función para cargar todas las noticias desde la base de datos
+async function cargarTodasNoticias() {
     const grid = document.getElementById('todasNoticiasGrid');
-
+    
     if (!grid) return;
-
-    let html = '';
-
-    for (const [id, noticia] of Object.entries(noticiasDB)) {
-        html += `
-            <article class="noticia-card" data-id="${id}">
-                <div class="noticia-imagen">
-                    <img src="${noticia.imagen}" alt="${noticia.titulo}">
-                    <span class="categoria">${noticia.categoria}</span>
-                </div>
-                <div class="noticia-contenido">
-                    <span class="fecha">${noticia.fecha}</span>
-                    <h3>${noticia.titulo}</h3>
-                    <p>${noticia.descripcion.substring(0, 120)}...</p>
-                    <a href="noticia_detalle.html?id=${id}" class="leer-mas">Leer más →</a>
-                </div>
-            </article>
-        `;
+    
+    // Mostrar loader
+    grid.innerHTML = '<div class="loader">Cargando noticias...</div>';
+    
+    try {
+        const response = await fetch('config/obtener_noticias_publico.php');
+        
+        if (!response.ok) {
+            throw new Error('Error al cargar las noticias');
+        }
+        
+        const noticias = await response.json();
+        
+        if (!Array.isArray(noticias)) {
+            console.error('Respuesta inválida:', noticias);
+            grid.innerHTML = '<div class="error">Error al cargar las noticias. Intente nuevamente.</div>';
+            return;
+        }
+        
+        if (noticias.length === 0) {
+            grid.innerHTML = '<div class="no-resultados">No hay noticias disponibles por el momento.</div>';
+            return;
+        }
+        
+        let html = '';
+        
+        noticias.forEach(noticia => {
+            const fechaFormateada = formatearFecha(noticia.fecha);
+            const imagenUrl = noticia.imagen 
+                ? `admin/uploads/eventos/${noticia.imagen}`
+                : 'img/default-noticia.png';
+            
+            const descripcionCorta = noticia.descripcion && noticia.descripcion.length > 120 
+                ? noticia.descripcion.substring(0, 120) + '...' 
+                : (noticia.descripcion || 'Sin descripción');
+            
+            html += `
+                <article class="noticia-card" data-id="${noticia.id}">
+                    <div class="noticia-imagen">
+                        <img src="${imagenUrl}" alt="${escapeHtml(noticia.titulo)}" loading="lazy">
+                        <span class="categoria">${escapeHtml(noticia.tipo)}</span>
+                    </div>
+                    <div class="noticia-contenido">
+                        <span class="fecha">${fechaFormateada}</span>
+                        <h3>${escapeHtml(noticia.titulo)}</h3>
+                        <p>${escapeHtml(descripcionCorta)}</p>
+                        <a href="noticia_detalle.html?id=${noticia.id}" class="leer-mas">Leer más →</a>
+                    </div>
+                </article>
+            `;
+        });
+        
+        grid.innerHTML = html;
+        
+    } catch (error) {
+        console.error('Error:', error);
+        grid.innerHTML = '<div class="error">Error al cargar las noticias. Por favor, intente nuevamente.</div>';
     }
-
-    grid.innerHTML = html;
 }
 
-// Ejecutar al cargar la página
+function formatearFecha(fechaISO) {
+    if (!fechaISO) return 'Fecha no disponible';
+    try {
+        const fecha = new Date(fechaISO);
+        const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+        return fecha.toLocaleDateString('es-ES', opciones);
+    } catch (error) {
+        return fechaISO;
+    }
+}
+
+function escapeHtml(texto) {
+    if (!texto) return '';
+    const div = document.createElement('div');
+    div.textContent = texto;
+    return div.innerHTML;
+}
+
 document.addEventListener('DOMContentLoaded', cargarTodasNoticias);

@@ -2,11 +2,11 @@
 function escapeHtml(str) {
     if (str === null || str === undefined) return '';
     return String(str)
-        .replace(/&/g,  '&amp;')
-        .replace(/</g,  '&lt;')
-        .replace(/>/g,  '&gt;')
-        .replace(/"/g,  '&quot;')
-        .replace(/'/g,  '&#039;')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
         .replace(/\//g, '&#x2F;');
 }
 
@@ -23,38 +23,37 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============ PROTEGER DASHBOARD ============
     fetch(`${BASE_URL}/api/config/verificar_sesion.php`, {
         credentials: "include",
-        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+        headers: { "X-Requested-With": "XMLHttpRequest" }
     })
         .then(res => res.json())
         .then(data => {
             if (!data.logueado) window.location.href = `${BASE_URL}/index.html`;
-        });
+        })
+        .catch(() => window.location.href = `${BASE_URL}/index.html`);
 
     // ============ MOSTRAR EMAIL ============
     fetch(`${BASE_URL}/api/config/obtener_admin.php`, {
         credentials: "include",
-        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+        headers: { "X-Requested-With": "XMLHttpRequest" }
     })
         .then(res => res.json())
         .then(data => {
             const userEl = document.getElementById("userEmail");
-            // ✅ textContent — nunca interpreta HTML
             if (userEl && data.email) userEl.textContent = data.email;
         });
 
     // ============ CARGAR DATOS DASHBOARD ============
     fetch(`${BASE_URL}/api/config/obtener_dashboard.php`, {
         credentials: "include",
-        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+        headers: { "X-Requested-With": "XMLHttpRequest" }
     })
         .then(res => res.json())
         .then(data => {
-
-            // ✅ textContent para contadores — nunca innerHTML
-            const cardMensajes   = document.getElementById('cardMensajes');
+            // Contadores
+            const cardMensajes = document.getElementById('cardMensajes');
             const cardPublicados = document.getElementById('cardPublicados');
-            if (cardMensajes)   cardMensajes.textContent   = data.totalMensajes;
-            if (cardPublicados) cardPublicados.textContent = data.totalPublicados;
+            if (cardMensajes) cardMensajes.textContent = data.totalMensajes || '0';
+            if (cardPublicados) cardPublicados.textContent = data.totalPublicados || '0';
 
             // Tabla eventos
             const tbodyEventos = document.getElementById('tbodyEventos');
@@ -62,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!data.eventos || data.eventos.length === 0) {
                     tbodyEventos.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#888;">Sin eventos</td></tr>';
                 } else {
-                    // ✅ Datos dinámicos escapados con escapeHtml()
                     tbodyEventos.innerHTML = data.eventos.map((e, i) => `
                         <tr>
                             <td>${String(i + 1).padStart(2, '0')}</td>
@@ -80,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!data.mensajes || data.mensajes.length === 0) {
                     tbodyMensajes.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;">Sin mensajes</td></tr>';
                 } else {
-                    // ✅ Datos dinámicos escapados con escapeHtml()
                     tbodyMensajes.innerHTML = data.mensajes.map(m => `
                         <tr>
                             <td>${escapeHtml(m.nombre)}</td>
@@ -102,13 +99,13 @@ document.addEventListener("DOMContentLoaded", () => {
             await fetch(`${BASE_URL}/logout.php`, {
                 method: "POST",
                 credentials: "include",
-                headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+                headers: { "X-Requested-With": "XMLHttpRequest" }
             });
             window.location.href = `${BASE_URL}/index.html`;
         });
     }
 
-    // ============ AUTO LOGOUT ============
+    // ============ AUTO LOGOUT (15 minutos) ============
     let tiempoInactividad;
     function resetTimer() {
         clearTimeout(tiempoInactividad);
@@ -116,37 +113,21 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Sesión cerrada por inactividad");
             fetch(`${BASE_URL}/logout.php`, {
                 credentials: "include",
-                headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+                headers: { "X-Requested-With": "XMLHttpRequest" }
             })
                 .then(() => window.location.href = `${BASE_URL}/index.html`);
-        }, 300000);
+        }, 900000); // 15 minutos
     }
-    document.onmousemove = resetTimer;
-    document.onkeypress  = resetTimer;
-    document.onclick     = resetTimer;
+
+    const eventosReset = ['mousemove', 'keypress', 'click', 'scroll', 'touchstart'];
+    eventosReset.forEach(evento => {
+        document.addEventListener(evento, resetTimer);
+    });
     resetTimer();
 
-    // ============ PROMO ============
-    document.getElementById('changeImageBtn')?.addEventListener('click', () => {
-        document.getElementById('fileInput')?.click();
-    });
-
-    document.getElementById('fileInput')?.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            // ✅ .src como propiedad DOM — seguro para data URLs de FileReader
-            reader.onload = ev => {
-                const promoImage = document.getElementById("promoImage");
-                if (promoImage) promoImage.src = ev.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
     // ============ NAVEGACIÓN ============
-    document.getElementById('menuNoticias')?.addEventListener('click',   () => window.location.href = 'avisos_noticias.html');
-    document.getElementById('menuOferta')?.addEventListener('click',     () => window.location.href = 'oferta_academica.html');
+    document.getElementById('menuNoticias')?.addEventListener('click', () => window.location.href = 'avisos_noticias.html');
+    document.getElementById('menuOferta')?.addEventListener('click', () => window.location.href = 'oferta_academica.html');
     document.getElementById('menuAdmisiones')?.addEventListener('click', () => window.location.href = 'admisiones.html');
-    document.getElementById('menuContacto')?.addEventListener('click',   () => window.location.href = 'contacto.html');
+    document.getElementById('menuContacto')?.addEventListener('click', () => window.location.href = 'contacto.html');
 });

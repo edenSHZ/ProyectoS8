@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudiantes - Instituto Francés de Ciencias</title>
+    <title>Noticias y Eventos - Instituto Francés de Ciencias</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Skip Link para usuarios de teclado -->
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
     <header>
         <div class="header-top">
             <div class="logo">
@@ -65,77 +66,9 @@
                 </div>
 
                 <!-- Grid de noticias principales -->
-                <div class="noticias-grid">
-                    <!-- Card 1 - Destacada -->
-                    <article class="noticia-card noticia-destacada" data-id="noticia-1">
-                        <div class="noticia-imagen">
-                            <img src="img&log/Admisiones.jpg" alt="Evento destacado">
-                            <span class="categoria">Evento</span>
-                        </div>
-                        <div class="noticia-contenido">
-                            <div class="meta-info">
-                                <span class="fecha">15 de Abril, 2026</span>
-                            </div>
-                            <h2>Ceremonia de Inauguración del Ciclo Escolar 2026</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.</p>
-                            <a href="noticia_detalle.html?id=noticia-1" class="leer-mas">Leer más →</a>
-                        </div>
-                    </article>
-
-                    <!-- Grid de 2 columnas para las demás noticias -->
-                    <div class="noticias-secundarias" data-id="noticia-2">
-                        <article class="noticia-card">
-                            <div class="noticia-imagen">
-                                <img src="img&log/curso verano.jpg" alt="Cursos de verano">
-                                <span class="categoria">Cursos</span>
-                            </div>
-                            <div class="noticia-contenido">
-                                <span class="fecha">10 de Abril, 2026</span>
-                                <h3>Inscripciones Abiertas: Cursos de Verano</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <a href="noticia_detalle.html?id=noticia-2" class="leer-mas">Leer más →</a>
-                            </div>
-                        </article>
-
-                        <article class="noticia-card" data-id="noticia-3">
-                            <div class="noticia-imagen">
-                                <img src="img&log/constancias.jpg" alt="Convocatoria">
-                                <span class="categoria">Convocatoria</span>
-                            </div>
-                            <div class="noticia-contenido">
-                                <span class="fecha">5 de Abril, 2026</span>
-                                <h3>Convocatoria de Becas 2026</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <a href="noticia_detalle.html?id=noticia-3" class="leer-mas">Leer más →</a>
-                            </div>
-                        </article>
-
-                        <article class="noticia-card" data-id="noticia-4">
-                            <div class="noticia-imagen">
-                                <img src="img&log/fechas.jpg" alt="Feria educativa">
-                                <span class="categoria">Evento</span>
-                            </div>
-                            <div class="noticia-contenido">
-                                <span class="fecha">28 de Marzo, 2026</span>
-                                <h3>Feria Educativa 2026</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <a href="noticia_detalle.html?id=noticia-4" class="leer-mas">Leer más →</a>
-                            </div>
-                        </article>
-
-                        <article class="noticia-card" data-id="noticia-5">
-                            <div class="noticia-imagen">
-                                <img src="img&log/verano-est.jpg" alt="Taller">
-                                <span class="categoria">Taller</span>
-                            </div>
-                            <div class="noticia-contenido">
-                                <span class="fecha">20 de Marzo, 2026</span>
-                                <h3>Taller de Orientación Vocacional</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <a href="noticia_detalle.html?id=noticia-5" class="leer-mas">Leer más →</a>
-                            </div>
-                        </article>
-                    </div>
+                <div class="noticias-grid" id="noticiasGrid">
+                    <!-- Aquí se cargarán las noticias dinámicamente -->
+                    <div class="loader">Cargando noticias...</div>
                 </div>
 
                 <!-- Botón ver más -->
@@ -193,10 +126,9 @@
                 </div>
             </div>
 
-            <!-- Columna 3: Contacto y Mapa en la misma fila -->
+            <!-- Columna 3: Contacto y Mapa -->
             <div class="footer-col footer-col-3">
                 <div class="contacto-mapa-row">
-                    <!-- Lado izquierdo: Contacto -->
                     <div class="contacto-left">
                         <h4>Contacto</h4>
                         <p><strong>Teléfono:</strong> 222 852 4533</p>
@@ -205,12 +137,10 @@
                         <p><strong>Horario:</strong> Lun-Vie 9am - 6pm</p>
                     </div>
 
-                    <!-- Lado derecho: Mapa -->
                     <div class="mapa-right">
                         <h4>Ubicación en el mapa:</h4>
                         <div class="map-placeholder">
                             <div class="map-box" id="map-container">
-                                <!-- Placeholder visual que se muestra antes de cargar el mapa -->
                                 <div id="map-static" class="map-static-wrapper map-placeholder-visual">
                                     <div class="map-placeholder-content">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5">
@@ -227,7 +157,6 @@
                                         </button>
                                     </div>
                                 </div>
-                                <!-- Aquí se inyectará el iframe cuando el usuario haga clic o haga scroll -->
                                 <div id="map-dynamic" style="display: none;"></div>
                             </div>
                         </div>
@@ -235,56 +164,41 @@
                 </div>
             </div>
 
-            <!-- Columna 4: Redes Sociales + Instituto -->
+            <!-- Columna 4: Redes Sociales -->
             <div class="footer-col footer-redes">
                 <h4>Redes Sociales</h4>
                 <nav aria-label="Redes sociales del Instituto Francés de Ciencias">
                     <div class="social-icons">
-                        <!-- Facebook -->
-                    <a href="https://www.facebook.com/InstitutoFrancesdeCiencias" target="_blank" rel="noopener noreferrer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
-                        <path d="M18 2h-3a5 5 0 0 0 -5 5v3H7v4h3v8h4v-8h3l1 -4h-4V7a1 1 0 0 1 1 -1h3z"/>
-                    </svg>
-                    </a>
-
-                    <!-- WhatsApp -->
-                    <a href="https://wa.me/521234567890" target="_blank" rel="noopener noreferrer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
-                        <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"/>
-                        <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"/>
-                    </svg>
-                    </a>
-
-                    <!-- Instagram -->
-                    <a href="https://www.instagram.com/institutofrancesdeciencias?igsh=cXg0ZzloODRpbzU0" target="_blank" rel="noopener noreferrer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
-                        <path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/>
-                        <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
-                        <path d="M16.5 7.5v.01"/>
-                    </svg>
-                    </a>
-
-                </div>
-            </nav>
-            <p class="instituto-nombre">Instituto Francés de Ciencias</p>
+                        <a href="https://www.facebook.com/InstitutoFrancesdeCiencias" target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0 -5 5v3H7v4h3v8h4v-8h3l1 -4h-4V7a1 1 0 0 1 1 -1h3z"/>
+                            </svg>
+                        </a>
+                        <a href="https://wa.me/521234567890" target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                                <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"/>
+                                <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/institutofrancesdeciencias?igsh=cXg0ZzloODRpbzU0" target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                                <path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/>
+                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
+                                <path d="M16.5 7.5v.01"/>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+                <p class="instituto-nombre">Instituto Francés de Ciencias</p>
+            </div>
         </div>
 
-        <!-- COPYRIGHT -->
         <div class="copyright-bar">
             <p>© Instituto Francés de Ciencias 2026. Todos los derechos reservados</p>
         </div>
     </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnVerTodas = document.getElementById('verTodasNoticias');
 
-            if (btnVerTodas) {
-                btnVerTodas.addEventListener('click', () => {
-                    window.location.href = 'todas_noticias.html';
-                });
-            }
-        });
-    </script>
+    <script src="scripts/noticias_home.js"></script>
     <script src="scripts/menu_ham.js"></script>
     <script src="scripts/lazy-maps.js" defer></script>
 </body>
