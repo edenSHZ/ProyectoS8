@@ -48,7 +48,7 @@ $mensaje  = mb_substr($mensaje,  0, 1000, 'UTF-8');
 // ==============================
 // CONSULTA SEGURA (ANTI SQLi)
 // ==============================
-$sql = "INSERT INTO CONTACTO (nombre, email, telefono, asunto, mensaje)
+$sql = "INSERT INTO contacto (nombre, email, telefono, asunto, mensaje)
         VALUES (?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);

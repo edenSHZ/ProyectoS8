@@ -4,12 +4,12 @@ include "../config/auth_check.php";
 
 header("Content-Type: application/json; charset=UTF-8");
 
-// ✅ SELECT explícito — no usar SELECT * para evitar traer columnas innecesarias
+// SELECT explícito — no usar SELECT * para evitar traer columnas innecesarias
 $sql = "SELECT c.id_curso, c.id_categoria, c.nombre, c.descripcion,
-               c.imagen, c.duracion, c.horario, c.requisitos,
-               cat.nombre AS categoria_nombre
-        FROM CURSO c
-        JOIN CATEGORIA_CURSO cat ON c.id_categoria = cat.id_categoria
+                c.imagen, c.duracion, c.horario, c.requisitos,
+                cat.nombre AS categoria_nombre
+        FROM curso c
+        JOIN categoria_curso cat ON c.id_categoria = cat.id_categoria
         WHERE cat.activo = TRUE
         ORDER BY c.id_categoria, c.id_curso";
 

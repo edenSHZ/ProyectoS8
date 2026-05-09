@@ -78,7 +78,7 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
 }
 
 // ============ INSERCIÓN ============
-$sql  = "INSERT INTO CURSO (id_categoria, id_admin, nombre, duracion, horario, requisitos, descripcion, imagen)
+$sql  = "INSERT INTO curso (id_categoria, id_admin, nombre, duracion, horario, requisitos, descripcion, imagen)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 

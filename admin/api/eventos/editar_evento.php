@@ -70,7 +70,7 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fechaConvertida) ||
 $fecha = $fechaConvertida;
 
 // ============ IMAGEN ACTUAL ============
-$stmtActual = $conn->prepare("SELECT imagen FROM NOTICIA_EVENTO WHERE id = ?");
+$stmtActual = $conn->prepare("SELECT imagen FROM noticia_evento WHERE id = ?");
 $stmtActual->bind_param("i", $id);
 $stmtActual->execute();
 $resultado = $stmtActual->get_result()->fetch_assoc();
@@ -123,7 +123,7 @@ if (isset($_POST['eliminar_imagen']) && $_POST['eliminar_imagen'] === '1') {
 
 // ============ UPDATE ============
 // ✅ Nota: NO se actualiza id_admin ni created_at, solo los campos editables
-$sql = "UPDATE NOTICIA_EVENTO 
+$sql = "UPDATE noticia_evento 
         SET titulo=?, descripcion=?, fecha=?, tipo=?, estado=?, imagen=? 
         WHERE id=?";
 $stmt = $conn->prepare($sql);

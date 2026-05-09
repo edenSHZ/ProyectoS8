@@ -25,7 +25,7 @@ if (mb_strlen($requisitos)  > 500) { echo json_encode(["status" => "error", "men
 if (mb_strlen($descripcion) > 2000){ echo json_encode(["status" => "error", "mensaje" => "Descripción demasiado larga (máx. 2000)"]); exit; }
 
 // ============ OBTENER IMAGEN ACTUAL Y VERIFICAR EXISTENCIA ============
-$stmtActual = $conn->prepare("SELECT imagen FROM CURSO WHERE id_curso = ?");
+$stmtActual = $conn->prepare("SELECT imagen FROM curso WHERE id_curso = ?");
 if (!$stmtActual) {
     error_log("Error al preparar consulta imagen actual (editar_curso): " . $conn->error);
     echo json_encode(["status" => "error", "mensaje" => "Error interno"]);
@@ -87,7 +87,7 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
 }
 
 // ============ ACTUALIZACIÓN ============
-$sql  = "UPDATE CURSO SET duracion=?, horario=?, requisitos=?, descripcion=?, imagen=? WHERE id_curso=?";
+$sql  = "UPDATE curso SET duracion=?, horario=?, requisitos=?, descripcion=?, imagen=? WHERE id_curso=?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {

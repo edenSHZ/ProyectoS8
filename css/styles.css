@@ -4236,3 +4236,31 @@ a:focus:not(:focus-visible) {
         text-align: center;
     }
 }
+/* ===== BUSCADOR — DROPDOWN ===== */
+.search-box {
+    position: relative;
+    z-index: 1000;
+}
+
+.header-top {
+    overflow: visible !important;
+}
+
+header {
+    overflow: visible !important;
+}
+
+#search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    min-width: 320px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    z-index: 9999;
+    max-height: 420px;
+    overflow-y: auto;
+    margin-top: 6px;
+}

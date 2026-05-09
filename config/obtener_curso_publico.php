@@ -18,8 +18,8 @@ $sql = "SELECT
             c.duracion,
             c.horario,
             c.requisitos
-        FROM CATEGORIA_CURSO cat
-        LEFT JOIN CURSO c ON c.id_categoria = cat.id_categoria
+        FROM categoria_curso cat
+        LEFT JOIN curso c ON c.id_categoria = cat.id_categoria
         WHERE cat.activo = TRUE
         ORDER BY cat.id_categoria, c.id_curso";
 

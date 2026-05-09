@@ -15,7 +15,7 @@ if (!isset($data['id']) || !is_numeric($data['id'])) {
 $id = (int) $data['id'];
 
 // Verificar si tiene cursos
-$check = $conn->prepare("SELECT COUNT(*) as total FROM CURSO WHERE id_categoria = ?");
+$check = $conn->prepare("SELECT COUNT(*) as total FROM curso WHERE id_categoria = ?");
 $check->bind_param("i", $id);
 $check->execute();
 $total = $check->get_result()->fetch_assoc()['total'];
@@ -26,7 +26,7 @@ if ($total > 0) {
     exit;
 }
 
-$stmt = $conn->prepare("DELETE FROM CATEGORIA_CURSO WHERE id_categoria = ?");
+$stmt = $conn->prepare("DELETE FROM categoria_curso WHERE id_categoria = ?");
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {

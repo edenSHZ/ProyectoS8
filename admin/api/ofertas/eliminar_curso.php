@@ -15,7 +15,7 @@ if (!isset($data['id']) || !is_numeric($data['id'])) {
 $id = (int) $data['id'];
 
 // Obtener imagen para eliminarla
-$stmt = $conn->prepare("SELECT imagen FROM CURSO WHERE id_curso = ?");
+$stmt = $conn->prepare("SELECT imagen FROM curso WHERE id_curso = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $row = $stmt->get_result()->fetch_assoc();

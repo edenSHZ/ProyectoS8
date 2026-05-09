@@ -23,7 +23,7 @@ if ($titulo === '' || $fecha === '') {
     exit;
 }
 
-// ✅ TIPOS ACTUALIZADOS
+// TIPOS ACTUALIZADOS
 $tiposPermitidos = ['noticia', 'evento', 'curso', 'convocatoria', 'graduación', 'taller'];
 
 if (!in_array($tipo, $tiposPermitidos, true)) {
@@ -57,7 +57,7 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
 }
 
 // ✅ INSERT con id_admin
-$sql = "INSERT INTO NOTICIA_EVENTO (titulo, descripcion, fecha, tipo, estado, imagen, id_admin)
+$sql = "INSERT INTO noticia_evento (titulo, descripcion, fecha, tipo, estado, imagen, id_admin)
         VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
@@ -66,7 +66,7 @@ $stmt->bind_param("ssssssi", $titulo, $descripcion, $fecha, $tipo, $estado, $ima
 if ($stmt->execute()) {
     // Obtener el created_at
     $id_nuevo = $conn->insert_id;
-    $query = "SELECT created_at FROM NOTICIA_EVENTO WHERE id = ?";
+    $query = "SELECT created_at FROM noticia_evento WHERE id = ?";
     $stmt2 = $conn->prepare($query);
     $stmt2->bind_param("i", $id_nuevo);
     $stmt2->execute();

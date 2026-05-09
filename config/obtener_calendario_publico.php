@@ -4,7 +4,7 @@ include "conexion.php";
 header("Content-Type: application/json; charset=UTF-8");
 
 // Obtener el único calendario (porque usas opción A)
-$sql = "SELECT archivo FROM EVENTO_CALENDARIO LIMIT 1";
+$sql = "SELECT archivo FROM evento_calendario LIMIT 1";
 $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {

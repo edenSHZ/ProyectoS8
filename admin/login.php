@@ -21,7 +21,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-$sql  = "SELECT * FROM ADMINISTRADOR WHERE email = ?";
+$sql  = "SELECT * FROM administrador WHERE email = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -43,7 +43,7 @@ if ($result->num_rows === 1) {
         $_SESSION['last_activity']    = time();
         $_SESSION['absolute_timeout'] = time() + 28800; // 8 horas
 
-        $update = $conn->prepare("UPDATE ADMINISTRADOR SET ultimo_acceso = NOW() WHERE id_admin = ?");
+        $update = $conn->prepare("UPDATE administrador SET ultimo_acceso = NOW() WHERE id_admin = ?");
         $update->bind_param("i", $admin['id_admin']);
         $update->execute();
 

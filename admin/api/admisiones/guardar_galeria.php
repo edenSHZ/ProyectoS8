@@ -15,7 +15,7 @@ if (!in_array($tipo, ['carrusel', 'promocion'])) {
 
 // Verificar límite de carrusel (máx 4)
 if ($tipo === 'carrusel') {
-    $check = $conn->query("SELECT COUNT(*) as total FROM PROMOCION_GALERIA WHERE tipo = 'carrusel' AND activo = TRUE");
+    $check = $conn->query("SELECT COUNT(*) as total FROM promocion_galeria WHERE tipo = 'carrusel' AND activo = TRUE");
     $total = $check->fetch_assoc()['total'];
     if ($total >= 4) {
         echo json_encode(["status" => "error", "mensaje" => "Ya tienes 4 imágenes en el carrusel. Elimina una primero."]);
@@ -25,7 +25,7 @@ if ($tipo === 'carrusel') {
 
 // Verificar límite de promoción (máx 1)
 if ($tipo === 'promocion') {
-    $check = $conn->query("SELECT COUNT(*) as total FROM PROMOCION_GALERIA WHERE tipo = 'promocion' AND activo = TRUE");
+    $check = $conn->query("SELECT COUNT(*) as total FROM promocion_galeria WHERE tipo = 'promocion' AND activo = TRUE");
     $total = $check->fetch_assoc()['total'];
     if ($total >= 1) {
         echo json_encode(["status" => "error", "mensaje" => "Ya tienes una imagen de promoción. Elimínala primero o usa cambiar."]);
@@ -61,7 +61,7 @@ if (!in_array($mime_type, $mimesPermitidos)) {
     exit;
 }
 
-$carpeta = "../../uploads/calendarios/";
+$carpeta = "../../uploads/galeria/";
 if (!is_dir($carpeta)) mkdir($carpeta, 0755, true);
 
 $imagenNombre = uniqid() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
@@ -70,7 +70,7 @@ if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $carpeta . $imagenNombre)
     exit;
 }
 
-$stmt = $conn->prepare("INSERT INTO PROMOCION_GALERIA (id_admin, tipo, imagen, orden, activo) VALUES (?, ?, ?, ?, TRUE)");
+$stmt = $conn->prepare("INSERT INTO promocion_galeria (id_admin, tipo, imagen, orden, activo) VALUES (?, ?, ?, ?, TRUE)");
 $stmt->bind_param("issi", $id_admin, $tipo, $imagenNombre, $orden);
 
 if ($stmt->execute()) {

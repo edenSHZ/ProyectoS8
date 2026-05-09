@@ -52,7 +52,7 @@ if ($actual && $actual['imagen']) {
     if (file_exists($rutaAnterior)) unlink($rutaAnterior);
 }
 
-$carpeta = "../../uploads/calendarios/";
+$carpeta = "../../uploads/galeria/";
 if (!is_dir($carpeta)) mkdir($carpeta, 0755, true);
 
 $imagenNombre = uniqid() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
