@@ -83,6 +83,7 @@
                         <li><a href="nosotros.html">Sobre Nosotros</a></li>
                         <li><a href="preguntas.html">Preguntas Frecuentes</a></li>
                         <li><a href="privacidad.html">Aviso de Privacidad</a></li>
+                        <li><a href="politica_cookies.html">Política de Cookies</a></li>
                     </ul>
                 </nav>
             </div>
@@ -121,13 +122,6 @@
                                             <circle cx="12" cy="10" r="3"/>
                                         </svg>
                                         <p>Calle 2 Oriente 308, esquina con Avenida Cuauhtemoc. Edificio JB, Tepeaca</p>
-                                        <button id="activate-map-btn" class="btn-activar-mapa">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                                <circle cx="12" cy="10" r="3"/>
-                                            </svg>
-                                            Ver mapa interactivo
-                                        </button>
                                     </div>
                                 </div>
                                 <div id="map-dynamic" style="display: none;"></div>
@@ -189,9 +183,27 @@
         </div>
     </div>
 
+    <div id="privacy-panel" class="hidden">
+        <p>
+            Utilizamos cookies de Google Maps para mostrar un mapa interactivo de nuestra ubicación.<br> Estas cookies son de terceros (Google) y solo se activan si las aceptas.
+            <a href="/politica_cookies.html" target="_blank">
+                Más información en nuestra Política de Cookies
+            </a>.
+        </p>
+
+        <button id="allow-map-services">
+            Permitir Cookies
+        </button>
+
+        <button id="reject-map-services" class="decline">
+            Rechazar Cookies
+        </button>
+    </div>
+
     <script src="scripts/modal.js"></script>
     <script src="scripts/oferta_academica_publico.js"></script>
     <script src="scripts/menu_ham.js"></script>
     <script src="scripts/lazy-maps.js" defer></script>
+    <script src="scripts/cookie.js" defer></script>
 </body>
 </html>
