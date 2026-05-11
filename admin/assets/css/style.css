@@ -2161,3 +2161,18 @@ body {
         display: none;
     }
 }
+/* ============ FIX CENTRADO MODALES NOTICIAS ============ */
+#modalEvento,
+#modalCalendario {
+    justify-content: center;
+    align-items: center;
+}
+
+#modalEvento .modal-content,
+#modalCalendario .modal-content {
+    margin: 0;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}

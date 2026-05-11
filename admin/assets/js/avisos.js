@@ -12,7 +12,7 @@ let eventoEditandoId = null;
 let imagenEventoBase64 = null;
 let nombreImagenEvento = '';
 
-// ============ UTILIDAD XSS — ESCAPE HTML (global) ============
+// ============ ESCAPE XSS ============
 function escapeHtml(str) {
     if (str === null || str === undefined) return '';
     return String(str)
@@ -34,7 +34,7 @@ function escapeUrl(url) {
         .replace(/'/g, '&#039;');
 }
 
-// ============ UTILIDADES DE FECHA (global) ============
+// ============ UTILIDADES DE FECHA ============
 function formatearFecha(fechaBD) {
     if (!fechaBD) return '';
     const parte = fechaBD.split(' ')[0];
@@ -42,7 +42,7 @@ function formatearFecha(fechaBD) {
     return `${dia}/${mes}/${anio}`;
 }
 
-// ============ CARGAR EVENTOS (global) ============
+// ============ CARGAR EVENTOS ============
 function cargarEventos() {
     fetch(`${BASE}/obtener_evento.php`, {
         headers: { "X-Requested-With": "XMLHttpRequest" }
@@ -68,7 +68,7 @@ function cargarEventos() {
         .catch(() => mostrarToast("Error al cargar eventos", "error"));
 }
 
-// ============ MOSTRAR EVENTOS (global) ============
+// ============ MOSTRAR EVENTOS ============
 function mostrarEventos() {
     const listaEventos = document.getElementById('listaEventos');
     const inicio = (paginaActual - 1) * eventosPorPagina;
@@ -132,7 +132,7 @@ function cambiarPagina(pagina) {
     mostrarEventos();
 }
 
-// ============ TOAST (global) ============
+// ============ TOAST ============
 function mostrarToast(msg, tipo = "success") {
     const colores = { success: "#28a745", error: "#dc3545", warning: "#ffc107" };
     const toast = document.createElement('div');
@@ -147,7 +147,7 @@ function mostrarToast(msg, tipo = "success") {
     setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3000);
 }
 
-// ============ VISTA PREVIA (global) ============
+// ============ VISTA PREVIA ============
 function mostrarVistaPreviaEvento(src, nombre) {
     const vistaPrevia = document.getElementById('vistaPreviaEvento');
     const previewImg  = document.getElementById('previewEventoImg');
@@ -162,7 +162,7 @@ function mostrarVistaPreviaEvento(src, nombre) {
             nombreDiv.textContent = '';
             const badge = document.createElement('span');
             badge.className = 'badge-file';
-            badge.textContent = `${nombre}`;
+            badge.textContent = nombre;
             nombreDiv.appendChild(badge);
         }
     }
@@ -180,8 +180,6 @@ function ocultarVistaPreviaEvento() {
 }
 
 // ============ CALENDARIOS ============
-
-// Cargar listado de calendarios desde la BD
 function cargarCalendarios() {
     const lista = document.getElementById('listaCalendarios');
     if (!lista) return;
@@ -203,7 +201,6 @@ function cargarCalendarios() {
         });
 }
 
-// Renderizar el listado — todos los datos escapados con escapeHtml / escapeUrl
 function renderizarCalendarios(data) {
     const lista = document.getElementById('listaCalendarios');
     if (!lista) return;
@@ -213,7 +210,6 @@ function renderizarCalendarios(data) {
         return;
     }
 
-    //  Construido con DOM API — sin innerHTML con datos dinámicos
     lista.innerHTML = '';
     data.forEach(cal => {
         const item = document.createElement('div');
@@ -225,7 +221,6 @@ function renderizarCalendarios(data) {
         const nombre = document.createElement('span');
         nombre.className = 'calendario-item-nombre';
         nombre.title = cal.archivo;
-        //  textContent — nunca interpreta HTML
         nombre.textContent = '📄 ' + cal.archivo;
 
         const fecha = document.createElement('span');
@@ -245,14 +240,12 @@ function renderizarCalendarios(data) {
         lista.appendChild(item);
     });
 
-    // Delegación de eventos para botones de eliminar
     lista.addEventListener('click', function(e) {
         const btn = e.target.closest('.btn-eliminar-calendario');
         if (btn) eliminarCalendario(parseInt(btn.dataset.id));
-    }, { once: true }); // once:true evita acumular listeners en cada recarga
+    }, { once: true });
 }
 
-// Eliminar calendario
 function eliminarCalendario(id) {
     if (!confirm("¿Está seguro de eliminar este calendario?")) return;
 
@@ -268,7 +261,7 @@ function eliminarCalendario(id) {
     .then(data => {
         if (data.status === "success") {
             mostrarToast("Calendario eliminado");
-            cargarCalendarios(); // recargar el listado
+            cargarCalendarios();
         } else {
             mostrarToast(data.mensaje || "Error al eliminar", "error");
         }
@@ -283,7 +276,7 @@ function abrirModalEditar(id) {
     if (!evento) return;
 
     eventoEditandoId = id;
-    document.getElementById('modalEvento').style.display = 'block';
+    document.getElementById('modalEvento').style.display = 'flex'; // ← flex para centrar
     document.getElementById('modalTitulo').innerText     = 'Editar Evento';
     document.getElementById('eventoTitulo').value        = evento.titulo ?? '';
     document.getElementById('eventoDescripcion').value   = evento.descripcion ?? '';
@@ -383,8 +376,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function abrirModalEvento() {
         eventoEditandoId = null;
-        document.getElementById('modalEvento').style.display = 'block';
-        document.getElementById('modalTitulo').innerText     = ' Agregar Nuevo Evento';
+        document.getElementById('modalEvento').style.display = 'flex'; // ← flex para centrar
+        document.getElementById('modalTitulo').innerText     = 'Agregar Nuevo Evento';
         document.getElementById('eventoTitulo').value        = '';
         document.getElementById('eventoDescripcion').value   = '';
         document.getElementById('eventoFecha').value         = '';
@@ -447,12 +440,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function abrirModalCalendario() {
-        document.getElementById('modalCalendario').style.display = 'block';
+        document.getElementById('modalCalendario').style.display = 'flex'; // ← flex para centrar
         archivoBase64       = null;
         nombreArchivoActual = '';
         document.getElementById('nombreArchivo').innerHTML  = '';
         document.getElementById('archivoCalendario').value  = '';
-        // ✅ Cargar listado cada vez que se abre el modal
         cargarCalendarios();
     }
 
@@ -477,7 +469,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.status === "success") {
                     mostrarToast("Calendario subido correctamente");
-                    // Limpiar input y recargar listado sin cerrar el modal
                     archivoInput.value = '';
                     document.getElementById('nombreArchivo').innerHTML = '';
                     cargarCalendarios();
@@ -500,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
         nombreArchivoActual = file.name;
         const span = document.createElement('span');
         span.className = 'badge-file';
-        span.textContent = ` ${nombreArchivoActual}`;
+        span.textContent = nombreArchivoActual;
         const nombreDiv = document.getElementById('nombreArchivo');
         nombreDiv.innerHTML = '';
         nombreDiv.appendChild(span);
