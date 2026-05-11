@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Francés de Ciencias</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Skip Link para usuarios de teclado -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <img
+                    srcset="img/optimizado/logo-ifc-1x.webp 1x, img/optimizado/logo-ifc-2x.webp 2x"
+                    src="img/optimizado/logo-ifc-1x.webp"
+                    alt="Instituto Francés de Ciencias"
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                >
+                <span>Instituto Francés de Ciencias</span>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="index.html">Instituto</a></li>
+                    <li><a href="oferta_academica.html">Oferta educativa</a></li>
+                    <li><a href="admisiones.html">Admisiones</a></li>
+                    <li><a href="estudiantes.html">Estudiantes</a></li>
+                    <li><a href="noticias_y_eventos.html">Noticias y eventos</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Overlay para cerrar menú -->
+            <div class="menu-overlay" id="menuOverlay"></div>
+
+            <div class="search-box">
+                <label for="search-input" class="visually-hidden">Buscar en el sitio</label>
+                <input type="text" id="search-input" name="search" placeholder="Buscar..." aria-label="Campo de búsqueda" autocomplete="off">
+                <button aria-label="Realizar búsqueda">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="aviso-privacidad">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Política de Cookies</h1>
+                    <p>Conoce cómo utilizamos las cookies en nuestro sitio web</p>
+                </div>
+
+                <div class="aviso-content">
+                    <!-- Fecha de actualización -->
+                    <div class="aviso-fecha">
+                        <p><strong>Última actualización:</strong> 8 de mayo de 2026</p>
+                    </div>
+
+                    <!-- Introducción -->
+                    <div class="aviso-seccion">
+                        <h2>1. Introducción</h2>
+                        <p>El Instituto Francés de Ciencias (en adelante “el Instituto”), con domicilio en Calle 2 Oriente 308, esquina con Avenida Cuauhtémoc, Edificio JB, Tepeaca, Puebla, C.P. 75200, pone a su disposición la presente Política de Cookies en cumplimiento con lo dispuesto por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) y las Recomendaciones del Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales (INAI) en materia de uso de tecnologías de rastreo. <br>Esta política le explica qué son las cookies, qué tipos utilizamos, con qué finalidades, cómo puede gestionarlas y cuáles son sus derechos. Al navegar en nuestro sitio web, usted acepta el uso de cookies conforme a lo aquí establecido, salvo que haya rechazado expresamente aquellas que requieren consentimiento.</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>2. ¿Qué son las cookies?</h2>
+                        <p>Las cookies son pequeños archivos de texto que se descargan y almacenan en su dispositivo (computadora, teléfono, tableta) cuando accede a determinadas páginas web. Posteriormente, el sitio web puede leer esas cookies para reconocer su dispositivo, recordar sus preferencias o analizar su comportamiento de navegación. <br>Existen también otras tecnologías similares, como web beacons o píxeles de seguimiento, que funcionan de manera análoga. En esta política, cuando hablamos de “cookies” nos referimos a todas estas tecnologías.</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>3. Tipos de cookies que utilizamos</h2>
+                        <p>En nuestro sitio web (www.institutofrandesdeciencias.edu.mx) operan dos categorías de cookies:</p>
+                        <table class="aviso-tabla">
+                            <caption>Cookies Técnicas Propias (Estrictamente necesarias)</caption>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Nombre de la cookie</strong></td>
+                                    <td>cookie_consent_google_maps</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Duración</strong></td>
+                                    <td>365 días</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Finalidad</strong></td>
+                                    <td>Recordar si el usuario ha aceptado o rechazado las cookies de terceros (Google Maps). Sin esta cookie, el banner aparecería en cada visita, afectando la experiencia de navegación.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Base Legal</strong></td>
+                                    <td>Interés legítimo del responsable (artículo 10, fracción I, LFPDPPP). No requieren consentimiento previo.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Estas cookies no recaban datos personales identificables ni rastrean la actividad del usuario fuera de nuestro sitio.</p>
+
+                        <table class="aviso-tabla">
+                            <caption>Cookies de Terceros (Google Maps)</caption>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Proveedor</strong></td>
+                                    <td>Google LLC (con domicilio en 1600 Amphitheatre Parkway, Mountain View, California, EE.UU.)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Finalidad</strong></td>
+                                    <td>Mostrar un mapa interactivo con la ubicación geográfica del Instituto. Al cargar el mapa, Google puede establecer cookies con las siguientes finalidades:
+                                        <ul>
+                                            <li>Personalizar la visualización del mapa (zoom, centro, tipo de mapa).</li>
+                                            <li>Analizar el uso que se da al mapa (número de cargas, interacciones).</li>
+                                            <li>En algunos casos, mostrar publicidad contextual basada en la ubicación aproximada del usuario.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cookies específicas de Google que pueden instalarse</strong></td>
+                                    <td>NID, SNID, CONSENT, 1P_JAR, APISID, HSID, SAPISID, SID, SSID (lista no exhaustiva; depende de la versión del servicio).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Duración</strong></td>
+                                    <td>Variables: desde algunos minutos hasta 2 años (según la cookie).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Base Legal</strong></td>
+                                    <td>Consentimiento expreso (artículos 8, 9 y 17 de la LFPDPPP). Estas cookies solo se activan si usted hace clic en “Aceptar” en nuestro banner de cookies. Si rechaza, el mapa no se carga y no se instala ninguna cookie de Google.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Para conocer a detalle las cookies que utiliza Google, consulte:<br>
+                            <a href="https://policies.google.com/technologies/cookies" target="_blank" id="politica-cookie-google">Política de Cookies de Google</a><br>
+                            <a href="https://www.google.com/intl/es-419_us/help/terms_maps/" target="_blank" id="privacidad-google-maps">Privacidad y condiciones de Google Maps</a>
+                        </p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>4. ¿Qué datos personales se tratan a través de las cookies?</h2>
+                        <p>Las cookies de Google Maps pueden recabar, entre otros, los siguientes datos:
+                            <ul>
+                                <li>Dirección IP (anonimizada parcialmente en algunos casos).</li>
+                                <li>Ubicación geográfica aproximada (a nivel de ciudad o región).</li>
+                                <li>Preferencias de visualización del mapa (zoom, idioma).</li>
+                                <li>Fecha y hora de la visita.</li>
+                                <li>Tipo de navegador y sistema operativo.</li>
+                                <li>Interacciones con el mapa (clics, desplazamientos).</li>
+                            </ul>
+                        </p>
+                        <p>El Instituto <strong>no tiene acceso directo</strong>  a los datos brutos recabados por Google a través de estas cookies; dicha información es gestionada exclusivamente por Google bajo su propia política de privacidad. No obstante, al aceptar las cookies de terceros, usted autoriza que Google procese sus datos en los términos descritos.</p>
+                        <p>El Instituto <strong>nunca</strong> utiliza cookies para recabar datos sensibles (origen racial, creencias, salud, etc.) ni para transferir información personal a otros terceros distintos a Google.</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>5. Plazos de conservación de las cookies</h2>
+                        <table class="aviso-tabla">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de cookie</th>
+                                    <th>Plazo de conservación en su dispositivo</th>
+                                    <th>Plazo de conservación en servidores del tercero</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Técnica propia (cookie_consent_google_maps)</strong></td>
+                                    <td>365 días</td>
+                                    <td>No aplica (se guarda solo en su navegador).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cookies de Google Maps</strong></td>
+                                    <td>Depende de cada cookie (desde sesión hasta 2 años)</td>
+                                    <td>Sujeto a la política de retención de Google.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Usted puede eliminar manualmente cualquiera de estas cookies en cualquier momento mediante la configuración de su navegador (ver sección 7).</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>6. ¿Qué ocurre si no acepta las cookies de terceros?</h2>
+                        <p>Si usted rechaza las cookies de Google Maps (haciendo clic en “Rechazar” en el banner o configurando su navegador para bloquearlas), el mapa interactivo no se cargará. En su lugar, se mostrará un mensaje informativo con la dirección textual del Instituto y una invitación a ver la ubicación mediante un enlace externo a Google Maps (sin cookies). Esta alternativa no afecta el funcionamiento del resto del sitio web (formulario de contacto, navegación, etc.).</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>7. Cómo gestionar, bloquear o eliminar las cookies</h2>
+                        <p>Usted tiene el control absoluto sobre las cookies. Puede:</p>
+
+                        <h3>7.1 A través de nuestro banner de cookies</h3>
+                        <p>Al ingresar por primera vez al sitio (o después de haber eliminado las cookies manualmente), aparecerá un banner emergente con dos opciones:</p>
+                        <ul>
+                            <li><strong>Aceptar cookies de terceros:</strong> Se cargará el mapa de Google Maps y se instalarán sus cookies.</li>
+                            <li><strong>Rechazar cookies de terceros:</strong> el mapa no se cargará y no se instalarán cookies de Google.</li>
+                        </ul>
+                        <p>La elección se guarda durante 1 año mediante la cookie técnica propia. Si desea cambiar su decisión, simplemente elimine las cookies de su navegador (ver 7.2) y recargue la página; el banner volverá a aparecer.</p>
+
+                        <h3>7.2 A través de la configuración de su navegador</h3>
+                        <p>Todos los navegadores modernos permiten bloquear o eliminar cookies de sitios específicos o de todos los sitios. A continuación, los enlaces a las instrucciones oficiales:</p>
+                        <ul>
+                            <li><a href="https://support.google.com/accounts/answer/32050" target="_blank">Google Chrome</a></li>
+                            <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank">Mozilla Firefox</a></li>
+                            <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank">Apple Safari</a></li>
+                            <li><a href="https://support.microsoft.com/es-es/windows/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank">Microsoft Edge</a></li>
+                            <li><a href="https://help.opera.com/en/latest/web-preferences/#cookies" target="_blank">Opera</a></li>
+                        </ul>
+                        <p><strong>Nota importante:</strong> Si bloquea todas las cookies (incluidas las técnicas propias), el banner de cookies aparecerá cada vez que visite nuestro sitio, ya que no podremos recordar su preferencia. Sin embargo, el resto de las funcionalidades esenciales del sitio no se verán afectadas.</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>8. Transferencias de datos internacionales</h2>
+                        <p>Al aceptar las cookies de Google Maps, sus datos (como la dirección IP) pueden ser transmitidos y procesados por Google en servidores ubicados en Estados Unidos u otros países. Google cumple con el Marco de Privacidad de Datos UE-EE.UU. y con las cláusulas contractuales tipo para garantizar un nivel adecuado de protección. Puede consultar los detalles en: Transferencias internacionales de Google.</p>
+                        <p>El Instituto no realiza transferencias adicionales de los datos recabados mediante cookies.</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>9. Sus derechos en materia de protección de datos (Derechos ARCO)</h2>
+                        <p>En relación con los datos personales que pudieran ser tratados a través de las cookies (por ejemplo, si usted nos contacta por el formulario), usted tiene los derechos de Acceso, Rectificación, Cancelación y Oposición (ARCO) conforme a la LFPDPPP. También puede revocar su consentimiento para el tratamiento de sus datos personales cuando así proceda.<br>
+                            Para ejercer estos derechos, debe enviar una solicitud por escrito al correo: institutofrancesydeciencias@gmail.com, siguiendo los requisitos establecidos en nuestro Aviso de Privacidad Integral disponible en el sitio web.<br>
+                            En lo que respecta específicamente a los datos procesados por Google mediante cookies, deberá ejercer sus derechos directamente ante Google, de acuerdo con su política de privacidad: Portal de privacidad de Google.</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>10. Menores de edad</h2>
+                        <p>Nuestro sitio web no está dirigido a menores de 13 años. No recabamos intencionalmente información de niños mediante cookies. Si usted es padre o tutor y considera que su hijo ha proporcionado datos sin su consentimiento, contáctenos al correo indicado.</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <h2>11. Cambios en esta Política de Cookiesp</h2>
+                        <p>Podemos modificar esta Política de Cookies en cualquier momento para reflejar:
+                        <ul>
+                            <li>Cambios en los servicios de terceros que utilizamos (por ejemplo, actualizaciones en las cookies de Google Maps).</li>
+                            <li>Nuevos requisitos legales o recomendaciones del INAI.</li>
+                            <li>Mejoras en la transparencia.</li>
+                        </ul>
+                        </p>
+                        <p>Las modificaciones serán publicadas en esta misma página, indicando la fecha de la última actualización. Le recomendamos revisarla periódicamente. Cuando los cambios sean sustanciales, publicaremos un aviso destacado en nuestro sitio web.</p>
+                    </div>
+
+                    <div class="aviso-seccion">
+                        <p><strong>Aceptación:</strong> Al hacer clic en “Aceptar” en el banner de cookies, usted manifiesta su consentimiento libre, específico, informado e inequívoco para el uso de cookies de Google Maps en los términos aquí descritos. Si no está de acuerdo, debe rechazarlas o configurar su navegador para bloquearlas.</p>
+                    </div>
+
+                    <!-- Botón de contacto -->
+                    <div class="aviso-contacto">
+                        <p>Si tiene alguna duda sobre nuestra Política de Cookies, contáctenos:</p>
+                        <a href="contacto.html" class="btn-aviso">Contáctenos</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-wrapper">
+            <!-- Columna 1: Enlaces de Apoyo -->
+            <div class="footer-col">
+                <h4>Enlaces de Apoyo</h4>
+                <nav aria-label="Enlaces de apoyo del footer">
+                    <ul>
+                        <li><a href="calendario.html">Calendario Escolar</a></li>
+                        <li><a href="comunidad.html">Conoce Nuestra Comunidad</a></li>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas.html">Preguntas Frecuentes</a></li>
+                        <li><a href="privacidad.html">Aviso de Privacidad</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Columna 2: Validaciones oficiales -->
+            <div class="footer-col">
+                <h4>Validaciones oficiales</h4>
+                <div class="validaciones-logos">
+                    <img
+                        srcset="img/optimizado/logo-sep-footer-1x.webp 1x, img/optimizado/logo-sep-footer-2x.webp 2x"
+                        src="img/optimizado/logo-sep-footer-1x.webp"
+                        alt="SEP"
+                        width="75"
+                        height="74"
+                        loading="lazy"
+                    >
+                    <img
+                        srcset="img/optimizado/logo-oxford-test-footer-1x.webp 1x, img/optimizado/logo-oxford-test-footer-2x.webp 2x"
+                        src="img/optimizado/logo-oxford-test-footer-1x.webp"
+                        alt="Oxford University Press"
+                        width="75"
+                        height="76"
+                        loading="lazy"
+                    >
+                    <img
+                        srcset="img/optimizado/DELF-logo-footer-1x.webp 1x, img/optimizado/DELF-logo-footer-2x.webp 2x"
+                        src="img/optimizado/DELF-logo-footer-1x.webp"
+                        alt="DELF"
+                        width="75"
+                        height="75"
+                        loading="lazy"
+                    >
+                </div>
+            </div>
+
+            <!-- Columna 3: Contacto y Mapa en la misma fila -->
+            <div class="footer-col footer-col-3">
+                <div class="contacto-mapa-row">
+                    <!-- Lado izquierdo: Contacto -->
+                    <div class="contacto-left">
+                        <h4>Contacto</h4>
+                        <p><strong>Teléfono:</strong> 222 852 4533</p>
+                        <p><strong>Dirección:</strong>Calle 2 Oriente 308, esquina con Avenida Cuauhtemoc. Edificio JB, Tepeaca.</p>
+                        <p><strong>Correo:</strong><a href="mailto:institutodefrancesyciencias@gmail.com">institutode<br>francesy<br>ciencias@gmail.com</a></p>
+                        <p><strong>Horario:</strong> Lun-Vie: 2pm - 7pm<br>
+                                                     Sábado: 8am - 7pm<br>
+                                                     Domingo CERRADO</p>
+                    </div>
+
+                    <!-- Lado derecho: Mapa -->
+                    <div class="mapa-right">
+                        <h4>Ubicación en el mapa:</h4>
+                        <div class="map-placeholder">
+                            <div class="map-box" id="map-container">
+                                <!-- Placeholder visual que se muestra antes de cargar el mapa -->
+                                <div id="map-static" class="map-static-wrapper map-placeholder-visual">
+                                    <div class="map-placeholder-content">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                        <p>Calle 2 Oriente 308, esquina con Avenida Cuauhtemoc. Edificio JB, Tepeaca</p>
+                                        <button id="activate-map-btn" class="btn-activar-mapa">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                <circle cx="12" cy="10" r="3"/>
+                                            </svg>
+                                            Ver mapa interactivo
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Aquí se inyectará el iframe cuando el usuario haga clic o haga scroll -->
+                                <div id="map-dynamic" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna 4: Redes Sociales + Instituto -->
+            <div class="footer-col footer-redes">
+                <h4>Redes Sociales</h4>
+                <nav aria-label="Redes sociales del Instituto Francés de Ciencias">
+                    <div class="social-icons">
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/InstitutoFrancesdeCiencias" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0 -5 5v3H7v4h3v8h4v-8h3l1 -4h-4V7a1 1 0 0 1 1 -1h3z"/>
+                        </svg>
+                        </a>
+
+                        <!-- WhatsApp -->
+                        <a href="https://wa.me/522228524533" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                            <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"/>
+                            <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"/>
+                        </svg>
+                        </a>
+
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/institutofrancesdeciencias?igsh=cXg0ZzloODRpbzU0" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="#ffffff" stroke-width="2">
+                            <path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"/>
+                            <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
+                            <path d="M16.5 7.5v.01"/>
+                        </svg>
+                        </a>
+                    </div>
+                </nav>
+                <p class="instituto-nombre">Instituto Francés de Ciencias</p>
+            </div>
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="copyright-bar">
+            <p>© Instituto Francés de Ciencias 2026. Todos los derechos reservados</p>
+        </div>
+    </footer>
+    <script src="scripts/menu_ham.js"></script>
+    <script src="scripts/lazy-maps.js" defer></script>
+</body>
+</html>
