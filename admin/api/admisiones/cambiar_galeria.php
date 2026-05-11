@@ -42,7 +42,7 @@ if (!in_array($mime_type, $mimesPermitidos)) {
 }
 
 // Obtener imagen anterior
-$stmtActual = $conn->prepare("SELECT imagen FROM PROMOCION_GALERIA WHERE id = ?");
+$stmtActual = $conn->prepare("SELECT imagen FROM promocion_galeria WHERE id = ?");
 $stmtActual->bind_param("i", $id);
 $stmtActual->execute();
 $actual = $stmtActual->get_result()->fetch_assoc();
@@ -75,7 +75,7 @@ if (!$imagenNombre) {
     exit;
 }
 
-$stmt = $conn->prepare("UPDATE PROMOCION_GALERIA SET imagen = ?, id_admin = ? WHERE id = ?");
+$stmt = $conn->prepare("UPDATE promocion_galeria SET imagen = ?, id_admin = ? WHERE id = ?");
 $stmt->bind_param("sii", $imagenNombre, $id_admin, $id);
 
 if ($stmt->execute()) {

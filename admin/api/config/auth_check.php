@@ -1,9 +1,5 @@
 <?php
-// ============================================================
-// auth_check.php — va en /admin/config/
-// Ruta a conexion: ../../api/config/conexion.php
-// Incluir al inicio de TODOS los PHP del panel admin
-// ============================================================
+
 
 ini_set('session.use_only_cookies', 1);
 ini_set('session.use_trans_sid', 0);
