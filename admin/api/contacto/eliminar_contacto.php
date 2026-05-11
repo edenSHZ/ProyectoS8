@@ -14,7 +14,7 @@ if (!isset($data['id']) || !is_numeric($data['id'])) {
 
 $id = (int) $data['id'];
 
-$stmt = $conn->prepare("DELETE FROM CONTACTO WHERE id_contacto = ?");
+$stmt = $conn->prepare("DELETE FROM contacto WHERE id_contacto = ?");
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {

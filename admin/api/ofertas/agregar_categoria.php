@@ -26,7 +26,7 @@ if (mb_strlen($descripcion) > 500) {
 }
 
 // ============ INSERCIÓN ============
-$stmt = $conn->prepare("INSERT INTO CATEGORIA_CURSO (nombre, descripcion, activo) VALUES (?, ?, TRUE)");
+$stmt = $conn->prepare("INSERT INTO categoria_curso (nombre, descripcion, activo) VALUES (?, ?, TRUE)");
 
 if (!$stmt) {
     error_log("Error al preparar agregar_categoria: " . $conn->error);

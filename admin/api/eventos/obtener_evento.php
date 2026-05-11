@@ -8,7 +8,7 @@ header("Content-Type: application/json; charset=UTF-8");
 //    json_encode() se encarga de escapar correctamente para JSON.
 //    El escape XSS se hace en el JavaScript al insertar en el DOM.
 $sql    = "SELECT id, titulo, descripcion, fecha, tipo, estado, imagen
-            FROM NOTICIA_EVENTO
+            FROM noticia_evento
             ORDER BY fecha DESC";
 
 $result = $conn->query($sql);

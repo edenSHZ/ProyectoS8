@@ -1,31 +1,36 @@
 <?php
 include "../config/conexion.php";
 include "../config/auth_check.php";
+include "../config/imagen_helper.php";
 
 header("Content-Type: application/json; charset=UTF-8");
 
-// ============ RECEPCIÓN Y VALIDACIÓN ============
 $id          = $_POST['id_curso']    ?? null;
+$nombre      = trim($_POST['nombre']      ?? ''); // ← agregar
 $duracion    = trim($_POST['duracion']    ?? '');
 $horario     = trim($_POST['horario']     ?? '');
 $requisitos  = trim($_POST['requisitos']  ?? '');
 $descripcion = trim($_POST['descripcion'] ?? '');
 
-// Validar ID como entero
 $id = filter_var($id, FILTER_VALIDATE_INT);
 if ($id === false || $id <= 0) {
     echo json_encode(["status" => "error", "mensaje" => "ID inválido"]);
     exit;
 }
 
-// Longitudes máximas
-if (mb_strlen($duracion)    > 100) { echo json_encode(["status" => "error", "mensaje" => "Duración demasiado larga (máx. 100)"]); exit; }
-if (mb_strlen($horario)     > 100) { echo json_encode(["status" => "error", "mensaje" => "Horario demasiado largo (máx. 100)"]); exit; }
-if (mb_strlen($requisitos)  > 500) { echo json_encode(["status" => "error", "mensaje" => "Requisitos demasiado largos (máx. 500)"]); exit; }
-if (mb_strlen($descripcion) > 2000){ echo json_encode(["status" => "error", "mensaje" => "Descripción demasiado larga (máx. 2000)"]); exit; }
+// ← agregar validación de nombre
+if ($nombre === '') {
+    echo json_encode(["status" => "error", "mensaje" => "El nombre del curso es obligatorio"]);
+    exit;
+}
 
-// ============ OBTENER IMAGEN ACTUAL Y VERIFICAR EXISTENCIA ============
-$stmtActual = $conn->prepare("SELECT imagen FROM CURSO WHERE id_curso = ?");
+if (mb_strlen($nombre)      > 150)  { echo json_encode(["status" => "error", "mensaje" => "Nombre demasiado largo (máx. 150)"]); exit; }
+if (mb_strlen($duracion)    > 100)  { echo json_encode(["status" => "error", "mensaje" => "Duración demasiado larga (máx. 100)"]); exit; }
+if (mb_strlen($horario)     > 100)  { echo json_encode(["status" => "error", "mensaje" => "Horario demasiado largo (máx. 100)"]); exit; }
+if (mb_strlen($requisitos)  > 500)  { echo json_encode(["status" => "error", "mensaje" => "Requisitos demasiado largos (máx. 500)"]); exit; }
+if (mb_strlen($descripcion) > 2000) { echo json_encode(["status" => "error", "mensaje" => "Descripción demasiado larga (máx. 2000)"]); exit; }
+
+$stmtActual = $conn->prepare("SELECT imagen FROM curso WHERE id_curso = ?");
 if (!$stmtActual) {
     error_log("Error al preparar consulta imagen actual (editar_curso): " . $conn->error);
     echo json_encode(["status" => "error", "mensaje" => "Error interno"]);
@@ -44,11 +49,10 @@ if (!$actual) {
 
 $imagenNombre = $actual['imagen'] ?? null;
 
-// ============ NUEVA IMAGEN ============
 if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
 
+    $extension         = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
     $extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp'];
-    $extension = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
 
     if (!in_array($extension, $extensionesPermitidas, true)) {
         echo json_encode(["status" => "error", "mensaje" => "Tipo de imagen no permitido"]);
@@ -70,7 +74,6 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
         exit;
     }
 
-    // Eliminar imagen anterior
     if ($imagenNombre) {
         $rutaAnterior = "../../uploads/cursos/" . $imagenNombre;
         if (file_exists($rutaAnterior)) unlink($rutaAnterior);
@@ -79,15 +82,25 @@ if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
     $carpeta = "../../uploads/cursos/";
     if (!is_dir($carpeta)) mkdir($carpeta, 0755, true);
 
-    $imagenNombre = uniqid('cur_', true) . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
-    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $carpeta . $imagenNombre)) {
-        echo json_encode(["status" => "error", "mensaje" => "Error al guardar la imagen en el servidor"]);
+    $nombreBase   = uniqid('cur_', true) . '_' . bin2hex(random_bytes(8));
+    $imagenNombre = procesarImagen(
+        $_FILES['imagen']['tmp_name'],
+        $extension,
+        $carpeta,
+        $nombreBase,
+        800,
+        600,
+        80
+    );
+
+    if (!$imagenNombre) {
+        echo json_encode(["status" => "error", "mensaje" => "Error al procesar imagen"]);
         exit;
     }
 }
 
-// ============ ACTUALIZACIÓN ============
-$sql  = "UPDATE CURSO SET duracion=?, horario=?, requisitos=?, descripcion=?, imagen=? WHERE id_curso=?";
+// ← nombre agregado al UPDATE
+$sql  = "UPDATE curso SET nombre=?, duracion=?, horario=?, requisitos=?, descripcion=?, imagen=? WHERE id_curso=?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -96,7 +109,7 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("sssssi", $duracion, $horario, $requisitos, $descripcion, $imagenNombre, $id);
+$stmt->bind_param("ssssssi", $nombre, $duracion, $horario, $requisitos, $descripcion, $imagenNombre, $id);
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "imagen" => $imagenNombre], JSON_UNESCAPED_UNICODE);
