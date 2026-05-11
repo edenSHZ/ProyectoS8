@@ -13,7 +13,7 @@ $idsDestacados = [22, 25, 27, 29];
 $placeholders  = implode(',', array_fill(0, count($idsDestacados), '?'));
 
 $sql  = "SELECT id_curso, nombre, descripcion, imagen, duracion, horario, requisitos
-        FROM CURSO
+        FROM curso
         WHERE id_curso IN ($placeholders)
          ORDER BY FIELD(id_curso, 22, 25, 27, 29)"; // mismo orden siempre
 

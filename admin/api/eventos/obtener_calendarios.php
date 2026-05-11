@@ -5,7 +5,7 @@ include "../config/auth_check.php";
 header("Content-Type: application/json; charset=UTF-8");
 
 $sql = "SELECT id_evento, archivo, created_at
-        FROM EVENTO_CALENDARIO
+        FROM evento_calendario
         WHERE tipo_archivo = 'pdf'
         ORDER BY created_at DESC";
 

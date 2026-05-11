@@ -2,10 +2,8 @@
 header("Content-Type: application/json; charset=UTF-8");
 include "conexion.php";
 
-// Obtener datos JSON
 $data = json_decode(file_get_contents("php://input"), true);
 
-// Obtener y limpiar datos
 $nombre   = trim($data['nombre']   ?? '');
 $telefono = trim($data['telefono'] ?? '');
 $email    = trim($data['email']    ?? '');
@@ -16,28 +14,50 @@ $mensaje  = trim($data['mensaje']  ?? '');
 // VALIDACIONES
 // ==============================
 
-// Campos obligatorios
 if ($nombre === '' || $email === '' || $mensaje === '') {
     echo json_encode(["status" => "error", "mensaje" => "Campos obligatorios vacíos"]);
     exit;
 }
 
-// Validar email
+// Nombre — solo letras, espacios y acentos, sin números ni especiales
+if (!preg_match('/^[\p{L}\s]+$/u', $nombre)) {
+    echo json_encode(["status" => "error", "mensaje" => "El nombre solo puede contener letras y espacios"]);
+    exit;
+}
+
+// Email — solo minúsculas, sin mayúsculas ni caracteres raros
+// Primero convertir a minúsculas por si acaso
+$email = mb_strtolower($email, 'UTF-8');
+
+// Validar formato estricto: letras minúsculas, números, puntos, guiones y @
+if (!preg_match('/^[a-z0-9._\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/', $email)) {
+    echo json_encode(["status" => "error", "mensaje" => "Correo inválido. Solo se permiten letras minúsculas, números y los caracteres . _ -"]);
+    exit;
+}
+
+// Validacion adicional de PHP
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode(["status" => "error", "mensaje" => "Correo inválido"]);
     exit;
 }
 
-// Validar teléfono (opcional pero si viene debe ser válido)
-if ($telefono !== '' && !preg_match('/^[0-9+\-\s]{7,20}$/', $telefono)) {
-    echo json_encode(["status" => "error", "mensaje" => "Teléfono inválido"]);
-    exit;
+// Telefono — exactamente entre 7 y 15 dígitos, puede incluir + al inicio y espacios
+if ($telefono !== '') {
+    // Eliminar espacios para contar solo dígitos
+    $telefonoLimpio = preg_replace('/[\s\-]/', '', $telefono);
+
+    if (!preg_match('/^\+?[0-9]{7,15}$/', $telefonoLimpio)) {
+        echo json_encode(["status" => "error", "mensaje" => "Teléfono inválido. Solo dígitos, máximo 15"]);
+        exit;
+    }
 }
 
+// Asunto y mensaje — sin etiquetas HTML ni scripts
+$asunto  = strip_tags($asunto);
+$mensaje = strip_tags($mensaje);
+
 // ==============================
-// LIMITAR LONGITUD (anti abuso)
-// ✅ mb_substr en lugar de substr — respeta caracteres UTF-8
-//    como á, é, ñ, ü sin cortarlos a la mitad
+// LIMITAR LONGITUD
 // ==============================
 $nombre   = mb_substr($nombre,   0, 100,  'UTF-8');
 $telefono = mb_substr($telefono, 0, 20,   'UTF-8');
@@ -46,11 +66,9 @@ $asunto   = mb_substr($asunto,   0, 150,  'UTF-8');
 $mensaje  = mb_substr($mensaje,  0, 1000, 'UTF-8');
 
 // ==============================
-// CONSULTA SEGURA (ANTI SQLi)
+// CONSULTA SEGURA
 // ==============================
-$sql = "INSERT INTO CONTACTO (nombre, email, telefono, asunto, mensaje)
-        VALUES (?, ?, ?, ?, ?)";
-
+$sql  = "INSERT INTO contacto (nombre, email, telefono, asunto, mensaje) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -61,13 +79,9 @@ if (!$stmt) {
 
 $stmt->bind_param("sssss", $nombre, $email, $telefono, $asunto, $mensaje);
 
-// ==============================
-// EJECUCIÓN
-// ==============================
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "mensaje" => "Mensaje enviado correctamente"]);
 } else {
-    //    Error real al log del servidor — no se expone al cliente
     error_log("Error al guardar contacto: " . $stmt->error);
     echo json_encode(["status" => "error", "mensaje" => "Error al guardar el mensaje"]);
 }

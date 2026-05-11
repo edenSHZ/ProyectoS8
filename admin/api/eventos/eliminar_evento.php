@@ -15,7 +15,7 @@ if (!isset($data['id']) || !is_numeric($data['id'])) {
 $id = (int) $data['id'];
 
 // Obtener imagen para eliminarla del servidor
-$stmt = $conn->prepare("SELECT imagen FROM NOTICIA_EVENTO WHERE id = ?");
+$stmt = $conn->prepare("SELECT imagen FROM noticia_evento WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $row = $stmt->get_result()->fetch_assoc();
@@ -26,7 +26,7 @@ if ($row && $row['imagen']) {
     if (file_exists($ruta)) unlink($ruta);
 }
 
-$stmt = $conn->prepare("DELETE FROM NOTICIA_EVENTO WHERE id = ?");
+$stmt = $conn->prepare("DELETE FROM noticia_evento WHERE id = ?");
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
