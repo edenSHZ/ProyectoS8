@@ -47,7 +47,7 @@ function mostrarToast(msg, tipo = "success") {
 // ============ CARGAR CATEGORÍAS ============
 function cargarCategorias() {
     fetch(`${BASE}/obtener_categorias.php`, {
-        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+        headers: { "X-Requested-With": "XMLHttpRequest" }
     })
         .then(res => res.json())
         .then(data => {
@@ -96,7 +96,7 @@ function seleccionarTab(id) {
 // ============ CARGAR CURSOS POR CATEGORÍA ============
 function cargarCursosPorCategoria(idCategoria) {
     fetch(`${BASE}/obtener_curso.php`, {
-        headers: { "X-Requested-With": "XMLHttpRequest" } // ✅
+        headers: { "X-Requested-With": "XMLHttpRequest" }
     })
         .then(res => res.json())
         .then(data => {
@@ -164,6 +164,7 @@ function abrirModalEditar(id) {
     imagenSeleccionada = null;
 
     document.getElementById('modalCursoId').value     = id;
+    document.getElementById('modalNombre').value      = curso.nombre      ?? ''; // ← nuevo
     document.getElementById('modalDuracion').value    = curso.duracion    ?? '';
     document.getElementById('modalHorario').value     = curso.horario     ?? '';
     document.getElementById('modalRequisitos').value  = curso.requisitos  ?? '';
@@ -188,6 +189,7 @@ function cerrarModalEditar() {
     document.getElementById('modalEditarCurso').style.display = 'none';
     cursoEditandoId    = null;
     imagenSeleccionada = null;
+    document.getElementById('modalNombre').value    = ''; // ← nuevo
     document.getElementById('modalFileInput').value = '';
 }
 
@@ -214,6 +216,7 @@ function guardarEdicionCurso() {
 
     const formData = new FormData();
     formData.append('id_curso',    cursoEditandoId);
+    formData.append('nombre',      document.getElementById('modalNombre').value.trim()); // ← nuevo
     formData.append('duracion',    document.getElementById('modalDuracion').value.trim());
     formData.append('horario',     document.getElementById('modalHorario').value.trim());
     formData.append('requisitos',  document.getElementById('modalRequisitos').value.trim());
@@ -224,7 +227,7 @@ function guardarEdicionCurso() {
 
     fetch(`${BASE}/editar_curso.php`, {
         method: "POST",
-        headers: { "X-Requested-With": "XMLHttpRequest" }, // ✅
+        headers: { "X-Requested-With": "XMLHttpRequest" },
         body: formData
     })
         .then(res => res.json())
@@ -254,7 +257,7 @@ function guardarCategoria() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest" // ✅
+            "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ nombre, descripcion })
     })
@@ -294,7 +297,7 @@ function guardarNuevoCurso() {
 
     fetch(`${BASE}/agregar_curso.php`, {
         method: "POST",
-        headers: { "X-Requested-With": "XMLHttpRequest" }, // ✅
+        headers: { "X-Requested-With": "XMLHttpRequest" },
         body: formData
     })
         .then(res => res.json())
@@ -320,7 +323,7 @@ function eliminarCurso(id) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest" // ✅
+            "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ id })
     })
@@ -350,7 +353,7 @@ function eliminarCategoriaActiva() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest" // ✅
+            "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ id: categoriaActiva })
     })
