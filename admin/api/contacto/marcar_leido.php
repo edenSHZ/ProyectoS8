@@ -15,7 +15,7 @@ if (!isset($data['id']) || !is_numeric($data['id'])) {
 $id       = (int) $data['id'];
 $id_admin = (int) $_SESSION['admin_id']; // tomamos el admin de la sesión
 
-$stmt = $conn->prepare("UPDATE contacto SET leido = TRUE, id_admin = ? WHERE id_contacto = ?");
+$stmt = $conn->prepare("UPDATE CONTACTO SET leido = TRUE, id_admin = ? WHERE id_contacto = ?");
 $stmt->bind_param("ii", $id_admin, $id);
 
 if ($stmt->execute()) {

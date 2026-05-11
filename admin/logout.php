@@ -1,47 +1,10 @@
 <?php
-// ============================================================
-// logout.php — va en /admin/ (mismo nivel que login.php)
-// ============================================================
 ini_set('session.use_only_cookies', 1);
-
-session_set_cookie_params([
-    'secure'   => false,     // cambiar a true en producción con HTTPS
-    'httponly' => true,
-    'samesite' => 'Strict'
-]);
 session_start();
+header("Content-Type: application/json");
 
-header("Content-Type: application/json; charset=UTF-8");
+$_SESSION = [];
 
-if (isset($_SESSION['admin_id'])) {
-    $adminId = (int) $_SESSION['admin_id'];
-
-    include "api/config/conexion.php"; // ✅ ruta correcta desde admin/
-
-    // Limpiar token en la BD
-    $stmt = $conn->prepare(
-        "UPDATE administrador
-         SET session_token  = NULL,
-             session_fecha  = NULL,
-             session_ip     = NULL,
-             session_agente = NULL
-         WHERE id_admin = ?"
-    );
-
-    if ($stmt) {
-        $stmt->bind_param("i", $adminId);
-        $stmt->execute();
-        $stmt->close();
-    }
-
-    $conn->close();
-}
-
-// Destruir sesión completamente
-session_unset();
-session_destroy();
-
-// Eliminar cookie de sesión del navegador
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(
@@ -54,5 +17,7 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-echo json_encode(["status" => "success"]);
+session_destroy();
+
+echo json_encode(["status" => "success", "message" => "Sesión cerrada"]);
 ?>

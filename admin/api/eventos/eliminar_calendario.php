@@ -15,7 +15,7 @@ if ($id === false || $id <= 0) {
 }
 
 // Obtener nombre del archivo antes de eliminar
-$stmt = $conn->prepare("SELECT archivo FROM evento_calendario WHERE id_evento = ?");
+$stmt = $conn->prepare("SELECT archivo FROM EVENTO_CALENDARIO WHERE id_evento = ?");
 if (!$stmt) {
     error_log("Error al preparar consulta eliminar_calendario: " . $conn->error);
     echo json_encode(["status" => "error", "mensaje" => "Error interno"]);
@@ -39,7 +39,7 @@ if (file_exists($rutaArchivo)) {
 }
 
 // Eliminar registro de la BD
-$stmtDel = $conn->prepare("DELETE FROM evento_calendario WHERE id_evento = ?");
+$stmtDel = $conn->prepare("DELETE FROM EVENTO_CALENDARIO WHERE id_evento = ?");
 if (!$stmtDel) {
     error_log("Error al preparar DELETE eliminar_calendario: " . $conn->error);
     echo json_encode(["status" => "error", "mensaje" => "Error interno al eliminar"]);

@@ -9,7 +9,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // Solo columnas necesarias — sin id_admin (dato interno)
 $sql = "SELECT id, tipo, imagen, orden
-        FROM promocion_galeria
+        FROM PROMOCION_GALERIA
         WHERE activo = TRUE
         ORDER BY tipo, orden ASC";
 

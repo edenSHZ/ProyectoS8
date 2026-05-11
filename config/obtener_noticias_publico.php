@@ -9,7 +9,7 @@ include "conexion.php";
 header("Content-Type: application/json; charset=UTF-8");
 
 $sql = "SELECT id, titulo, descripcion, fecha, tipo, imagen
-        FROM noticia_evento
+        FROM NOTICIA_EVENTO
         WHERE estado = 'publicado'
         ORDER BY fecha DESC";
 

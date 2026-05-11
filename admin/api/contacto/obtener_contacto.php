@@ -4,7 +4,7 @@ include "../config/auth_check.php";
 
 header("Content-Type: application/json");
 
-$sql    = "SELECT * FROM contacto ORDER BY created_at DESC";
+$sql    = "SELECT * FROM CONTACTO ORDER BY created_at DESC";
 $result = $conn->query($sql);
 
 if (!$result) {

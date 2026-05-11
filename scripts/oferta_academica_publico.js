@@ -14,17 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .replace(/\//g, '&#x2F;');
     }
 
-    const UPLOADS_CURSOS = 'admin/uploads/cursos/';
-    const IMG_DEFAULT    = 'img&log/logo-sep.png';
+    const UPLOADS     = 'admin/uploads/cursos/';
+    const IMG_DEFAULT = 'img&log/logo-sep.png';
 
-    const tabsContainer   = document.getElementById('oferta-tabs');
+    const tabsContainer  = document.getElementById('oferta-tabs');
     const cursosContainer = document.getElementById('oferta-cursos');
 
     if (!tabsContainer || !cursosContainer) return;
-
-    // ── Leer ?categoria=X de la URL (viene del buscador) ─
-    const params       = new URLSearchParams(window.location.search);
-    const categoriaURL = parseInt(params.get('categoria')) || null;
 
     // ============================================================
     // CARGAR DATOS DESDE LA BD
@@ -38,22 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
             cursosContainer.innerHTML = '<p style="color:#888;">No hay cursos disponibles.</p>';
             return;
         }
-
         renderizarTabs(categorias);
-
-        // Si viene ?categoria=X del buscador, activar ese tab
-        // Si no, mostrar la primera categoría
-        if (categoriaURL) {
-            const indexCat = categorias.findIndex(c => c.id_categoria === categoriaURL);
-            mostrarCategoria(categorias, indexCat >= 0 ? indexCat : 0);
-
-            // Hacer scroll suave hasta la sección de cursos
-            setTimeout(() => {
-                cursosContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 300);
-        } else {
-            mostrarCategoria(categorias, 0);
-        }
+        mostrarCategoria(categorias, 0);
     })
     .catch(() => {
         cursosContainer.innerHTML = '<p style="color:#888;">Error al cargar los cursos.</p>';
@@ -66,22 +48,14 @@ document.addEventListener('DOMContentLoaded', function () {
         tabsContainer.innerHTML = '';
         categorias.forEach((cat, index) => {
             const btn = document.createElement('button');
-            btn.className   = 'oferta-tab';
+            btn.className = 'oferta-tab' + (index === 0 ? ' active' : '');
             btn.dataset.index = index;
             btn.textContent = cat.nombre;
-
-            // Marcar activo según URL o primero por defecto
-            const esActivo = categoriaURL
-                ? cat.id_categoria === categoriaURL
-                : index === 0;
-            if (esActivo) btn.classList.add('active');
-
             btn.addEventListener('click', () => {
                 tabsContainer.querySelectorAll('.oferta-tab').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 mostrarCategoria(categorias, index);
             });
-
             tabsContainer.appendChild(btn);
         });
     }
@@ -110,14 +84,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         cat.cursos.forEach(curso => {
             const card = document.createElement('div');
-            card.className    = 'oferta-card';
+            card.className = 'oferta-card';
             card.style.cursor = 'pointer';
 
             const img = document.createElement('img');
-            img.src     = curso.imagen ? UPLOADS_CURSOS + curso.imagen : IMG_DEFAULT;
+            img.src     = curso.imagen ? UPLOADS + curso.imagen : IMG_DEFAULT;
             img.alt     = curso.nombre;
             img.loading = 'lazy';
-            img.onerror = function () { this.src = IMG_DEFAULT; };
+            img.onerror = function() { this.src = IMG_DEFAULT; };
 
             const h3 = document.createElement('h3');
             h3.textContent = curso.nombre;
@@ -136,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ============================================================
-    // ABRIR MODAL CON DATOS DE LA BD
+    // ABRIR MODAL — solo campos que existen en la BD
+    // nombre, descripcion, imagen, duracion, horario, requisitos
     // ============================================================
     function abrirModalCursoDesdeDB(curso, imgSrc) {
         const modalCurso            = document.getElementById('modal-curso');
@@ -149,12 +124,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!modalCurso) return;
 
-        if (modalCursoImg)         modalCursoImg.src                 = imgSrc;
-        if (modalCursoTitulo)      modalCursoTitulo.textContent      = curso.nombre;
-        if (modalCursoDuracion)    modalCursoDuracion.textContent    = curso.duracion    || 'Consultar';
-        if (modalCursoHorario)     modalCursoHorario.textContent     = curso.horario     || 'Consultar';
-        if (modalCursoRequisitos)  modalCursoRequisitos.textContent  = curso.requisitos  || 'Consultar';
-        if (modalCursoDescripcion) modalCursoDescripcion.textContent = curso.descripcion || 'Información disponible próximamente.';
+        if (modalCursoImg)         modalCursoImg.src                = imgSrc;
+        if (modalCursoTitulo)      modalCursoTitulo.textContent     = curso.nombre;
+        if (modalCursoDuracion)    modalCursoDuracion.textContent   = curso.duracion    || 'Consultar';
+        if (modalCursoHorario)     modalCursoHorario.textContent    = curso.horario     || 'Consultar';
+        if (modalCursoRequisitos)  modalCursoRequisitos.textContent = curso.requisitos  || 'Consultar';
+        if (modalCursoDescripcion) modalCursoDescripcion.textContent= curso.descripcion || 'Información disponible próximamente.';
 
         modalCurso.style.display = 'flex';
     }

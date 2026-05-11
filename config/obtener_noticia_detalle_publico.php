@@ -18,8 +18,8 @@ if ($id === false || $id <= 0) {
 }
 
 $sql  = "SELECT id, titulo, descripcion, fecha, tipo, imagen
-        FROM noticia_evento
-        WHERE id = ? AND estado = 'publicado'";
+         FROM NOTICIA_EVENTO
+         WHERE id = ? AND estado = 'publicado'";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {

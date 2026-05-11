@@ -6,7 +6,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // ✅ SELECT explícito — solo las columnas necesarias
 $sql    = "SELECT id_categoria, nombre, descripcion
-            FROM categoria_curso
+            FROM CATEGORIA_CURSO
             WHERE activo = TRUE
             ORDER BY id_categoria";
 

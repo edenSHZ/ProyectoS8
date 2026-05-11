@@ -58,7 +58,7 @@ if (!is_dir($carpeta)) {
 }
 
 // ============ ELIMINAR PDF ANTERIOR (OPCIÓN A) ============
-$result = $conn->query("SELECT archivo FROM evento_calendario LIMIT 1");
+$result = $conn->query("SELECT archivo FROM EVENTO_CALENDARIO LIMIT 1");
 
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -71,7 +71,7 @@ if ($result && $result->num_rows > 0) {
     }
 
     // eliminar registros anteriores
-    $conn->query("DELETE FROM evento_calendario");
+    $conn->query("DELETE FROM EVENTO_CALENDARIO");
 }
 
 // ============ NOMBRE SEGURO ============
@@ -85,7 +85,7 @@ if (!move_uploaded_file($_FILES['archivo']['tmp_name'], $carpeta . $nombreSeguro
 }
 
 // ============ INSERTAR EN BASE DE DATOS ============
-$sql  = "INSERT INTO evento_calendario (archivo, tipo_archivo, id_admin) VALUES (?, 'pdf', ?)";
+$sql  = "INSERT INTO EVENTO_CALENDARIO (archivo, tipo_archivo, id_admin) VALUES (?, 'pdf', ?)";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {

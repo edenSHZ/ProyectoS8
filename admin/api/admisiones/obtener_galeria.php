@@ -4,7 +4,7 @@ include "../config/auth_check.php";
 
 header("Content-Type: application/json");
 
-$sql    = "SELECT * FROM promocion_galeria WHERE activo = TRUE ORDER BY tipo, orden ASC";
+$sql    = "SELECT * FROM PROMOCION_GALERIA WHERE activo = TRUE ORDER BY tipo, orden ASC";
 $result = $conn->query($sql);
 
 if (!$result) {
